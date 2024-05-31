@@ -1,0 +1,25 @@
+<form nz-form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Nom</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Le nom est requis">
+        <input nz-input [(ngModel)]="user.name" formControlName="name">
+      </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Email</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="L'email est incorrect">
+      <input nz-input [(ngModel)]="user.email" formControlName="email">
+    </nz-form-control>
+    </nz-form-item>
+
+  <div nz-row nzJustify="end">
+    <button nz-button nzType="primary" [nzLoading]="loading" [disabled]="userForm.invalid">
+      <i nz-icon nzType="save" nzTheme="outline"></i> Enregistrer
+    </button>
+  </div>
+
+</form>
+
+<nz-alert *ngIf="submitError" nzType="error" [nzMessage]="submitErrorMessage" nzShowIcon></nz-alert>

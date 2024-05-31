@@ -1,0 +1,23 @@
+
+    <nz-content style="margin:24px;">
+      <nz-card nzTitle="Dashboard">
+        <div class="dashboard-content">
+          <nz-row [nzGutter]="16">
+            <nz-col nzSpan="12">
+              <nz-statistic [nzValue]="11.28" [nzTitle]="'Active'" [nzPrefix]="'↑'" [nzSuffix]="'%'"></nz-statistic>
+            </nz-col>
+            <nz-col nzSpan="12">
+              <nz-statistic [nzValue]="9.3" [nzTitle]="'Idle'" [nzPrefix]="'↓'" [nzSuffix]="'%'"></nz-statistic>
+            </nz-col>
+          </nz-row>
+          <nz-row [nzGutter]="16">
+            <nz-col nzSpan="12">
+              <div id="stacked-chart"></div>
+            </nz-col>
+            <nz-col nzSpan="12">
+              <div id="basic-chart"></div>
+            </nz-col>
+          </nz-row>
+        </div>
+      </nz-card>
+    </nz-content>

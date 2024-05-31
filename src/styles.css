@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "~ng-zorro-antd/ng-zorro-antd.min.css";
+
+@import '~bootstrap/dist/css/bootstrap.css';
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+body.dark-theme {
+  background-color: #1d1d1d;
+  color: #ffffff;
+}
+
+body.dark-theme .ant-layout-header {
+  background: #141414;
+}
+
+body.dark-theme .ant-menu-dark.ant-menu-horizontal {
+  background: #141414;
+}

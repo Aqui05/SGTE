@@ -1,0 +1,34 @@
+
+<button nz-button nzType="primary" (click)="addTransport()" >Ajouter un transport</button>
+<br> <p></p>
+
+<nz-table #basicTable [nzData]="transports">
+  <thead>
+    <tr>
+      <th>ID Transport</th>
+      <th>Type</th>
+      <th>Depart</th>
+      <th>Arrivé</th>
+      <th>Nbre Sièges Disponible</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.numero_transport }}</td>
+      <td>{{ data.type }}</td>
+      <td>{{ data.departure_location &&  data.departure_time}}</td>
+      <td>{{ data.destination_location &&  data.arrival_time}}</td>
+      <td>{{ data.seats }}</td>
+      <td>{{ data.status }}</td>
+      <td>
+        <button nz-button nzType="primary" (click)="viewDetails(data.id)" >Détails</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="editTransport(data.id)" nzWarning>Modifier</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="deleteTransport(data.id)" nzDanger>Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

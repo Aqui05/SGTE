@@ -1,0 +1,69 @@
+<nz-card nzTitle="Modifier le Véhicule">
+  <form nz-form [formGroup]="vehicleForm" (ngSubmit)="submitForm()">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'Le type est requis'">
+            <input value="type" nz-input formControlName="type" placeholder="Type de véhicule">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'La marque est requise'">
+            <input nz-input formControlName="brand" placeholder="Marque du véhicule">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'Le modèle est requis'">
+            <input nz-input formControlName="model" placeholder="Modèle du véhicule">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'La plaque d\'immatriculation est requise'">
+            <input nz-input formControlName="license_plate" placeholder="Plaque d'immatriculation">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'Le nombre de sièges est requis'">
+            <input nz-input formControlName="seats" placeholder="Nombre de sièges">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-upload
+            nzType="drag"
+            (nzChange)="handleChange($event)">
+            <p class="ant-upload-drag-icon">
+              <span nz-icon nzType="inbox"></span>
+            </p>
+            <p class="ant-upload-text">Cliquez ou glissez un fichier pour le télécharger</p>
+            <p class="ant-upload-hint">
+              Support pour un téléchargement unique ou multiple. Strictement interdit de télécharger des données de l'entreprise ou d'autres fichiers interdits.
+            </p>
+          </nz-upload>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24" style="text-align: right;">
+        <button nz-button nzType="primary" [nzLoading]="loading" [disabled]="vehicleForm.invalid">
+          <i nz-icon nzType="save"></i> Enregistrer
+        </button>
+      </nz-col>
+    </nz-row>
+  </form>
+</nz-card>
+
+<nz-alert *ngIf="submitError" nzType="error" [nzMessage]="submitErrorMessage" nzShowIcon></nz-alert>

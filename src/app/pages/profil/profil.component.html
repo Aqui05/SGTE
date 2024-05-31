@@ -1,0 +1,29 @@
+
+
+<div nz-col nzXs="24" nzSm="24" nzMd="18" nzLg="18" nzXl="18">
+  <section class="ftco-section">
+
+<nz-card nzTitle="Profil de l'utilisateur">
+  <div *ngIf="user; else loading">
+    <nz-avatar
+      [nzSrc]="user.avatar"
+      nzSize="large"
+      style="margin-bottom: 16px"
+    ></nz-avatar>
+    <h3>{{ user.name }}</h3>
+    <p>{{ user.bio }}</p>
+    <div><strong>Email:</strong> {{ user.email }}</div>
+    <div><strong>Membre depuis:</strong> {{ user.createdAt | date }}</div>
+    <!-- Bouton pour modifier le profil -->
+    <button nz-button nzType="primary" (click)="openEditProfileModal()">
+      Modifier le profil
+    </button>
+  </div>
+  <ng-template #loading>
+    <nz-spin nzSimple></nz-spin>
+  </ng-template>
+</nz-card>
+
+</section>
+</div>
+

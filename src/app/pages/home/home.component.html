@@ -1,0 +1,54 @@
+<!-- app.component.html -->
+<div>
+  <nz-header>
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <h1 style="color: white;">{{title}}</h1>
+      </div>
+      <div nz-col nzSpan="12">
+
+        <ul nz-menu nzTheme="dark" nzMode="horizontal" style="line-height: 64px; float: right;">
+          <li nz-menu-item>
+            <button nz-button (click)="showModalLogin()">
+              <span>Connexion</span>
+            </button>
+          </li>
+          <li nz-menu-item>
+            <button nz-button (click)="showModalRegister()">
+              <span>Inscription</span>
+            </button>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nz-header>
+  <nz-content>
+    <div
+        style="
+          background-image: url(assets/img/port.jpg);
+          background-repeat: none;
+          background-size: cover;
+          background-position: center;
+          height: 900px;
+          width: 500;
+        "port.jpg
+      ></div>
+  </nz-content>
+</div>
+
+
+<ng-template #modalTitle>
+  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+    Sign in to our platform
+  </h3>
+</ng-template>
+
+
+
+<ng-template #loginTitle>
+  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+    INSCRIPTION
+  </h3>
+</ng-template>
+
