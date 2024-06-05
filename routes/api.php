@@ -27,6 +27,13 @@ Route::get('/user', function (Request $request) {
 Route::group([], function() {
 
     Route::get('/transport/{id}',[TransportController::class,'show']);
+    Route::get('/transport/sortBy/{query}',[TransportController::class,'sortBy']);
+    Route::get('/transport/search/{info}',[TransportController::class,'search']);
+
+
+    Route::get('/vehicle/{id}',[VehicleController::class,'show']);
+    Route::get('/vehicle/sortBy/{info}',[VehicleController::class,'sortBy']);
+//    Route::get('/vehicle/search/{info}/{value}',[VehicleController::class,'search']);
 
 
     Route::post('/reservation',[ReservationController::class,'store']);
@@ -65,3 +72,6 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
 
 
 
+
+
+Route::get('/vehicle/search/{info}/{value}',[VehicleController::class,'search']);

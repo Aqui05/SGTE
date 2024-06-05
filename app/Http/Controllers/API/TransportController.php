@@ -14,19 +14,6 @@ use Illuminate\Support\Str;
 
 class TransportController extends Controller
 {
-    /*public function store(Request $request)
-    {
-
-        $transport = $this->createTransport($request);
-        $route = $this->createRoute($request);
-        $polyline = $this->createPolyline($request);
-
-        // Associer la route au transport
-        $transport->route()->associate($route);
-        $transport->save();
-
-        return new TransportResource($transport);
-    }*/
 
     public function store(Request $request)
     {
@@ -56,7 +43,7 @@ class TransportController extends Controller
         return response()->json(['success' => $transport], 200);
     }
 
-    public function createRoute(Request $request, $id)
+    /*public function createRoute(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'route_name' => 'string',
@@ -98,8 +85,7 @@ class TransportController extends Controller
         $polylineData['route_id'] = $route->id;
 
         return Polyline::create($polylineData);
-    }
-
+    }*/
 
     public function index(Request $request)
     {
@@ -127,6 +113,18 @@ class TransportController extends Controller
         $transport->update(['status' => 'canceled']);
 
         return response()->json(['message' => 'Transport deleted successfully']);
+    }
+
+    public function sortBy($query)
+    {
+        $transports = Transport::orderBy($query)->get();
+        return TransportResource::collection($transports);
+    }
+
+    public function search ($info)
+    {
+        $transports = Transport::where('numero_transport', 'like', '%'. $info. '%');
+        return new TransportResource($transports);
     }
 
 }

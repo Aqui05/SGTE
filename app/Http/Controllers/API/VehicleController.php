@@ -77,4 +77,27 @@ class VehicleController extends Controller
         return response()->json(['message' => 'Vehicle deleted successfully']);
     }
 
+    public function sortBy($info)
+    {
+        if($info == 'type') {
+            $vehicles = Vehicle::orderBy('type')->get();
+        } else if ($info == 'license_plate') {
+            $vehicles = Vehicle::orderBy('license_plate')->get();
+        }
+        return new VehicleResource($vehicles);
+    }
+    public function search($info, $value)
+    {
+        if ($info == 'type') {
+            $vehicles = Vehicle::where('type', 'LIKE', '%' . $value . '%')->get();
+        } elseif ($info == 'license_plate') {
+            $vehicles = Vehicle::where('license_plate', 'LIKE', '%' . $value . '%')->get();
+        } else {
+            return response()->json(['error' => 'Invalid search type'], 400);
+        }
+
+        return VehicleResource::collection($vehicles);
+    }
+
+
 }
