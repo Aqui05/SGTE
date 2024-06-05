@@ -19,11 +19,15 @@ import { TransportListComponent } from './pages/transport/transport-list/transpo
 import { TransportDetailsComponent } from './pages/transport/transport-details/transport-details.component';
 import { TransportEditComponent } from './pages/transport/transport-edit/transport-edit.component';
 import { TransportAddComponent } from './pages/transport/transport-add/transport-add.component';
+import { MapComponent } from './components/map/map.component';
+import { InternalServerErrorComponent } from './components/internal-server-error/internal-server-error.component';
+import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 
 const routes: Routes = [
   //{ path: '', pathMatch: 'full', redirectTo: '/welcome' },
-  //{ path: '', pathMatch: 'full', redirectTo: '/home' },
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
@@ -48,11 +52,16 @@ const routes: Routes = [
   { path: 'route', component: RouteComponent },
 
 
+  { path: 'map', component: MapComponent },
 
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'not-found', component: NotFoundComponent },
-  // autres routes...
-  { path: '**', redirectTo: '/not-found' }
+
+  { path: '**', redirectTo: '/not-found' },
+
+  { path: 'internal-server-error', component: InternalServerErrorComponent },
+  { path: 'unavailable', component: ServiceUnavailableComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent },
 ];
 
 @NgModule({

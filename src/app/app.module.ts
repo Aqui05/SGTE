@@ -3,6 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
 
+
+
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { GoogleMapsModule } from '@angular/google-maps';
+
 import { AppComponent } from './app.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
@@ -47,6 +52,10 @@ import { TransportAddComponent } from './pages/transport/transport-add/transport
 import { TransportListComponent } from './pages/transport/transport-list/transport-list.component';
 import { TransportEditComponent } from './pages/transport/transport-edit/transport-edit.component';
 import { TransportDetailsComponent } from './pages/transport/transport-details/transport-details.component';
+import { MapComponent } from './components/map/map.component';
+import { InternalServerErrorComponent } from './components/internal-server-error/internal-server-error.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
 
 registerLocaleData(en);
 
@@ -77,6 +86,11 @@ const icons = [ BellOutline, SettingOutline, UserOutline ];
     TransportListComponent,
     TransportEditComponent,
     TransportDetailsComponent,
+    MapComponent,
+
+    InternalServerErrorComponent,
+    UnauthorizedComponent,
+    ServiceUnavailableComponent,
 
   ],
   imports: [
@@ -89,9 +103,8 @@ const icons = [ BellOutline, SettingOutline, UserOutline ];
     DemoNgZorroAntdModule,
     ReactiveFormsModule,
     NzIconModule.forRoot(icons),
-
-
-
+    NzMessageModule,
+    GoogleMapsModule,
 
   ],
   providers: [

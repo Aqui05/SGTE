@@ -1,17 +1,45 @@
 <nz-card nzTitle="Ajouter un Transport">
-  <form nz-form [formGroup]="transportForm" (ngSubmit)="submitForm()">
+      <form nz-form [formGroup]="transportForm" (ngSubmit)="submitForm()">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control [nzErrorTip]="'Le type est requis'">
-            <input nz-input formControlName="type" placeholder="Type de transport">
+          <nz-form-control nzErrorTip="Le type est requis">
+            <nz-select formControlName="type" nzPlaceHolder="Sélectionnez le type du transport">
+              <nz-option *ngFor="let type of TransportTypes" [nzLabel]="type" [nzValue]="type"></nz-option>
+            </nz-select>
+            <ng-container *ngIf="transportForm.get('type')?.dirty && transportForm.get('type')?.errors">
+            </ng-container>
           </nz-form-control>
         </nz-form-item>
+
       </nz-col>
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control [nzErrorTip]="'Le numéro de transport est requis'">
+          <nz-form-control nzErrorTip="Le numéro de transport est requis">
             <input nz-input formControlName="numero_transport" placeholder="Numéro de transport">
+            <ng-container *ngIf="transportForm.get('numero_transport')?.dirty && transportForm.get('numero_transport')?.errors">
+            </ng-container>
+          </nz-form-control>
+        </nz-form-item>
+
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Le lieu de départ est requis">
+            <input nz-input formControlName="departure_location" placeholder="Lieu de départ"/>
+            <ng-container *ngIf="transportForm.get('departure_location')?.dirty && transportForm.get('departure_location')?.errors">
+            </ng-container>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Le lieu de destination est requis">
+            <input nz-input formControlName="destination_location" placeholder="Lieu de destination"/>
+            <ng-container *ngIf="transportForm.get('destination_location')?.dirty && transportForm.get('destination_location')?.errors">
+            </ng-container>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
@@ -19,31 +47,17 @@
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control [nzErrorTip]="'Le lieu de départ est requis'">
-            <input nz-input id="departure-location" formControlName="departure_location" placeholder="Lieu de départ">
+          <nz-form-control nzErrorTip="L'heure de départ est requise">      <input nz-input formControlName="departure_time" type="datetime-local" placeholder="Heure de départ"/>
+            <ng-container *ngIf="transportForm.get('departure_time')?.dirty && transportForm.get('departure_time')?.errors">
+            </ng-container>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control [nzErrorTip]="'Le lieu de destination est requis'">
-            <input nz-input id="destination-location" formControlName="destination_location" placeholder="Lieu de destination">
-          </nz-form-control>
-        </nz-form-item>
-      </nz-col>
-    </nz-row>
-    <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
-        <nz-form-item>
-          <nz-form-control [nzErrorTip]="'L\'heure de départ est requise'">
-            <input nz-input type="datetime-local" formControlName="departure_time" placeholder="Heure de départ">
-          </nz-form-control>
-        </nz-form-item>
-      </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-form-item>
-          <nz-form-control [nzErrorTip]="'L\'heure d\'arrivée est requise'">
-            <input nz-input type="datetime-local" formControlName="arrival_time" placeholder="Heure d'arrivée" [readonly]="true">
+          <nz-form-control nzErrorTip="L'heure d'arrivée est requise">      <input nz-input formControlName="arrival_time" type="datetime-local" placeholder="Heure d'arrivée"/>
+            <ng-container *ngIf="transportForm.get('arrival_time')?.dirty && transportForm.get('arrival_time')?.errors">
+            </ng-container>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
@@ -51,26 +65,29 @@
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control [nzErrorTip]="'Le nombre de sièges est requis'">
-            <input nz-input formControlName="seats" type="number" placeholder="Nombre de sièges">
-          </nz-form-control>
-        </nz-form-item>
-      </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-form-item>
-          <nz-form-control [nzErrorTip]="'Le véhicule est requis'">
-            <input nz-input formControlName="vehicle_id" type="number" placeholder="ID du véhicule">
+          <nz-form-control nzErrorTip="Le véhicule est requis">
+          <nz-select formControlName="vehicle_license" nzPlaceHolder="Sélectionnez l'immatriculation" (ngModelChange)="findVehicleId()">
+            <nz-option *ngFor="let license of VehicleLicenses" [nzLabel]="license" [nzValue]="license"></nz-option>
+          </nz-select>
+          <ng-container *ngIf="transportForm.get('vehicle_license')?.dirty && transportForm.get('vehicle_license')?.errors">
+          </ng-container>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
     </nz-row>
     <nz-row>
       <nz-col [nzSpan]="24" style="text-align: right;">
-        <button nz-button nzType="primary" [nzLoading]="loading" [disabled]="transportForm.invalid">
-          <i nz-icon nzType="save"></i> Enregistrer
-        </button>
+
+  <nz-form-item>
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzOffset]="6">
+      <button nz-button nzType="primary" [nzLoading]="loading" [disabled]="transportForm.invalid">
+        <i nz-icon nzType="save"></i> Enregistrer
+      </button>
+      <button nz-button nzType="default" (click)="resetForm()" [disabled]="loading" style="margin-left: 8px;">Réinitialiser</button>
+    </nz-form-control>
+  </nz-form-item>
       </nz-col>
     </nz-row>
-  </form>
+</form>
 </nz-card>
 <nz-alert *ngIf="submitError" nzType="error" [nzMessage]="submitErrorMessage" nzShowIcon></nz-alert>

@@ -140,6 +140,14 @@ export class DataService {
   deleteVehicle(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/vehicle/${id}`);
   }
+
+  searchVehicle(info: string ,value: string) : Observable<any>  {
+    return this.http.get(`${this.apiUrl}/vehicle/search/${info}/${value}`);
+  }
+
+  sortVehicle(value: string) : Observable<any>  {
+    return this.http.get(`${this.apiUrl}/vehicle/sortBy/${value}`);
+  }
   /*
     * Reservation services
   */

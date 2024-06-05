@@ -9,33 +9,80 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './transport-add.component.html',
   styleUrls: ['./transport-add.component.css']
 })
-export class TransportAddComponent {
+export class TransportAddComponent implements OnInit {
   transportForm!: FormGroup;
   submitError = false;
   submitErrorMessage = '';
   loading = false;
-  departureLat?: number;
-  departureLng?: number;
-  destinationLat?: number;
-  destinationLng?: number;
-  duration?: string;
+
+  VehicleTypes: any[] = [];
+  VehicleLicenses: any[] = [];
+
+  TransportTypes: string[] = ['maritime', 'routier', 'aérien', 'ferroviaire'];
+  VehicleId: number[] = [];
 
   constructor(
     private msg: NzMessageService,
     private fb: FormBuilder,
     private router: Router,
-    private dataService: DataService,
-  ) {
+    private dataService: DataService
+  ) {}
+
+  ngOnInit(): void {
     this.transportForm = this.fb.group({
-      type: [null, [Validators.required, Validators.maxLength(255)]],
+      type: [null, [Validators.required, Validators.maxLength(255)]], //dropdown
       departure_location: [null, [Validators.required, Validators.maxLength(255)]],
       destination_location: [null, [Validators.required, Validators.maxLength(255)]],
       numero_transport: [null, [Validators.required, Validators.maxLength(5)]],
       departure_time: [null, [Validators.required]],
       arrival_time: [null, [Validators.required]],
-      seats: [null, [Validators.required, Validators.min(1)]],
-      vehicle_id: [null, [Validators.required, Validators.min(1)]]
-    });}
+      vehicle_license: [null, [Validators.required]], //dropdown
+      vehicle_id: [null],
+    });
+
+    this.transportForm.get('type')?.valueChanges.subscribe(value => {
+      this.sortVehicleType();
+    });
+
+    this.transportForm.get('vehicle_license')?.valueChanges.subscribe(value => {
+      this.findVehicleId();
+    });
+  }
+
+  findVehicleId(): void {
+    const vehicleLicense = this.transportForm.get('vehicle_license')?.value;
+    if (vehicleLicense) {
+      this.dataService.searchVehicle('license_plate', vehicleLicense).subscribe(
+        (response: any) => {
+          this.VehicleTypes = response.data;
+          this.VehicleId = this.VehicleTypes.map(vehicle => vehicle.id);
+          this.transportForm.controls['vehicle_id'].setValue(this.VehicleId);
+          console.log(this.VehicleId)
+        },
+        (error) => {
+          this.msg.error('Erreur lors de la recherche du véhicule.', error);
+        }
+      );
+    }
+  }
+
+  sortVehicleType(): void {
+    const vehicleType = this.transportForm.get('type')?.value;
+    if (vehicleType) {
+      this.dataService.searchVehicle('type', vehicleType).subscribe(
+        (response: any) => {
+          this.VehicleTypes = response.data;
+          this.VehicleLicenses = this.VehicleTypes.map(vehicle => vehicle.license_plate);
+          console.log('Liste des véhicules trouvés:', this.VehicleTypes);
+          console.log(this.VehicleLicenses)
+        },
+        (error) => {
+          this.msg.error('Erreur lors de la recherche des véhicules par type.', error);
+        }
+      );
+    }
+  }
+
 
   submitForm(): void {
     this.loading = true;
