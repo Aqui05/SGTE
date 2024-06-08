@@ -72,9 +72,12 @@ export class TransportAddComponent implements OnInit {
       this.dataService.searchVehicle('type', vehicleType).subscribe(
         (response: any) => {
           this.VehicleTypes = response.data;
-          this.VehicleLicenses = this.VehicleTypes.map(vehicle => vehicle.license_plate);
+          this.VehicleLicenses = this.VehicleTypes.map(vehicle => ({
+            license: vehicle.license_plate,
+            available: vehicle.available
+          }));
           console.log('Liste des véhicules trouvés:', this.VehicleTypes);
-          console.log(this.VehicleLicenses)
+          console.log(this.VehicleLicenses);
         },
         (error) => {
           this.msg.error('Erreur lors de la recherche des véhicules par type.', error);
@@ -82,6 +85,7 @@ export class TransportAddComponent implements OnInit {
       );
     }
   }
+
 
 
   submitForm(): void {

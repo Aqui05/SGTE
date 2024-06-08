@@ -101,7 +101,7 @@ export class DataService {
   }
 
   logout(): Observable<any> {
-  return this.http.post(`${this.apiUrl}/logout`, {});
+    return this.http.post(`${this.apiUrl}/logout`, {});
   }
 
   register(userData: any): Observable<any> {
@@ -152,20 +152,29 @@ export class DataService {
     * Reservation services
   */
   getReservations(): Observable<any> {
-    return this.http.get(this.apiUrl);
+    return this.http.get(`${this.apiUrl}/reservations`);
   }
   getReservation(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl}/reservation/${id}`);
   }
-  addReservation(reservation: any): Observable<any> {
-    return this.http.post(this.apiUrl, reservation);
+  addReservation(TransportId: number ,reservation: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reservation/${TransportId}`, reservation);
   }
   updateReservation(id: number, reservation: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, reservation);
+    return this.http.put(`${this.apiUrl}/reservation/${id}`, reservation);
   }
   deleteReservation(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.apiUrl}/reservation/${id}`);
   }
+
+  ReservationTransport(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/reservations/transport/${id}`);
+  }
+
+  ReservationVehicle(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/reservations/vehicle/${id}`);
+  }
+
   /*
     * Transports services
   */
@@ -193,5 +202,4 @@ export class DataService {
   createPolyline(id: number, polyline: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/route/${id}/polyline`, polyline);
   }
-
 }
