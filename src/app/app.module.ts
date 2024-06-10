@@ -52,6 +52,9 @@ import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { IconsProviderModule } from './icons-provider.module';
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 registerLocaleData(en);
 
@@ -98,6 +101,10 @@ const icons = [ BellOutline, SettingOutline, UserOutline ];
     NzIconModule.forRoot(icons),
     NzMessageModule,
     GoogleMapsModule,
+
+    //MatIconModule,
+    //BrowserAnimationsModule,
+
 
   ],
   providers: [
