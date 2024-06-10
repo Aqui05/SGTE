@@ -33,10 +33,10 @@ Route::group([], function() {
 
     Route::get('/vehicle/{id}',[VehicleController::class,'show']);
     Route::get('/vehicle/sortBy/{info}',[VehicleController::class,'sortBy']);
-//    Route::get('/vehicle/search/{info}/{value}',[VehicleController::class,'search']);
+    Route::get('/vehicle/search/{info}/{value}',[VehicleController::class,'search']);
 
 
-    Route::post('/reservation',[ReservationController::class,'store']);
+    Route::post('/reservation/{TransportId}',[ReservationController::class,'store']);
     Route::get('/reservations',[ReservationController::class,'index']);
     Route::get('/reservation/{id}',[ReservationController::class,'show']);
     Route::put('/reservation/{id}',[ReservationController::class,'update']);
@@ -68,10 +68,3 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
 
     Route::get('users',[AuthController::class,'users'])->name('usersList');
 });
-
-
-
-
-
-
-Route::get('/vehicle/search/{info}/{value}',[VehicleController::class,'search']);

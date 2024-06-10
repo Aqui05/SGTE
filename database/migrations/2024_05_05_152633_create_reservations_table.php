@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('transport_id');
             $table->unsignedBigInteger('user_id');
             $table->dateTime('reservation_datetime');
-            $table->integer('number_of_seats');
-            $table->integer('total_price');
+            $table->integer('number_of_seats')->nullable();
+            $table->integer('total_price')->nullable();
             $table->string('status')->default('confirmed');
             $table->text('destination_waypoint')->nullable();
             $table->text('departure_waypoint')->nullable();

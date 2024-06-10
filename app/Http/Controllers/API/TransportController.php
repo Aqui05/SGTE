@@ -11,6 +11,8 @@ use App\Models\Route;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use App\Jobs\UpdateVehicleAvailability;
 
 class TransportController extends Controller
 {
@@ -25,23 +27,38 @@ class TransportController extends Controller
             'departure_time' => 'required|date',
             'arrival_time' => 'nullable|date',
             'seats' => 'integer',
-            'vehicle_id' => 'required|integer' ,
+            'vehicle_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
+
         $transportData = $validator->validated();
         $transport = Transport::create($transportData);
 
-        $vehicle= Vehicle::findOrFail($transport->vehicle_id);
+        $vehicle = Vehicle::findOrFail($transport->vehicle_id);
 
         $transport->update([
             'seats' => $vehicle->seats,
         ]);
 
+        $vehicle->update([
+            'available' => false,
+        ]);
+
+        // Mettre à jour la disponibilité du véhicule après l'arrivée
+        if ($transport->arrival_time) {
+            $arrivalTime = Carbon::parse($transport->arrival_time);
+
+            // Planifier une tâche pour rendre le véhicule disponible après l'arrivée
+            $job = (new UpdateVehicleAvailability($vehicle->id))->delay($arrivalTime);
+            dispatch($job);
+        }
+
         return response()->json(['success' => $transport], 200);
     }
+
 
     /*public function createRoute(Request $request, $id)
     {
