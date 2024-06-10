@@ -79,6 +79,7 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes';
 import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
 import { NzWaterMarkModule } from 'ng-zorro-antd/water-mark';
 
+
 @NgModule({
   exports: [
     NzAffixModule,
@@ -86,6 +87,7 @@ import { NzWaterMarkModule } from 'ng-zorro-antd/water-mark';
     NzAlertModule,
     NzAnchorModule,
     NzAutocompleteModule,
+    NzIconModule,
     NzAvatarModule,
     NzBackTopModule,
     NzBadgeModule,

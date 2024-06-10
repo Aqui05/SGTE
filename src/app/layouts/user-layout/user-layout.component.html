@@ -1,0 +1,128 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <h1>Ant Design Of Angular</h1>
+      </a>
+    </div>
+
+
+      <div *ngIf="isAdmin">
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+          <li nz-menu-item>
+            <span nz-icon nzType="dashboard"></span>
+            <span>Dashboard</span>
+          </li>
+          <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+            <ul>
+              <li nz-menu-item nzMatchRouter>
+                <a>Basic Form</a>
+              </li>
+            </ul>
+          </li>
+          <li nz-menu-item [routerLink]="['/home']">
+            <span nz-icon nzType="home"></span>
+            <span>Home</span>
+          </li>
+          <li nz-submenu nzTitle="User" nzIcon="user">
+            <ul>
+              <li nz-menu-item [routerLink]="['/user']"><span nz-icon nzType="file"></span>
+                <span>User Page</span></li>
+            </ul>
+          </li>
+          <li nz-submenu nzTitle="Team" nzIcon="team">
+            <ul>
+              <li nz-menu-item [routerLink]="['/team']">Team Page</li>
+            </ul>
+          </li>
+          <li nz-menu-item>
+            <span nz-icon nzType="file"></span>
+            <span>File</span>
+          </li>
+          <li nz-submenu nzTitle="Settings" nzIcon="setting">
+            <ul>
+              <li nz-menu-item [routerLink]="['/admin']">Setting Admin</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    <div *ngIf="!isAdmin">
+      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/welcome">Welcome</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Monitor</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Workplace</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Admin" nzIcon="setting">
+        <ul>
+          <li nz-menu-item [routerLink]="['/admin']">Admin Page</li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a>Basic Form</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-menu-item [routerLink]="['/home']">
+        <span nz-icon nzType="home"></span>
+        <span>Home</span>
+      </li>
+      <li nz-submenu nzTitle="User" nzIcon="user">
+        <ul>
+          <li nz-menu-item [routerLink]="['/user']">User Page</li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Team" nzIcon="team">
+        <ul>
+          <li nz-menu-item [routerLink]="['/team']">Team Page</li>
+        </ul>
+      </li>
+      <li nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>File</span>
+      </li>
+    </ul>
+    </div>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <span class="trigger"
+                nz-icon
+                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></span>
+        </span>
+      </div>
+    </nz-header>
+
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+
+
+</nz-layout>
+
+
+
+
+<div #containerRef></div>

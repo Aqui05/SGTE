@@ -1,0 +1,107 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <h1>Ant Design Of Angular</h1>
+      </a>
+    </div>
+
+    <div>
+      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <li nz-menu-item>
+          <span nz-icon nzType="dashboard"></span>
+          <span>Dashboard</span>
+        </li>
+        <li nz-submenu nzTitle="Vehicle" nzIcon="car">
+          <ul>
+            <li nz-menu-item [routerLink]="['/admin/vehicle/add']">Ajouter Vehicle</li>
+            <li nz-menu-item [routerLink]="['/admin/vehicle/list']">Liste Vehicles</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Transport" nzIcon="car">
+          <ul>
+            <li nz-menu-item [routerLink]="['/admin/transport/add']">Ajouter Transport</li>
+            <li nz-menu-item [routerLink]="['/admin/transport/list']">Liste Transports</li>
+          </ul>
+        </li>
+        <li nz-menu-item [routerLink]="['/home']">
+          <span nz-icon nzType="home"></span>
+          <span>Home</span>
+        </li>
+        <li nz-submenu nzTitle="User" nzIcon="user">
+          <ul>
+            <li nz-menu-item [routerLink]="['/user']"><span nz-icon nzType="file"></span>
+              <span>User Page</span></li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Team" nzIcon="team">
+          <ul>
+            <li nz-menu-item [routerLink]="['/team']">Team Page</li>
+          </ul>
+        </li>
+        <li nz-menu-item>
+          <span nz-icon nzType="file"></span>
+          <span>File</span>
+        </li>
+        <li nz-submenu nzTitle="Settings" nzIcon="setting">
+          <ul>
+            <li nz-menu-item [routerLink]="['/admin']">Setting Admin</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <span class="trigger"
+                nz-icon
+                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></span>
+        </span>
+        <div class="header-right">
+          <nz-input-group nzSuffixIcon="search">
+            <input type="text" nz-input placeholder="Search...">
+          </nz-input-group>
+          <nz-badge [nzCount]="5" class="notification-badge">
+            <span nz-icon nzType="bell" nzTheme="outline"></span>
+          </nz-badge>
+          <nz-badge [nzCount]="10" class="notification-badge">
+            <span nz-icon nzType="notification" nzTheme="outline"></span>
+          </nz-badge>
+          <span nz-dropdown nzPlacement="bottomRight">
+            <div nz-dropdown>
+              <nz-avatar [nzSrc]="user.logo || 'default-user.png'"></nz-avatar>
+              <span class="user-name">{{ user.name }}</span>
+            </div>
+            <ul nz-menu>
+              <li nz-menu-item [routerLink]="['/profile']">
+                <span nz-icon nzType="user"></span>
+                <span>Profile</span>
+              </li>
+              <li nz-menu-item (click)="logout()">
+                <span nz-icon nzType="logout"></span>
+                <span>Logout</span>
+              </li>
+            </ul>
+          </span>
+        </div>
+      </div>
+    </nz-header>
+
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+<div #containerRef></div>

@@ -39,23 +39,19 @@ import { CookieService } from 'ngx-cookie-service';
 import { ThreeSceneComponent } from './components/three-scene/three-scene.component';
 import { ProfileComponent } from './pages/profil/profil.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
-import { VehicleComponent } from './pages/vehicle/vehicles-list/vehicle.component';
 import { ReservationComponent } from './pages/reservation/reservation.component';
 import { RouteComponent } from './pages/route/route.component';
 import { PolylineComponent } from './pages/polyline/polyline.component';
-import { VehicleEditComponent } from './pages/vehicle/vehicle-edit/vehicle-edit.component';
-import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
-import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { TransportAddComponent } from './pages/transport/transport-add/transport-add.component';
-import { TransportListComponent } from './pages/transport/transport-list/transport-list.component';
-import { TransportEditComponent } from './pages/transport/transport-edit/transport-edit.component';
-import { TransportDetailsComponent } from './pages/transport/transport-details/transport-details.component';
 import { MapComponent } from './components/map/map.component';
 import { InternalServerErrorComponent } from './components/internal-server-error/internal-server-error.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
+import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { IconsProviderModule } from './icons-provider.module';
 
 registerLocaleData(en);
 
@@ -76,21 +72,18 @@ const icons = [ BellOutline, SettingOutline, UserOutline ];
     ReservationComponent,
     RouteComponent,
     PolylineComponent,
-    VehicleComponent,
-    VehicleEditComponent,
-    VehicleDetailsComponent,
-    VehicleAddComponent,
     ForbiddenComponent,
     NotFoundComponent,
-    TransportAddComponent,
-    TransportListComponent,
-    TransportEditComponent,
-    TransportDetailsComponent,
+
     MapComponent,
 
     InternalServerErrorComponent,
     UnauthorizedComponent,
     ServiceUnavailableComponent,
+
+    HomeLayoutComponent,
+    AdminLayoutComponent,
+    UserLayoutComponent,
 
   ],
   imports: [
@@ -99,7 +92,7 @@ const icons = [ BellOutline, SettingOutline, UserOutline ];
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    //IconsProviderModule,
+    IconsProviderModule,
     DemoNgZorroAntdModule,
     ReactiveFormsModule,
     NzIconModule.forRoot(icons),
