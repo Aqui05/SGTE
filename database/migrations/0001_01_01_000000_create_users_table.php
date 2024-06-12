@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->string('zip')->nullable();
-            $table->string('avatar')->nullable();
+            $table->string('avatar')->default('https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png');
             $table->rememberToken();
             $table->timestamps();
         });
