@@ -1,7 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { LoginComponent } from '../login/login.component';
-import { RegisterComponent } from '../register/register.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

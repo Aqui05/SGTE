@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatIconRegistry } from '@angular/material/icon';
 
 
 
@@ -20,7 +22,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { IconsProviderModule } from './icons-provider.module';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
 import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -30,7 +31,7 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 
 
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { BellOutline, SettingOutline, UserOutline } from '@ant-design/icons-angular/icons';
+import { MenuFoldOutline, MenuUnfoldOutline, BellOutline, SettingOutline, UserOutline } from '@ant-design/icons-angular/icons';
 
 
 
@@ -52,13 +53,13 @@ import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { IconsProviderModule } from './icons-provider.module';
-import { MatIconModule } from '@angular/material/icon';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NZ_ICONS,  } from 'ng-zorro-antd/icon';
+
+const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
 
 registerLocaleData(en);
 
-const icons = [ BellOutline, SettingOutline, UserOutline ];
 
 @NgModule({
   declarations: [
@@ -66,7 +67,6 @@ const icons = [ BellOutline, SettingOutline, UserOutline ];
     LoginComponent,
     DashboardComponent,
     AcceuilComponent,
-    RegisterComponent,
     HomeComponent,
     ConfirmationComponent,
     ThreeSceneComponent,
@@ -102,19 +102,21 @@ const icons = [ BellOutline, SettingOutline, UserOutline ];
     NzMessageModule,
     GoogleMapsModule,
 
-    //MatIconModule,
-    //BrowserAnimationsModule,
+    BrowserAnimationsModule,
+    MatIconModule,
 
 
   ],
   providers: [
     CookieService,
+    MatIconRegistry,
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: DataInterceptor,
       multi: true
-    }
+    },
+    { provide: NZ_ICONS, useValue: icons }
   ],
   bootstrap: [AppComponent]
 })

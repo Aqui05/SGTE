@@ -60,38 +60,35 @@
   <nz-layout>
     <nz-header>
       <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <span class="trigger"
-                nz-icon
-                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            ></span>
-        </span>
-        <div class="header-right">
-          <nz-input-group nzSuffixIcon="search">
-            <input type="text" nz-input placeholder="Search...">
-          </nz-input-group>
-          <nz-badge [nzCount]="5" class="notification-badge">
-            <span nz-icon nzType="bell" nzTheme="outline"></span>
-          </nz-badge>
-          <nz-badge [nzCount]="10" class="notification-badge">
-            <span nz-icon nzType="notification" nzTheme="outline"></span>
-          </nz-badge>
-          <span nz-dropdown nzPlacement="bottomRight">
-            <div nz-dropdown>
-              <nz-avatar [nzSrc]="user.logo || 'default-user.png'"></nz-avatar>
-              <span class="user-name">{{ user.name }}</span>
-            </div>
-            <ul nz-menu>
-              <li nz-menu-item [routerLink]="['/profile']">
-                <span nz-icon nzType="user"></span>
-                <span>Profile</span>
-              </li>
-              <li nz-menu-item (click)="logout()">
-                <span nz-icon nzType="logout"></span>
-                <span>Logout</span>
-              </li>
-            </ul>
+
+        <div class="header-left">
+          <span class="header-trigger"
+            (click)="isCollapsed = !isCollapsed"
+            nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
           </span>
+        </div>
+        <div class="header-center">
+
+
+          <nz-input-group nzSuffixIcon="search">
+            <input type="text" nz-input placeholder="Search..." class="search-input">
+          </nz-input-group>
+        </div>
+        <div class="header-right">
+          <span nz-icon nzType="bell" class="notification-icon"></span>
+          <div nz-dropdown [nzDropdownMenu]="menu" class="user-dropdown">
+            <nz-avatar [nzSrc]="user.avatar" class="user-avatar"></nz-avatar>
+            <span class="user-name">{{ user.name }}</span>
+          </div>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="profile()">Profile</li>
+              <li nz-menu-item class="logout" (click)="logout()">Logout</li>
+            </ul>
+          </nz-dropdown-menu>
+          <button nz-button nzType="text" class="theme-toggle" (click)="toggleTheme()">
+            <span nz-icon [nzType]="theme === 'light' ? 'moon' : 'sun'" class="theme-icon"></span>
+          </button>
         </div>
       </div>
     </nz-header>

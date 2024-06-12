@@ -1,37 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { PageTitleService } from 'src/app/services/title-service.service';
 
 @Component({
   selector: 'app-user-layout',
   templateUrl: './user-layout.component.html',
   styleUrls: ['./user-layout.component.css']
 })
-export class UserLayoutComponent {
-
-
+export class UserLayoutComponent implements OnInit {
   isCollapsed = false;
-
   userRole: string = '';
-
-  constructor(private dataService: DataService) { }
-
+  userLogo: string = '';
   isAdmin: boolean = false;
-  // ...
+  user: any = {};
+  theme: 'light' | 'dark' = 'light';
+  title: string;
 
-  ngOnInit(): void {
-    this.UserInfo();
-    this.UserRole();
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private pageTitleService: PageTitleService
+  ) {
+    this.title = this.pageTitleService.getTitle();
   }
 
-  UserRole(): void {
+  ngOnInit(): void {
+    this.pageTitleService.titleChange.subscribe(title => {
+      this.title = title;
+    });
+    this.UserInfo();
+  }
+
+  UserInfo(): void {
     this.dataService.getUserInfo().subscribe(
-      (userInfo) => {
-        this.userRole = userInfo.role.toLowerCase();
-        this.isAdmin = this.userRole === 'admin'; // Définir isAdmin en fonction du rôle
-        if(this.userRole === 'admin') {
-          this.isAdmin = true;
-        }
+      (response) => {
+
+        this.user = response;
+        console.log('User:', this.user);
+        this.userRole = response.role.toLowerCase();
+        this.isAdmin = this.userRole === 'admin';
         console.log('User Role:', this.userRole);
+
+        this.userLogo = response.avatar;
+        console.log(this.userLogo)
       },
       (error) => {
         console.error('Error fetching user info:', error);
@@ -39,14 +51,24 @@ export class UserLayoutComponent {
     );
   }
 
-  UserInfo(): void {
-    this.dataService.getUserInfo().subscribe(
-      (response) => {
+  toggleTheme(): void {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+  }
+
+  logout(): void {
+    this.dataService.logout().subscribe(
+      response => {
+        console.log('Logout successful:', response);
+        this.router.navigate(['/login']);
+        this.dataService.clearToken()
       },
-      (error) => {
-        console.error('Error fetching user info:', error);
+      error => {
+        console.error('Logout error:', error);
       }
     )
   }
 
+  profile(): void {
+    this.router.navigate(['/profil']);
+  }
 }

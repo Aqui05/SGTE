@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AcceuilComponent } from './pages/acceuil/acceuil.component';
@@ -24,9 +23,8 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
       { path: 'auth/confirmation', component: ConfirmationComponent },
-      { path: 'profil', component: ProfileComponent },
+      { path: 'profil', component: ProfileComponent, data: { title: 'Profil Utilisateur' } },
       { path: 'forbidden', component: ForbiddenComponent },
       { path: 'not-found', component: NotFoundComponent },
       { path: 'internal-server-error', component: InternalServerErrorComponent },
@@ -47,7 +45,8 @@ const routes: Routes = [
     path: 'user',
     component: UserLayoutComponent,
     children: [
-      { path: 'accueil', component: AcceuilComponent },
+      { path: '', redirectTo: 'accueil', pathMatch: 'full' },
+      { path: 'accueil', component: AcceuilComponent, data: { title: 'Dashboard' } },
       { path: 'reservation', loadChildren: () => import('./user/reservation/reservation.module').then(m => m.ReservationModule) }
     ]
   },
