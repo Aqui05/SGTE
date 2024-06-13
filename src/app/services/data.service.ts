@@ -202,4 +202,62 @@ export class DataService {
   createPolyline(id: number, polyline: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/route/${id}/polyline`, polyline);
   }
+
+
+  /*
+    * Merchandise  Service
+  */
+ 
+  getMerchandises(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/merchandise`);
+  }
+
+  getMerchandise(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/merchandise/${id}`);
+  }
+
+  addMerchandise(merchandise: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/merchandise`, merchandise);
+  }
+
+  updateMerchandise(id: number, merchandise: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/merchandise/${id}`, merchandise);
+  }
+
+  deleteMerchandise(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/merchandise/${id}`);
+  }
+
+
+  /*
+    * Expeditions Services
+  */
+
+  getExpeditions(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/expedition`);
+  }
+
+  getExpedition(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/expedition/${id}`);
+  }
+
+  addExpedition(merchandise: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/expedition`, merchandise);
+  }
+
+  updateExpedition(id: number, merchandise: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/expedition/${id}`, merchandise);
+  }
+
+  deleteExpedition(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/expedition/${id}`);
+  }
+
+
+  //Users LIST
+
+  getUsers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users`);
+  }
+
 }
