@@ -9,13 +9,13 @@
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-        <h1>LogiTrack</h1>
+        <h1>Ant Design Of Angular</h1>
       </a>
     </div>
     <div>
       <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
         <li nz-menu-item>
-          <span nz-icon nzType="dashboard" [routerLink]="['/admin/dashboard']"></span>
+          <span nz-icon nzType="dashboard"></span>
           <span>Dashboard</span>
         </li>
         <li nz-submenu nzTitle="Vehicle" nzIcon="car">
@@ -32,9 +32,8 @@
         </li>
         <li nz-submenu nzTitle="User" nzIcon="user">
           <ul>
-            <li nz-menu-item [routerLink]="['/user/list']">
-              <span>User Page</span>
-            </li>
+            <li nz-menu-item [routerLink]="['/user']"><span nz-icon nzType="file"></span>
+              <span>User Page</span></li>
           </ul>
         </li>
         <li nz-submenu nzTitle="Settings" nzIcon="setting">
