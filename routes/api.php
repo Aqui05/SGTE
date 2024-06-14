@@ -67,4 +67,7 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::get('/transports',[TransportController::class,'index']);
 
     Route::get('users',[AuthController::class,'users'])->name('usersList');
+
+
+    Route::get('/reservations/list',[ReservationController::class,'reservationList']);
 });

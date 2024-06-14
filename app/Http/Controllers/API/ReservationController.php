@@ -176,4 +176,10 @@ class ReservationController extends Controller
     }
 
 
+    public function reservationList() {
+        $reservations = Reservation::all();
+        return ReservationResource::collection($reservations);
+    }
+
+
 }
