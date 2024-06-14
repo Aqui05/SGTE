@@ -175,6 +175,10 @@ export class DataService {
     return this.http.get(`${this.apiUrl}/reservations/vehicle/${id}`);
   }
 
+  getReservationsList(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/reservations/list`);
+  }
+
   /*
     * Transports services
   */
@@ -207,7 +211,7 @@ export class DataService {
   /*
     * Merchandise  Service
   */
- 
+
   getMerchandises(): Observable<any> {
     return this.http.get(`${this.apiUrl}/merchandise`);
   }

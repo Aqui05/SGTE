@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
-import { Chart, ChartConfiguration, ChartType } from 'chart.js/auto';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js/auto';
+
+Chart.register(...registerables);
 
 
 @Component({
@@ -12,11 +14,11 @@ import { Chart, ChartConfiguration, ChartType } from 'chart.js/auto';
 export class DashboardComponent implements OnInit {
 
   Transport: any[] = [];
-  Vehicle : any;
-  Reservation : any;
-  User : any;
-  Merchandise : any;
-  Expedition : any;
+  Vehicle : any[] = [];
+  Reservation : any[] = [];
+  User : any[] = [];
+  Merchandise : any[] = [];
+  Expedition : any[] = [];
 
   constructor(
     private dataService: DataService,
@@ -26,8 +28,10 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() : void{
     this.InfoTransport();
+    this.InfoVehicle();
+    this.InfoReservation();
   }
-  
+
 
   cards = [
     {
@@ -71,12 +75,12 @@ export class DashboardComponent implements OnInit {
   InfoCard() : void {
 
   }
-  
-  InfoTransport() : void {
-    this.dataService.getTransports().subscribe(
-      (data) => {
-        this.Transport = data.data;
-        console.log(this.Transport)
+
+  InfoVehicle() : void {
+    this.dataService.getVehicles().subscribe(
+      (response) => {
+        this.Vehicle = response.data;
+        this.createVehicleTypeChart();
       },
       (error) => {
         console.error('Error fetching transports:', error);
@@ -84,23 +88,12 @@ export class DashboardComponent implements OnInit {
     )
   }
 
-  InfoVehicle() : void {
-    this.dataService.getVehicles().subscribe(
-      (response) => {
-        this.Vehicle = response;
-        console.log('Vehicles:', response);
-      },
-      (error) => {
-        console.error('Error fetching transports:', error);
-      }
-    )  
-  }
-
   InfoReservation(): void {
-    this.dataService.getReservations().subscribe(
+    this.dataService.getReservationsList().subscribe(
       (response) => {
-        this.Reservation = response;
-        console.log('Reservations:', response);
+        this.Reservation = response.data;
+        console.log('Reservations:', response.data);
+        this.createReservationChart();
       },
       (error) => {
         console.error('Error fetching transports:', error);
@@ -117,7 +110,7 @@ export class DashboardComponent implements OnInit {
       (error) => {
         console.error('Error fetching transports:', error);
       }
-    )  
+    )
   }
 
   InfoExpedition(): void {
@@ -141,7 +134,20 @@ export class DashboardComponent implements OnInit {
       (error) => {
         console.error('Error fetching transports:', error);
       }
-    )  
+    )
+  }
+
+
+  InfoTransport(): void {
+    this.dataService.getTransports().subscribe(
+      (data) => {
+        this.Transport = data.data;
+        this.createTransportChart();
+      },
+      (error) => {
+        console.error('Error fetching transports:', error);
+      }
+    );
   }
 
   countTransportStatus(): { [key: string]: number } {
@@ -161,15 +167,13 @@ export class DashboardComponent implements OnInit {
     return statusCounts;
   }
 
-  createChart(): void {
+  createTransportChart(): void {
     const statusCounts = this.countTransportStatus();
-
-    console.log('Status Counts:', statusCounts);
 
     const data = {
       labels: ['Confirmed', 'In Progress', 'Finished', 'Canceled'],
       datasets: [{
-        label: 'Transport Status',
+        label: 'Transport',
         data: [
           statusCounts['confirmed'],
           statusCounts['inProgress'],
@@ -180,8 +184,8 @@ export class DashboardComponent implements OnInit {
       }]
     };
 
-    const config: ChartConfiguration<'bar'> = {
-      type: 'bar',
+    const config = {
+      type: 'bar' as ChartType,
       data: data,
       options: {
         responsive: true,
@@ -196,13 +200,121 @@ export class DashboardComponent implements OnInit {
       }
     };
 
-    console.log('Creating chart with config:', config); // Log pour vérifier la configuration
-
     new Chart('transportStatusChart', config);
   }
 
 
-  /*
+  countVehicleType(): { [key: string]: number } {
+    const typeCounts: { [key: string]: number } = {};
+
+    this.Vehicle.forEach(vehicle => {
+      const type = vehicle.type;
+      if (type in typeCounts) {
+        typeCounts[type]++;
+      } else {
+        typeCounts[type] = 1;
+      }
+    });
+
+    return typeCounts;
+  }
+
+  createVehicleTypeChart(): void {
+    const typeCounts = this.countVehicleType();
+
+    const data = {
+      labels: Object.keys(typeCounts),
+      datasets: [{
+        label: 'Vehicle Types',
+        data: Object.values(typeCounts),
+        backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336', '#9c27b0', '#00bcd4', '#cddc39', '#ffeb3b'] // Assurez-vous d'avoir assez de couleurs pour vos types de transport
+      }]
+    };
+
+    const config = {
+      type: 'bar' as ChartType,
+      data: data,
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    new Chart('VehicleTypeChart', config);
+  }
+
+
+
+
+  countReservationStatus(): { [key: string]: number } {
+    const statusCounts: { [key: string]: number } = {
+      confirmed: 0,
+      inProgress: 0,
+      finished: 0,
+      canceled: 0
+    };
+
+    this.Reservation.forEach(reservation => {
+      if (reservation.status in statusCounts) {
+        statusCounts[reservation.status]++;
+      }
+    });
+
+    return statusCounts;
+  }
+
+  createReservationChart(): void {
+    const statusCounts = this.countReservationStatus();
+
+    const data = {
+      labels: ['Confirmed', 'Used', 'Delayed', 'Canceled'],
+      datasets: [{
+        label: 'Transport',
+        data: [
+          statusCounts['confirmed'],
+          statusCounts['Used'],
+          statusCounts['Delayed'],
+          statusCounts['canceled']
+        ],
+        backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336']
+      }]
+    };
+
+    const config = {
+      type: 'bar' as ChartType,
+      data: data,
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    new Chart('ReservationStatusChart', config);
+  }
+
+
+
+
+
+
+
+
+
+    /*
 
     * 1. **Graphique des performances des véhicules :**
       *- Un graphique en ligne montrant l'évolution de la performance des véhicules au fil du temps. Cela peut inclure des métriques telles que la consommation de carburant, la distance parcourue, les temps d'arrêt, etc. Cela aide à identifier les véhicules les plus efficaces et ceux qui nécessitent une maintenance ou des ajustements.
@@ -221,10 +333,12 @@ export class DashboardComponent implements OnInit {
 
     *  6. **Graphique des coûts de transport :**
         *- Un graphique en ligne ou un graphique en barres montrant l'évolution des coûts de transport au fil du temps. Cela peut inclure des coûts de carburant, de maintenance, de péage, etc. Ces informations sont cruciales pour optimiser les itinéraires et minimiser les dépenses.
-    
+
     *  7. **Graphique de répartition des types de transport :**
         *- Ce graphique pourrait montrer la répartition des différents types de transport (camion, train, avion, etc.) utilisés pour les expéditions. Cela pourrait aider à identifier les types de transport les plus utilisés et ceux qui pourraient nécessiter plus d’investissement.
 
   */
+
+
 
 }
