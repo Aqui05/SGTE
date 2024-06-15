@@ -24,8 +24,8 @@ return new class extends Migration
             $table->text('additional_info')->nullable();
 
 
-            $table->foreign('transport_id')->references('id')->on('transports');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('transport_id')->references('id')->on('transports')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });

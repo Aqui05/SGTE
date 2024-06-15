@@ -18,14 +18,12 @@ return new class extends Migration
             $table->string('destination');
             $table->dateTime('date_expedition')->nullable();
             $table->dateTime('date_livraison_prevue')->nullable();
-            $table->enum('status', ['confirmé', 'retardé', 'en cours', 'delivré', 'annulé']);
+            $table->enum('status', ['confirmé', 'planification', 'enTransit', 'delivré', 'annulé']);
             $table->unsignedBigInteger('vehicle_id')->constrained();
-            $table->unsignedBigInteger('user_id');
             $table->text('notes')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('vehicle_id')->references('id')->on('vehicles');
+            $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
         });
     }
 

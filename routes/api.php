@@ -7,8 +7,9 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\VehicleController;
 use App\Http\Controllers\API\TransportController;
 use App\Http\Controllers\API\ReservationController;
-
-
+use App\Http\Controllers\API\ExpeditionController;
+use App\Http\Controllers\API\MerchandiseController;
+use App\Models\Expedition;
 
 Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::post('/register',[AuthController::class,'register'])->name('register');
@@ -48,9 +49,30 @@ Route::group([], function() {
     Route::get('/reservations/transport/{id}',[ReservationController::class,'transportReservations']);
     Route::get('/reservations/vehicle/{id}',[ReservationController::class,'vehicleReservations']);
 
+
+
+    Route::get('/expedition/{id}',[ExpeditionController::class,'show']);
+
+
+
+    Route::post('/merchandise',[MerchandiseController::class,'store']);
+    Route::get('/merchandises',[MerchandiseController::class,'index']);
+    Route::get('/merchandise/{id}',[MerchandiseController::class,'show']);
+    Route::put('/merchandise/{id}',[MerchandiseController::class,'update']);
+    Route::delete('/merchandise/{id}',[MerchandiseController::class,'destroy']);
 });
 
 Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
+
+
+    Route::post('/expedition',[ExpeditionController::class,'store']);
+    Route::get('/expeditions',[ExpeditionController::class,'index']);
+    Route::put('/expedition/{id}',[ExpeditionController::class,'update']);
+    Route::put('/expedition/{id}',[ExpeditionController::class,'destroy']);
+
+
+
+
     Route::get('/vehicles', [VehicleController::class, 'index']);
     Route::post('/vehicle',[VehicleController::class,'store']);
     Route::get('/vehicle/{id}',[VehicleController::class,'show']);
@@ -63,11 +85,15 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::post('/route/{id}/polyline',[TransportController::class,'createPolyline']);
 
     Route::put('/transport/{id}',[TransportController::class,'update']);
-    Route::delete('/transport/{id}',[TransportController::class,'destroy']);
+    Route::put('/transport/{id}',[TransportController::class,'destroy']);
     Route::get('/transports',[TransportController::class,'index']);
 
     Route::get('users',[AuthController::class,'users'])->name('usersList');
 
 
     Route::get('/reservations/list',[ReservationController::class,'reservationList']);
+
+    Route::get('/expeditions/list',[ExpeditionController::class,'expeditionList']);
+
+    Route::get('/expeditions/merchandises/{expeditionId}',[MerchandiseController::class,'MerchandiseList']);
 });

@@ -17,7 +17,6 @@ class Expedition extends Model
         'date_livraison_prevue',
         'status',
         'vehicle_id',
-        'user_id',
         'notes',
     ];
 

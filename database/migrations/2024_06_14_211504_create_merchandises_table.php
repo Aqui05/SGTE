@@ -14,17 +14,20 @@ return new class extends Migration
         Schema::create('merchandises', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('expedition_id')->nullable();
+                $table->unsignedBigInteger('user_id');
                 $table->string('name')->nullable();
                 $table->text('description')->nullable();
-                $table->integer('quantity');
-                $table->decimal('weight', 8, 2);
+                $table->integer('quantity')->nullable();
+                $table->decimal('weight', 8, 2)->nullable();
                 $table->decimal('volume', 8, 2)->nullable();
+                $table->string('category')->nullable();
                 $table->string('numero_suivi')->nullable()->unique();
                 $table->string('depart')->nullable();
                 $table->string('destination')->nullable();
                 $table->timestamps();
 
-                $table->foreign('expedition_id')->references('id')->on('expeditions');
+                $table->foreign('expedition_id')->references('id')->on('expeditions')->onDelete('cascade');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
