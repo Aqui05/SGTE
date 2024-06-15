@@ -41,7 +41,7 @@ export class TransportListComponent {
   }
 
   deleteTransport(id: number): void {
-    this.dataService.deleteTransport(id).subscribe(
+    this.dataService.deleteTransport(id, this.transports).subscribe(
       (response) => {
         this.loadTransports();
       },

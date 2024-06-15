@@ -30,50 +30,8 @@ export class DashboardComponent implements OnInit {
     this.InfoTransport();
     this.InfoVehicle();
     this.InfoReservation();
-  }
-
-
-  cards = [
-    {
-      title: "Today's Money",
-      value: "$53k",
-      change: "+55%",
-      changeType: "success",
-      comparison: "last week",
-      icon: "attach_money", // Updated icon
-      color: "dark"
-    },
-    {
-      title: "Users",
-      value: "23",
-      change: "+3%",
-      changeType: "success",
-      comparison: "last month",
-      icon: "person", // Updated icon
-      color: "primary"
-    },
-    {
-      title: "Transport",
-      value: "3,462",
-      change: "-2%",
-      changeType: "danger",
-      comparison: "yesterday",
-      icon: "local_shipping", // Updated icon
-      color: "success"
-    },
-    {
-      title: "Expeditions",
-      value: "430",
-      change: "+5%",
-      changeType: "success",
-      comparison: "yesterday",
-      icon: "flight_takeoff", // Updated icon
-      color: "info"
-    }
-  ];
-
-  InfoCard() : void {
-
+    this.InfoExpedition();
+    this.InfoUser();
   }
 
   InfoVehicle() : void {
@@ -81,6 +39,7 @@ export class DashboardComponent implements OnInit {
       (response) => {
         this.Vehicle = response.data;
         this.createVehicleTypeChart();
+        this.InfoCard()
       },
       (error) => {
         console.error('Error fetching transports:', error);
@@ -94,6 +53,7 @@ export class DashboardComponent implements OnInit {
         this.Reservation = response.data;
         console.log('Reservations:', response.data);
         this.createReservationChart();
+        this.InfoCard()
       },
       (error) => {
         console.error('Error fetching transports:', error);
@@ -106,6 +66,7 @@ export class DashboardComponent implements OnInit {
       (response) => {
         this.Merchandise = response;
         console.log('Merchandise:', response)
+        this.InfoCard()
       },
       (error) => {
         console.error('Error fetching transports:', error);
@@ -116,11 +77,13 @@ export class DashboardComponent implements OnInit {
   InfoExpedition(): void {
     this.dataService.getExpeditions().subscribe(
       (response) => {
-        this.Expedition = response;
-        console.log('Expedition:', response)
+        this.Expedition = response.data;
+        console.log('Expedition:', response.data);
+        this.InfoCard();
+        this.createExpeditionChart();
       },
       (error) => {
-        console.error('Error fetching transports:', error);
+        console.error('Error fetching expeditions:', error);
       }
     )
   }
@@ -128,11 +91,12 @@ export class DashboardComponent implements OnInit {
   InfoUser(): void {
     this.dataService.getUsers().subscribe(
       (response) => {
-        this.User = response;
-        console.log('User:', response)
+        this.User = response.data;
+        console.log('User:', response.data)
+        this.InfoCard();
       },
       (error) => {
-        console.error('Error fetching transports:', error);
+        console.error('Error fetching users:', error);
       }
     )
   }
@@ -143,6 +107,8 @@ export class DashboardComponent implements OnInit {
       (data) => {
         this.Transport = data.data;
         this.createTransportChart();
+        this.InfoCard();
+        console.log(this.Transport.length)
       },
       (error) => {
         console.error('Error fetching transports:', error);
@@ -201,6 +167,62 @@ export class DashboardComponent implements OnInit {
     };
 
     new Chart('transportStatusChart', config);
+  }
+
+
+  countExpeditionStatus(): { [key: string]: number } {
+    const statusCounts: { [key: string]: number } = {
+      confirmé: 0,
+      enTransit: 0,
+      annulé: 0,
+      delivré: 0,
+      planification: 0
+    };
+
+    this.Expedition.forEach(expedition => {
+      if (expedition.status in statusCounts) {
+        statusCounts[expedition.status]++;
+      }
+    });
+
+    return statusCounts;
+  }
+
+  createExpeditionChart(): void {
+    const statusCounts = this.countExpeditionStatus();
+
+    const data = {
+      labels: ['Confirmé', 'planification', 'En transit', 'Délivré', 'Annulé'],
+      datasets: [{
+        label: 'Expedition',
+        data: [
+          statusCounts['confirmé'],
+          statusCounts['planification'],
+          statusCounts['enTransit'],
+          statusCounts['delivré'],
+          statusCounts['annulé'],
+        ],
+        backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336', '#f5e332']
+      }]
+    };
+
+    const config = {
+      type: 'bar' as ChartType,
+      data: data,
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    new Chart('expeditionStatusChart', config);
   }
 
 
@@ -305,6 +327,139 @@ export class DashboardComponent implements OnInit {
 
     new Chart('ReservationStatusChart', config);
   }
+
+
+
+
+  InfoCard() : void {
+
+    const transportChange = this.ChangeValue(this.Transport, "yesterday");
+    const userChange = this.ChangeValue(this.User, "last month");
+    const expeditionChange = this.ChangeValue(this.Expedition, "yesterday");
+
+    this.cards = [
+      {
+        title: "Today's Money",
+        value: "$53k",
+        change: "+55%",
+        changeType: "success",
+        comparison: "last week",
+        icon: "attach_money", // Updated icon
+        color: "dark"
+      },
+      {
+        title: "Users",
+        value: this.User.length,
+        change: `${userChange >= 0 ? '+' : '-'}${userChange}%`,
+        changeType: userChange >= 0 ? "success" : "danger",
+        comparison: "last month",
+        icon: "person", // Updated icon
+        color: "primary"
+      },
+      {
+        title: "Transport",
+        value: this.Transport.length,
+        change: `${transportChange >= 0 ? '+' : '-'}${transportChange}%`,
+        changeType: transportChange >= 0 ? "success" : "danger",
+        comparison: "yesterday",
+        icon: "local_shipping",
+        color: "success"
+      },
+      {
+        title: "Expeditions",
+        value: this.Expedition.length,
+        change: `${expeditionChange >= 0 ? '+' : '-'}${expeditionChange}%`,
+        changeType: expeditionChange >= 0 ? "success" : "danger",
+        comparison: "yesterday",
+        icon: "flight_takeoff", // Updated icon
+        color: "info"
+      }
+    ];
+    }
+
+    ChangeValue(Table: any[], comparison: string): number {
+      // Convertir les éléments en dates
+      const currentDate = new Date();
+      let startDate: Date;
+
+      switch (comparison) {
+        case "yesterday":
+          startDate = new Date(currentDate);
+          startDate.setDate(currentDate.getDate() - 1);
+          break;
+
+        case "last week":
+          startDate = new Date(currentDate);
+          startDate.setDate(currentDate.getDate() - 7);
+          break;
+
+        case "last month":
+          startDate = new Date(currentDate);
+          startDate.setMonth(currentDate.getMonth() - 1);
+          break;
+
+        case "last year":
+          startDate = new Date(currentDate);
+          startDate.setFullYear(currentDate.getFullYear() - 1);
+          break;
+
+        default:
+          throw new Error("Invalid comparison type");
+      }
+
+      // Filtrer les éléments selon le critère de comparison
+      const filteredTable = Table.filter(item => {
+        const itemDate = new Date(item.created_at);
+        return itemDate >= startDate && itemDate <= currentDate;
+      });
+
+      // Calculer la fréquence de changement des valeurs
+      const frequency = filteredTable.length;
+
+      return frequency;
+    }
+
+
+
+
+  cards = [
+    {
+      title: "Today's Money",
+      value: "$53k",
+      change: "+55%",
+      changeType: "success",
+      comparison: "last week",
+      icon: "attach_money",
+      color: "dark"
+    },
+    {
+      title: "Users",
+      value: "",
+      change: "",
+      changeType: "",
+      comparison: "last month",
+      icon: "person",
+      color: "primary"
+    },
+    {
+      title: "Transport",
+      value: this.Transport.length,
+      change: "",
+      changeType: "",
+      comparison: "yesterday",
+      icon: "local_shipping",
+      color: "success"
+    },
+    {
+      title: "Expeditions",
+      value: "",
+      change: "",
+      changeType: "",
+      comparison: "yesterday",
+      icon: "flight_takeoff",
+      color: "info"
+    }
+  ];
 
 
 
