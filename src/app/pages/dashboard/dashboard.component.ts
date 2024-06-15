@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
-import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js/auto';
+import { Chart, ChartConfiguration, ChartType, registerables, TooltipItem } from 'chart.js/auto';
 
 Chart.register(...registerables);
 
@@ -107,6 +107,7 @@ export class DashboardComponent implements OnInit {
       (data) => {
         this.Transport = data.data;
         this.createTransportChart();
+        this.createTransportTypeChart();
         this.InfoCard();
         console.log(this.Transport.length)
       },
@@ -249,21 +250,35 @@ export class DashboardComponent implements OnInit {
       datasets: [{
         label: 'Vehicle Types',
         data: Object.values(typeCounts),
-        backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336', '#9c27b0', '#00bcd4', '#cddc39', '#ffeb3b'] // Assurez-vous d'avoir assez de couleurs pour vos types de transport
+        backgroundColor: [
+          '#4caf50', '#ff9800', '#2196f3', '#f44336',
+          '#9c27b0', '#00bcd4', '#cddc39', '#ffeb3b'
+        ] // Assurez-vous d'avoir assez de couleurs pour vos types de transport
       }]
     };
 
-    const config = {
-      type: 'bar' as ChartType,
+    const config: ChartConfiguration<'pie'> = {
+      type: 'pie', // Changer le type à 'pie'
       data: data,
       options: {
         responsive: true,
-        scales: {
-          x: {
-            beginAtZero: true
+        plugins: {
+          legend: {
+            position: 'top', // Position de la légende
           },
-          y: {
-            beginAtZero: true
+          tooltip: {
+            callbacks: {
+              label: function(context: TooltipItem<'pie'>) {
+                let label = context.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.raw !== null) {
+                  label += context.raw;
+                }
+                return label;
+              }
+            }
           }
         }
       }
@@ -273,7 +288,65 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  countTransportType(): { [key: string]: number } {
+    const typeCounts: { [key: string]: number } = {};
 
+    this.Transport.forEach(transport => {
+      const type = transport.type;
+      if (type in typeCounts) {
+        typeCounts[type]++;
+      } else {
+        typeCounts[type] = 1;
+      }
+    });
+
+    return typeCounts;
+  }
+
+  createTransportTypeChart(): void {
+    const typeCounts = this.countTransportType();
+
+    const data = {
+      labels: Object.keys(typeCounts),
+      datasets: [{
+        label: 'Transport Types',
+        data: Object.values(typeCounts),
+        backgroundColor: [
+          '#4caf50', '#ff9800', '#2196f3', '#f44336',
+          '#9c27b0', '#00bcd4', '#cddc39', '#ffeb3b'
+        ] // Assurez-vous d'avoir assez de couleurs pour vos types de transport
+      }]
+    };
+
+    const config: ChartConfiguration<'pie'> = {
+      type: 'pie', // Changer le type à 'pie'
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top', // Position de la légende
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context: TooltipItem<'pie'>) {
+                let label = context.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.raw !== null) {
+                  label += context.raw;
+                }
+                return label;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    new Chart('TransportTypeChart', config);
+  }
 
   countReservationStatus(): { [key: string]: number } {
     const statusCounts: { [key: string]: number } = {
@@ -460,40 +533,4 @@ export class DashboardComponent implements OnInit {
       color: "info"
     }
   ];
-
-
-
-
-
-
-
-
-
-    /*
-
-    * 1. **Graphique des performances des véhicules :**
-      *- Un graphique en ligne montrant l'évolution de la performance des véhicules au fil du temps. Cela peut inclure des métriques telles que la consommation de carburant, la distance parcourue, les temps d'arrêt, etc. Cela aide à identifier les véhicules les plus efficaces et ceux qui nécessitent une maintenance ou des ajustements.
-
-    *  2. **Répartition des types de véhicules :**
-      *- Un graphique circulaire ou un diagramme en barres montrant la répartition des différents types de véhicules utilisés dans le parc (par exemple, camions, voitures, motos). Cela aide à visualiser la diversité du parc de véhicules et à prendre des décisions stratégiques sur les futurs investissements et les besoins en équipement.
-
-    *  3. **Graphique de suivi des expéditions :**
-        *- Un graphique en barres ou un graphique de ligne montrant le nombre d'expéditions traitées par jour, semaine ou mois. Cela offre une vue d'ensemble de la charge de travail et peut aider à identifier les périodes de pointe et les tendances saisonnières.
-
-    *  4. **Graphique de suivi des livraisons en temps réel :**
-        *- Un graphique en temps réel montrant l'emplacement et l'état des livraisons en cours. Cela peut être réalisé avec des graphiques de type "heatmap" ou des graphiques de dispersion pour visualiser la distribution géographique des livraisons et les délais de livraison.
-
-    *  5. **Graphique de gestion des stocks :**
-        *- Un graphique en barres ou un diagramme circulaire montrant la répartition des stocks disponibles par entrepôt ou par type de produit. Cela permet de gérer efficacement les niveaux de stock et d'anticiper les besoins de réapprovisionnement.
-
-    *  6. **Graphique des coûts de transport :**
-        *- Un graphique en ligne ou un graphique en barres montrant l'évolution des coûts de transport au fil du temps. Cela peut inclure des coûts de carburant, de maintenance, de péage, etc. Ces informations sont cruciales pour optimiser les itinéraires et minimiser les dépenses.
-
-    *  7. **Graphique de répartition des types de transport :**
-        *- Ce graphique pourrait montrer la répartition des différents types de transport (camion, train, avion, etc.) utilisés pour les expéditions. Cela pourrait aider à identifier les types de transport les plus utilisés et ceux qui pourraient nécessiter plus d’investissement.
-
-  */
-
-
-
 }

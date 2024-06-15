@@ -1,5 +1,7 @@
 <div class="error-page">
-  <h1>401 - Unauthorized</h1>
-  <p>You are not authorized to view this page. Please login with appropriate credentials.</p>
-  <a routerLink="/login">Go to Login</a>
+  <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized to access this page.">
+    <div nz-result-extra>
+      <button nz-button nzType="primary">Back Home</button>
+    </div>
+  </nz-result>
 </div>

@@ -5,9 +5,9 @@ import { TransportAddComponent } from './transport-add/transport-add.component';
 import { TransportEditComponent } from './transport-edit/transport-edit.component';
 
 const routes: Routes = [
-  { path: '', component: TransportListComponent },
-  { path: 'create', component: TransportAddComponent },
-  { path: 'edit/:id', component: TransportEditComponent },
+  { path: '', component: TransportListComponent,data: { title: 'Liste Transport' }  },
+  { path: 'create', component: TransportAddComponent,data: { title: 'Ajout d\'un Véhicule' } },
+  { path: 'edit/:id', component: TransportEditComponent,data: { title: 'Modification d\'un véhicule ' } },
 ];
 
 @NgModule({

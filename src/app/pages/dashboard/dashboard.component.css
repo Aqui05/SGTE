@@ -8,6 +8,14 @@
   transition: transform 0.2s;
 }
 
+.card-title {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+
 .card:hover {
   transform: translateY(-5px);
 }

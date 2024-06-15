@@ -1,20 +1,7 @@
 .error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   text-align: center;
-  margin-top: 50px;
-}
-
-.error-page h1 {
-  font-size: 3em;
-  margin-bottom: 20px;
-}
-
-.error-page p {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-
-.error-page a {
-  font-size: 1em;
-  color: #007bff;
-  text-decoration: none;
 }

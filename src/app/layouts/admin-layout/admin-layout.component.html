@@ -20,19 +20,25 @@
         </li>
         <li nz-submenu nzTitle="Vehicle" nzIcon="car">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/vehicle/add']">Ajouter Vehicle</li>
-            <li nz-menu-item [routerLink]="['/admin/vehicle/list']">Liste Vehicles</li>
+            <li nz-menu-item [routerLink]="['/admin/vehicle/create']">Ajouter Vehicle</li>
+            <li nz-menu-item [routerLink]="['/admin/vehicle/']">Liste Vehicles</li>
           </ul>
         </li>
         <li nz-submenu nzTitle="Transport" nzIcon="car">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/transport/add']">Ajouter Transport</li>
-            <li nz-menu-item [routerLink]="['/admin/transport/list']">Liste Transports</li>
+            <li nz-menu-item [routerLink]="['/admin/transport/create']">Ajouter Transport</li>
+            <li nz-menu-item [routerLink]="['/admin/transport']">Liste Transports</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Expedition" nzIcon="car">
+          <ul>
+            <li nz-menu-item [routerLink]="['/admin/expedition/create']">Ajouter une Expédition</li>
+            <li nz-menu-item [routerLink]="['/admin/expedition']">Liste Expéditions</li>
           </ul>
         </li>
         <li nz-submenu nzTitle="User" nzIcon="user">
           <ul>
-            <li nz-menu-item [routerLink]="['/user']"><span nz-icon nzType="file"></span>
+            <li nz-menu-item [routerLink]="['/user']">
               <span>User Page</span></li>
           </ul>
         </li>
