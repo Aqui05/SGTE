@@ -223,3 +223,19 @@ nz-footer {
 .expanded-content {
   margin-left: 256px;
 }
+
+
+
+
+
+
+.nz-menu-item.active,
+.nz-submenu-title.active {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.nz-menu-item.active a,
+.nz-submenu-title.active a {
+  color: #fff;
+}

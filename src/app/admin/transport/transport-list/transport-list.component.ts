@@ -17,6 +17,22 @@ export class TransportListComponent {
     this.loadTransports();
   }
 
+  getStatusType(status: string): string {
+    switch (status) {
+      case 'confirmed':
+        return 'success';
+      case 'in progress':
+        return 'processing';
+      case 'finished':
+        return 'default';
+      case 'canceled':
+        return 'error';
+      default:
+        return 'default';
+    }
+  }
+
+
   loadTransports(): void {
     this.dataService.getTransports().subscribe(
       (data) => {
@@ -29,15 +45,16 @@ export class TransportListComponent {
   }
 
   viewDetails(id: number): void {
-    this.router.navigate([`/transport/${id}`]);
+    this.router.navigate([`admin/transport/details/${id}`]);
   }
 
+
   editTransport(id: number): void {
-    this.router.navigate([`/transport/edit/${id}`]);
+    this.router.navigate([`admin/transport/edit/${id}`]);
   }
 
   addTransport(): void {
-    this.router.navigate([`/new/transport`]);
+    this.router.navigate([`/admin/transport/create`]);
   }
 
   deleteTransport(id: number): void {

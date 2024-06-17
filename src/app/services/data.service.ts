@@ -233,8 +233,13 @@ export class DataService {
   }
 
 
-  getMerchandisesList(expeditionId: any): Observable<any> {
+  getMerchandisesExpeditions(expeditionId: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/expeditions/merchandises/${expeditionId}`);
+  }
+
+
+  getMerchandisesList(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/merchandises/list`);
   }
 
 

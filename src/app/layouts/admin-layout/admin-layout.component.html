@@ -1,11 +1,11 @@
 <nz-layout class="app-layout">
   <nz-sider class="menu-sidebar"
-    nzCollapsible
-    nzWidth="256px"
-    [nzCollapsedWidth]="80"
-    nzBreakpoint="md"
-    [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null">
+            nzCollapsible
+            nzWidth="256px"
+            [nzCollapsedWidth]="80"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
@@ -14,37 +14,41 @@
     </div>
     <div>
       <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-        <li nz-menu-item>
+        <li nz-menu-item [routerLink]="['/dashboard']" routerLinkActive="active">
           <span nz-icon nzType="dashboard"></span>
           <span>Dashboard</span>
         </li>
         <li nz-submenu nzTitle="Vehicle" nzIcon="car">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/vehicle/create']">Ajouter Vehicle</li>
-            <li nz-menu-item [routerLink]="['/admin/vehicle/']">Liste Vehicles</li>
+            <li nz-menu-item [routerLink]="['/admin/vehicle/create']" routerLinkActive="active">Ajouter Vehicle</li>
+            <li nz-menu-item [routerLink]="['/admin/vehicle']" routerLinkActive="active">Liste Vehicles</li>
           </ul>
         </li>
         <li nz-submenu nzTitle="Transport" nzIcon="car">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/transport/create']">Ajouter Transport</li>
-            <li nz-menu-item [routerLink]="['/admin/transport']">Liste Transports</li>
+            <li nz-menu-item [routerLink]="['/admin/transport/create']" routerLinkActive="active">Ajouter Transport</li>
+            <li nz-menu-item [routerLink]="['/admin/transport']" routerLinkActive="active">Liste Transports</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Marchandise" nzIcon="car">
+          <ul>
+            <li nz-menu-item [routerLink]="['/admin/merchandise']" routerLinkActive="active">Liste des marchandises</li>
           </ul>
         </li>
         <li nz-submenu nzTitle="Expedition" nzIcon="car">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/expedition/create']">Ajouter une Expédition</li>
-            <li nz-menu-item [routerLink]="['/admin/expedition']">Liste Expéditions</li>
+            <li nz-menu-item [routerLink]="['/admin/expedition/create']" routerLinkActive="active">Ajouter une Expédition</li>
+            <li nz-menu-item [routerLink]="['/admin/expedition']" routerLinkActive="active">Liste Expéditions</li>
           </ul>
         </li>
         <li nz-submenu nzTitle="User" nzIcon="user">
           <ul>
-            <li nz-menu-item [routerLink]="['/user']">
-              <span>User Page</span></li>
+            <li nz-menu-item [routerLink]="['/admin/user_page']" routerLinkActive="active">User Page</li>
           </ul>
         </li>
         <li nz-submenu nzTitle="Settings" nzIcon="setting">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin']">Setting Admin</li>
+            <li nz-menu-item [routerLink]="['/admin']" routerLinkActive="active">Setting Admin</li>
           </ul>
         </li>
       </ul>
@@ -55,8 +59,8 @@
       <div class="app-header">
         <div class="header-left">
           <span class="header-trigger"
-            (click)="isCollapsed = !isCollapsed"
-            nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
+                (click)="isCollapsed = !isCollapsed"
+                nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
           </span>
         </div>
         <div class="header-center">
