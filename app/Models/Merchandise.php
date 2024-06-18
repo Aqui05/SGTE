@@ -20,6 +20,7 @@ class Merchandise extends Model
         'numero_suivi',
         'depart',
         'destination',
+        'status',
     ];
 
 

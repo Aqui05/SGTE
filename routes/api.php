@@ -70,9 +70,6 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::put('/expedition/{id}',[ExpeditionController::class,'update']);
     Route::put('/expedition/{id}',[ExpeditionController::class,'destroy']);
 
-
-
-
     Route::get('/vehicles', [VehicleController::class, 'index']);
     Route::post('/vehicle',[VehicleController::class,'store']);
     Route::get('/vehicle/{id}',[VehicleController::class,'show']);
@@ -93,7 +90,9 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
 
     Route::get('/reservations/list',[ReservationController::class,'reservationList']);
 
+    Route::get('/merchandises/list',[MerchandiseController::class,'merchandiseList']);
+
     Route::get('/expeditions/list',[ExpeditionController::class,'expeditionList']);
 
-    Route::get('/expeditions/merchandises/{expeditionId}',[MerchandiseController::class,'MerchandiseList']);
+    Route::get('/expeditions/merchandises/{expeditionId}',[MerchandiseController::class,'MerchandisesExpedition']);
 });

@@ -29,7 +29,7 @@ class MerchandiseController extends Controller
         return MerchandiseResource::collection($merchandises);
     }
 
-    public function MerchandiseList($expeditionId)
+    public function MerchandisesExpedition($expeditionId)
     {
         $merchandises = Merchandise::where('expedition_id', $expeditionId)->get();
         return MerchandiseResource::collection($merchandises);
@@ -90,6 +90,12 @@ class MerchandiseController extends Controller
         $merchandise::delete();
 
         return response()->json(['message' => 'Merchandise canceled successfully', 204]);
+    }
+
+    public function merchandiseList()
+    {
+        $merchandise = Merchandise::all();
+        return new MerchandiseResource($merchandise);
     }
 
 
