@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('destination');
             $table->dateTime('date_expedition')->nullable();
             $table->dateTime('date_livraison_prevue')->nullable();
-            $table->enum('status', ['confirmé', 'planification', 'enTransit', 'delivré', 'annulé']);
+            $table->enum('status', ['confirmé', 'planification', 'en transit', 'delivré', 'annulé']);
+            $table->string('type');
             $table->unsignedBigInteger('vehicle_id')->constrained();
             $table->text('notes')->nullable();
             $table->timestamps();

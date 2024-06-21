@@ -19,6 +19,7 @@ class ExpeditionController extends Controller
         $validatedData = $request->validate([
             'expedition_number' => 'required|unique:expeditions',
             'origin' => 'required',
+            'type'  => 'required',
             'destination' => 'required',
             'date_expedition' => 'required|date',
             'date_livraison_prevue' => 'required|date',
@@ -75,6 +76,16 @@ class ExpeditionController extends Controller
     public function reservationList()
     {
         $expeditions = Expedition::all();
+        return ExpeditionResource::collection($expeditions);
+    }
+
+
+
+    public function expeditionDeAr(Request $request, $depart, $destination)
+    {
+        expeditions = Merchandise::where('destination', $destination)
+                                        ->where('origin', $depart)
+                                        ->get();
         return ExpeditionResource::collection($expeditions);
     }
 }

@@ -64,7 +64,6 @@ Route::group([], function() {
 
 Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
 
-
     Route::post('/expedition',[ExpeditionController::class,'store']);
     Route::get('/expeditions',[ExpeditionController::class,'index']);
     Route::put('/expedition/{id}',[ExpeditionController::class,'update']);
@@ -95,4 +94,11 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::get('/expeditions/list',[ExpeditionController::class,'expeditionList']);
 
     Route::get('/expeditions/merchandises/{expeditionId}',[MerchandiseController::class,'MerchandisesExpedition']);
+
+    Route::get('/get/merchandises/{depart}/{destination}',[MerchandiseController::class,'merchandiseDeAr']);
+
+    Route::get('/get/expeditions/{depart}/{destination}',[ExpeditionController::class,'expeditionDeAr']);
+
+    Route::put('/expeditions/{expeditionId}/merchandises',[MerchandiseController::class,'updateMerchandises']);
+
 });

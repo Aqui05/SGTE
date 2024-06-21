@@ -98,5 +98,32 @@ class MerchandiseController extends Controller
         return new MerchandiseResource($merchandise);
     }
 
+    public function updateMerchandises(Request $request, $expeditionId)
+    {
+        // Valider les données de la requête
+        $validatedData = $request->validate([
+            'merchandiseIds' => 'required|array',
+            'merchandiseIds.*' => 'integer|exists:merchandises,id',
+        ]);
+
+        // Récupérer les IDs des marchandises à mettre à jour
+        $merchandiseIds = $validatedData['merchandiseIds'];
+
+        // Mettre à jour les marchandises avec le nouvel ID d'expédition
+        Merchandise::whereIn('id', $merchandiseIds)->update(['expedition_id' => $expeditionId]);
+
+        return response()->json(['message' => 'Marchandises mises à jour avec succès!'], 200);
+    }
+
+
+    // récupérer les marchandises selon le lieu de départ et d'arrivée
+
+    public function merchandiseDeAr(Request $request, $depart, $destination)
+    {
+        $merchandises = Merchandise::where('destination', $destination)
+                                        ->where('depart', $depart)
+                                        ->get();
+        return MerchandiseResource::collection($merchandises);
+    }
 
 }
