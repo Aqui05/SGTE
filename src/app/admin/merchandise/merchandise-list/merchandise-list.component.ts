@@ -57,7 +57,7 @@ export class MerchandiseListComponent implements OnInit {
   }
 
   shipped(id: number): void {
-    this.router.navigate([`admin/merchandise/details/${id}`]);
+    this.router.navigate([`admin/merchandise/send/${id}`]);
   }
 
 

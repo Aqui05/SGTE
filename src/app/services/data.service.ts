@@ -242,6 +242,11 @@ export class DataService {
     return this.http.get(`${this.apiUrl}/merchandises/list`);
   }
 
+  getMerchandisesDeAr(depart: string, destination: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get/merchandises/${depart}/${destination}`);
+  }
+
+
 
   /*
     * Expeditions Services
@@ -259,6 +264,11 @@ export class DataService {
     return this.http.post(`${this.apiUrl}/expedition`, expedition);
   }
 
+  updateMerchandiseExpedition(expeditionId: number, merchandiseIds: number[]): Observable<any> {
+    return this.http.put(`${this.apiUrl}/expeditions/${expeditionId}/merchandises`, { merchandiseIds });
+  }
+
+
   updateExpedition(id: number, expedition: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/expedition/${id}`, expedition);
   }
@@ -269,6 +279,10 @@ export class DataService {
 
   getExpeditionsList(): Observable<any> {
     return this.http.get(`${this.apiUrl}/expeditions/list`);
+  }
+
+  getExpeditionsDeAr(depart: string, destination: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get/expeditions/${depart}/${destination}`);
   }
 
 

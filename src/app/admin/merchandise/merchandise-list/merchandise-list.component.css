@@ -1,0 +1,5 @@
+.canceled-row {
+    background-color: #f5f5f5;
+    pointer-events: none; /* Désactiver les événements sur la ligne */
+    opacity: 0.6;
+}
