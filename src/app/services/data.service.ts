@@ -213,7 +213,7 @@ export class DataService {
   */
 
   getMerchandises(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/merchandise`);
+    return this.http.get(`${this.apiUrl}/merchandises`);
   }
 
   getMerchandise(id: number): Observable<any> {
@@ -290,5 +290,29 @@ export class DataService {
 
   getUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/users`);
+  }
+
+
+
+  //Search service
+
+  search(query: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/search`, { params: { query } });
+  }
+
+
+
+
+
+
+
+  //User Dashboard Info
+
+  getUserExpeditions(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/expeditions/user/list`);
+  }
+
+  getUserTransports(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/transports/user/list`);
   }
 }

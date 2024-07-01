@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DataService } from './services/data.service';
 import { error } from 'jquery';
+import { PageTitleService } from 'src/app/services/title-service.service';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,6 @@ import { error } from 'jquery';
 })
 export class AppComponent {
   title = 'root';
+
+  pageTitleService : PageTitleService= inject(PageTitleService);
 }

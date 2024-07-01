@@ -65,13 +65,16 @@ nz-content {
   flex: 1;
   overflow-y: auto;
   transition: margin-left 0.3s;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
 }
 
 nz-header {
   padding: 0;
   z-index: 2;
   position: relative;
-  background: #fff;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   transition: left 0.3s, width 0.3s;
 }
 
@@ -79,7 +82,6 @@ nz-header {
   display: flex;
   align-items: center;
   height: 64px;
-  background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
   justify-content: space-between;
 }
@@ -197,10 +199,6 @@ nz-footer {
   font-weight: 500;
 }
 
-.theme-toggle {
-  padding: 0;
-}
-
 .theme-icon {
   font-size: 30px;
 }
@@ -238,4 +236,16 @@ nz-footer {
 .nz-menu-item.active a,
 .nz-submenu-title.active a {
   color: #fff;
+}
+
+
+.theme-toggle svg {
+  transition: transform 0.3 ease-in-out;
+    cursor: pointer;
+}
+
+.theme-toggle svg:hover {
+  transform: scale(1.1);
+  transform: scale(1.1) rotate(10deg);
+  color: #1890ff;
 }

@@ -17,6 +17,10 @@ export class UserLayoutComponent implements OnInit {
   theme: 'light' | 'dark' = 'light';
   title: string;
 
+
+  query: string = '';
+  results: any = null;
+
   constructor(
     private dataService: DataService,
     private router: Router,
@@ -59,7 +63,7 @@ export class UserLayoutComponent implements OnInit {
     this.dataService.logout().subscribe(
       response => {
         console.log('Logout successful:', response);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
         this.dataService.clearToken()
       },
       error => {
@@ -70,5 +74,15 @@ export class UserLayoutComponent implements OnInit {
 
   profile(): void {
     this.router.navigate(['/profil']);
+  }
+
+
+
+  //search function
+  performSearch() {
+    this.dataService.search(this.query).subscribe(
+      data => this.results = data,
+      error => console.error(error)
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -10,6 +10,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class PageTitleService {
   private titleSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   titleChange: Observable<string> = this.titleSubject.asObservable();
+
+  darkModeSignal = signal<string>('null') ;
+  updateDarkMode() {
+    this.darkModeSignal.update((value) => (value === 'dark' ? "null" : 'dark'));
+  }
 
   constructor(
     private titleService: Title,

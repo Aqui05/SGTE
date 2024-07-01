@@ -34,6 +34,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MenuFoldOutline, MenuUnfoldOutline, BellOutline, SettingOutline, UserOutline } from '@ant-design/icons-angular/icons';
 
 
+import { MatIconDefaultOptions } from '@angular/material/icon';
 
 import { DataInterceptor } from './data.interceptor';
 import { CookieService } from 'ngx-cookie-service';
@@ -54,6 +55,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { IconsProviderModule } from './icons-provider.module';
 import { NZ_ICONS,  } from 'ng-zorro-antd/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
@@ -70,7 +72,6 @@ registerLocaleData(en);
     HomeComponent,
     ConfirmationComponent,
     ThreeSceneComponent,
-    ProfileComponent,
     EditProfileComponent,
     ReservationComponent,
     RouteComponent,
@@ -104,6 +105,7 @@ registerLocaleData(en);
 
     BrowserAnimationsModule,
     MatIconModule,
+    MatSlideToggleModule
 
 
   ],

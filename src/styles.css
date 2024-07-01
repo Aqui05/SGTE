@@ -28,3 +28,39 @@ body.dark-theme .ant-layout-header {
 body.dark-theme .ant-menu-dark.ant-menu-horizontal {
   background: #141414;
 }
+
+
+body.dark-theme .ant-menu-dark.ant-menu-horizontal .ant-menu-submenu-title {
+  color: #ffffff;
+}
+
+
+/* src/styles.scss */
+
+/* Default light theme styles */
+body[data-bs-theme='light'] {
+  --primary-color: #ffffff;
+  --secondary-color: #f8f9fa;
+  --text-color: #212529;
+  /* Ajoutez d'autres variables de style nécessaires pour le thème clair */
+}
+
+/* Dark theme styles */
+body[data-bs-theme='dark'] {
+  --primary-color: #343a40;
+  --secondary-color: #495057;
+  --text-color: #f8f9fa;
+  /* Ajoutez d'autres variables de style nécessaires pour le thème sombre */
+}
+
+/* Utilisez ces variables dans vos styles */
+body {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.app-header {
+  background-color: var(--secondary-color);
+}
+
+/* Vous pouvez ajouter d'autres règles de style pour les autres composants */

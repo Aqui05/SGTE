@@ -18,14 +18,18 @@ export class AdminLayoutComponent {
   theme: 'light' | 'dark' = 'light';
   title: string;
 
+  query: string = '';
+  results: any = null;
+
+
+
   constructor(
     private dataService: DataService,
     private router: Router,
-    private pageTitleService: PageTitleService
+    public pageTitleService: PageTitleService
   ) {
     this.title = this.pageTitleService.getTitle();
   }
-
   ngOnInit(): void {
     this.pageTitleService.titleChange.subscribe(title => {
       this.title = title;
@@ -51,16 +55,20 @@ export class AdminLayoutComponent {
       }
     );
   }
-
   toggleTheme(): void {
     this.theme = this.theme === 'light' ? 'dark' : 'light';
+    document.body.classList.toggle('dark-theme', this.theme === 'dark');
+  }
+
+  darkTheme(): void {
+    this.pageTitleService.updateDarkMode();
   }
 
   logout(): void {
     this.dataService.logout().subscribe(
       response => {
         console.log('Logout successful:', response);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
         this.dataService.clearToken()
       },
       error => {
@@ -72,5 +80,13 @@ export class AdminLayoutComponent {
   profile(): void {
     this.router.navigate(['/profil']);
   }
+
+    //search function
+    performSearch() {
+      this.dataService.search(this.query).subscribe(
+        data => this.results = data,
+        error => console.error(error)
+      );
+    }
 
 }

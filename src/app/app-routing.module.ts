@@ -24,7 +24,6 @@ const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'auth/confirmation', component: ConfirmationComponent },
-      { path: 'profil', component: ProfileComponent, data: { title: 'Profil Utilisateur' } },
       { path: 'forbidden', component: ForbiddenComponent },
       { path: 'not-found', component: NotFoundComponent },
       { path: 'internal-server-error', component: InternalServerErrorComponent },
@@ -38,6 +37,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' }  },
+      { path: 'profile', component: ProfileComponent, data: { title: 'Profil' }  },
       { path: 'transport', loadChildren: () => import('./admin/transport/transport.module').then(m => m.TransportModule) },
       { path: 'vehicle', loadChildren: () => import('./admin/vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'expedition', loadChildren: () => import('./admin/expedition/expedition.module').then(m => m.ExpeditionModule) },
@@ -51,7 +51,11 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'accueil', pathMatch: 'full' },
       { path: 'accueil', component: AcceuilComponent, data: { title: 'Dashboard' } },
-      { path: 'reservation', loadChildren: () => import('./user/reservation/reservation.module').then(m => m.ReservationModule) }
+      { path: 'profile', component: ProfileComponent, data: { title: 'Profil' }  },
+      { path: 'reservation', loadChildren: () => import('./user/reservation/reservation.module').then(m => m.ReservationModule) },
+      { path: 'transport', loadChildren: () => import('./user/transport/transport.module').then(m => m.TransportModule)},
+      { path: 'expedition', loadChildren: () => import('./user/expedition/expedition.module').then(m => m.ExpeditionModule) },
+      { path: 'merchandise', loadChildren: () => import('./user/merchandise/merchandise.module').then(m => m.MerchandiseModule) },
     ]
   },
   { path: '**', redirectTo: 'not-found' }
