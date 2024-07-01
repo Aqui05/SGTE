@@ -134,8 +134,10 @@ class ReservationController extends Controller
         return new ReservationResource($reservation);
     }
 
-    public function index($userId)
+    public function index(Request $request)
     {
+        $userId = Auth::id();
+
         $reservations = Reservation::where('user_id', $userId)->get();
         return ReservationResource::collection($reservations);
     }

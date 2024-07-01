@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\ExpeditionResource;
 use App\Models\Expedition;
+use Illuminate\Support\Facades\Auth;
 
 class ExpeditionController extends Controller
 {
@@ -81,11 +82,28 @@ class ExpeditionController extends Controller
 
 
 
+
+    // récupérer les marchandises selon le lieu de départ et d'arrivée
+
     public function expeditionDeAr(Request $request, $depart, $destination)
     {
-        expeditions = Merchandise::where('destination', $destination)
-                                        ->where('origin', $depart)
-                                        ->get();
+        $expeditions = Expedition::where('destination', $destination)
+                                    ->where('origin', $depart)
+                                    ->get();
         return ExpeditionResource::collection($expeditions);
+    }
+
+
+
+    public function UserExpeditions(Request $request)
+    {
+        $userId = Auth::id();
+
+        // Récupérer les expeditions basés sur les marchandises de l'utilisateur
+        $expeditions = Expedition::whereHas('merchandises', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+
+        return new ExpeditionResource($expeditions);
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\API\TransportController;
 use App\Http\Controllers\API\ReservationController;
 use App\Http\Controllers\API\ExpeditionController;
 use App\Http\Controllers\API\MerchandiseController;
+use App\Http\Controllers\API\FunctionController;
 use App\Models\Expedition;
 
 Route::post('/login',[AuthController::class,'login'])->name('login');
@@ -25,7 +26,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-Route::group([], function() {
+Route::group(['auth:api'], function() {
 
     Route::get('/transport/{id}',[TransportController::class,'show']);
     Route::get('/transport/sortBy/{query}',[TransportController::class,'sortBy']);
@@ -35,7 +36,6 @@ Route::group([], function() {
     Route::get('/vehicle/{id}',[VehicleController::class,'show']);
     Route::get('/vehicle/sortBy/{info}',[VehicleController::class,'sortBy']);
     Route::get('/vehicle/search/{info}/{value}',[VehicleController::class,'search']);
-
 
     Route::post('/reservation/{TransportId}',[ReservationController::class,'store']);
     Route::get('/reservations',[ReservationController::class,'index']);
@@ -60,6 +60,17 @@ Route::group([], function() {
     Route::get('/merchandise/{id}',[MerchandiseController::class,'show']);
     Route::put('/merchandise/{id}',[MerchandiseController::class,'update']);
     Route::delete('/merchandise/{id}',[MerchandiseController::class,'destroy']);
+
+
+
+
+    Route::get('/transports/user/list',[TransportController::class,'UserTransports']);
+
+    Route::get('expeditions/user/list',[ExpeditionController::class,'UserExpeditions']);
+
+    //Pour les fonctions subsidiaires.
+
+    Route::get('/search', [FunctionController::class, 'search']);
 });
 
 Route::group(['middleware' => ['auth:api', 'is_admin']], function () {

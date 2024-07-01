@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use App\Jobs\UpdateVehicleAvailability;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
 
 class TransportController extends Controller
 {
@@ -141,6 +143,21 @@ class TransportController extends Controller
     public function search ($info)
     {
         $transports = Transport::where('numero_transport', 'like', '%'. $info. '%');
+        return new TransportResource($transports);
+    }
+
+
+    // list des transports effectués par un utilisateur :: on utilisera la table réservation.
+
+    public function UserTransports(Request $request)
+    {
+        $userId = Auth::id();
+
+        // Récupérer les transports basés sur les réservations de l'utilisateur
+        $transports = Transport::whereHas('reservations', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+
         return new TransportResource($transports);
     }
 
