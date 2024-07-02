@@ -122,7 +122,7 @@ export class DashboardComponent implements OnInit {
       confirmed: 0,
       inProgress: 0,
       finished: 0,
-      canceled: 0
+      cancelled: 0
     };
 
     this.Transport.forEach(transport => {
@@ -138,14 +138,14 @@ export class DashboardComponent implements OnInit {
     const statusCounts = this.countTransportStatus();
 
     const data = {
-      labels: ['Confirmed', 'In Progress', 'Finished', 'Canceled'],
+      labels: ['Confirmed', 'In Progress', 'Finished', 'Cancelled'],
       datasets: [{
         label: 'Transport',
         data: [
           statusCounts['confirmed'],
           statusCounts['inProgress'],
           statusCounts['finished'],
-          statusCounts['canceled']
+          statusCounts['cancelled']
         ],
         backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336']
       }]
@@ -174,7 +174,7 @@ export class DashboardComponent implements OnInit {
   countExpeditionStatus(): { [key: string]: number } {
     const statusCounts: { [key: string]: number } = {
       confirmé: 0,
-      enTransit: 0,
+      'en transit': 0,
       annulé: 0,
       delivré: 0,
       planification: 0
@@ -199,11 +199,11 @@ export class DashboardComponent implements OnInit {
         data: [
           statusCounts['confirmé'],
           statusCounts['planification'],
-          statusCounts['enTransit'],
+          statusCounts['en transit'],
           statusCounts['delivré'],
           statusCounts['annulé'],
         ],
-        backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336', '#f5e332']
+        backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f5e332', '#f44336',]
       }]
     };
 
@@ -351,9 +351,9 @@ export class DashboardComponent implements OnInit {
   countReservationStatus(): { [key: string]: number } {
     const statusCounts: { [key: string]: number } = {
       confirmed: 0,
-      inProgress: 0,
-      finished: 0,
-      canceled: 0
+      used: 0,
+      delayed: 0,
+      cancelled: 0
     };
 
     this.Reservation.forEach(reservation => {
@@ -369,14 +369,14 @@ export class DashboardComponent implements OnInit {
     const statusCounts = this.countReservationStatus();
 
     const data = {
-      labels: ['Confirmed', 'Used', 'Delayed', 'Canceled'],
+      labels: ['Confirmed', 'used', 'delayed', 'cancelled'],
       datasets: [{
-        label: 'Transport',
+        label: 'Reservation Status',
         data: [
           statusCounts['confirmed'],
-          statusCounts['Used'],
-          statusCounts['Delayed'],
-          statusCounts['canceled']
+          statusCounts['used'],
+          statusCounts['delayed'],
+          statusCounts['cancelled']
         ],
         backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336']
       }]

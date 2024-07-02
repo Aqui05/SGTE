@@ -50,7 +50,7 @@ export class AcceuilComponent implements OnInit{
     InfoMerchandise(): void {
       this.dataService.getMerchandises().subscribe(
         (response) => {
-          this.Merchandise = response;
+          this.Merchandise = response.data;
           console.log('Merchandise:', response)
           this.InfoCard()
         },
