@@ -19,7 +19,7 @@ class Reservation extends Model
         'destination_waypoint',
         'additional_info',
         'departure_waypoint',
-        'ticket_lien'
+        //'ticket_lien'
 
     ];
 
