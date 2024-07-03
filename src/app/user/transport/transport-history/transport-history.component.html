@@ -1,16 +1,7 @@
-<p></p>
-<!--
-'transport_id',
-'user_id',
-'reservation_datetime',
-'number_of_seats',
-'total_price',
-'status',
-'destination_waypoint',
-'additional_info',
-'departure_waypoint', -->
 
-<nz-table #basicTable [nzData]="Reservation">
+<br>
+
+<nz-table #basicTable [nzData]="Transport">
   <thead>
     <tr>
       <th>ID Transport</th>
@@ -24,7 +15,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of basicTable.data" [ngClass]="{'canceled-row': data.status === 'canceled'}">
-      <td>{{ data. reservation_datetime}}</td>
+      <td>{{ data.numero_transport }}</td>
       <td>{{ data.type }}</td>
       <td>{{ data.departure_location && data.departure_time }}</td>
       <td>{{ data.destination_location && data.arrival_time }}</td>
@@ -33,9 +24,6 @@
       <td>
         <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'canceled'">Détails</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="default" (click)="editReservation(data.id)" [disabled]="data.status === 'canceled'">Modifier</button>
-        <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" nzDanger (click)="deleteReservation(data.id)" [disabled]="data.status === 'canceled'">Supprimer</button>
       </td>
     </tr>
   </tbody>

@@ -5,13 +5,15 @@ import { MerchandiseRoutingModule } from './merchandise-routing.module';
 import { MerchandiseListComponent } from './merchandise-list/merchandise-list.component';
 import { MerchandiseAddComponent } from './merchandise-add/merchandise-add.component';
 import { MerchandiseEditComponent } from './merchandise-edit/merchandise-edit.component';
+import { MerchandiseDetailsComponent } from './merchandise-details/merchandise-details.component';
 
 
 @NgModule({
   declarations: [
     MerchandiseListComponent,
     MerchandiseAddComponent,
-    MerchandiseEditComponent
+    MerchandiseEditComponent,
+    MerchandiseDetailsComponent
   ],
   imports: [
     CommonModule,

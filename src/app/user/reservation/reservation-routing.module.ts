@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReservationListComponent } from './reservation-list/reservation-list.component';
 import { ReservationEditComponent } from './reservation-edit/reservation-edit.component';
 import { ReservationAddComponent } from './reservation-add/reservation-add.component';
+import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 
 const routes: Routes = [
-  { path: '', component: ReservationListComponent },
-  { path: 'create', component: ReservationAddComponent },
-  { path: 'edit/:id', component: ReservationEditComponent },
+  { path: 'list', component: ReservationListComponent ,data: { title: 'Liste des réservations' } },
+  { path: 'add', component: ReservationAddComponent,data: { title: 'Faire une Reservation' } },
+  { path: 'edit/:id', component: ReservationEditComponent,data: { title: 'Modifier une Reservation' }  },
+  { path: 'details/:id', component: ReservationDetailsComponent,data: { title: 'Modifier une Reservation' }  },
 ];
 
 @NgModule({

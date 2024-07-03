@@ -1,0 +1,19 @@
+.status-confirmed {
+  color: #52c41a; /* green */
+}
+
+.status-in-progress {
+  color: #1890ff; /* blue */
+}
+
+.status-finished {
+  color: #d9d9d9; /* grey */
+}
+
+.status-cancelled {
+  color: #ff4d4f; /* red */
+}
+
+.status-default {
+  color: #d9d9d9; /* default grey */
+}

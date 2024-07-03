@@ -7,13 +7,15 @@ import { ReservationEditComponent } from './reservation-edit/reservation-edit.co
 import { ReservationAddComponent } from './reservation-add/reservation-add.component';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 
 
 @NgModule({
   declarations: [
     ReservationListComponent,
     ReservationEditComponent,
-    ReservationAddComponent
+    ReservationAddComponent,
+    ReservationDetailsComponent
   ],
   imports: [
     CommonModule,

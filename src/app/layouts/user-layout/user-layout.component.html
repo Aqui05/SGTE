@@ -15,7 +15,7 @@
 
 <div *ngIf="!isAdmin">
   <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-    <li nz-menu-item [routerLink]="['/user/acceuil']" routerLinkActive="active">
+    <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
       <span nz-icon nzType="dashboard"></span>
       <span>Dashboard</span>
     </li>
@@ -33,8 +33,8 @@
     </li>
     <li nz-submenu nzTitle="Marchandise" nzIcon="car">
       <ul>
-        <li nz-menu-item [routerLink]="['/user/merchandises/list']" routerLinkActive="active">Liste des marchandises</li>
-        <li nz-menu-item [routerLink]="['/user/merchandises/add']" routerLinkActive="active">Enregistrer une marchandise</li>
+        <li nz-menu-item [routerLink]="['/user/merchandise/list']" routerLinkActive="active">Liste des marchandises</li>
+        <li nz-menu-item [routerLink]="['/user/merchandise/add']" routerLinkActive="active">Enregistrer une marchandise</li>
       </ul>
     </li>
     <li nz-submenu nzTitle="Expedition" nzIcon="car">

@@ -1,0 +1,27 @@
+
+<div class="search-container">
+  <nz-input-group nzSuffixIcon="search">
+    <input [(ngModel)]="searchQuery" (ngModelChange)="filterTransports()" type="text" nz-input placeholder="Search Transports...">
+  </nz-input-group>
+</div>
+
+<div nz-row nzGutter="16" *ngIf="filteredTransports.length > 0; else noData">
+  <div nz-col nzSpan="8" *ngFor="let transport of filteredTransports">
+    <nz-card [nzTitle]="'Transport ' + transport.numero_transport">
+      <p>Type: {{ transport.type }}</p>
+      <p>Departure: {{ transport.departure_location }}</p>
+      <p>Destination: {{ transport.destination_location }}</p>
+      <p>Departure Time: {{ transport.departure_time | date:'short' }}</p>
+      <p>Arrival Time: {{ transport.arrival_time | date:'short' }}</p>
+      <p>Price: {{ transport.price | currency }}</p>
+      <p>Seats: {{ transport.seats }}</p>
+      <p>Status: {{ transport.status }}</p>
+    </nz-card>
+  </div>
+</div>
+
+<ng-template #noData>
+  <div class="no-data">
+    <p>No transports available.</p>
+  </div>
+</ng-template>

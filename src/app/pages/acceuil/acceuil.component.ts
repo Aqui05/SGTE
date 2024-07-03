@@ -411,7 +411,7 @@ export class AcceuilComponent implements OnInit{
             change: `${expeditionChange >= 0 ? '+' : '-'}${Math.abs(expeditionChange)}%`,
             changeType: expeditionChange >= 0 ? "success" : "danger",
             comparison: "yesterday",
-            icon: "local_shipping", // Icone mise à jour pour les expéditions
+            icon: "local_shipping",
             color: "info"
           },
           {
@@ -420,12 +420,12 @@ export class AcceuilComponent implements OnInit{
             change: `${merchandiseChange >= 0 ? '+' : '-'}${Math.abs(merchandiseChange)}%`,
             changeType: merchandiseChange >= 0 ? "success" : "danger",
             comparison: "yesterday",
-            icon: "inventory_2", // Icone représentative pour les marchandises
+            icon: "inventory_2",
             color: "dark"
           },
           {
             title: "Livraisons Complétées",
-            value: this.CompletedDelivery.length, // Supposons que this.CompletedDeliveries est un tableau de livraisons complétées
+            value: this.CompletedDelivery.length,
             change: `${deliveryChange >= 0 ? '+' : '-'}${Math.abs(deliveryChange)}%`,
             changeType: deliveryChange >= 0 ? "success" : "danger",
             comparison: "last month",
