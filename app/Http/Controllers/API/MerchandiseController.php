@@ -24,7 +24,7 @@ class MerchandiseController extends Controller
 {
     public function index()
     {
-        $userId = auth()->id();
+        $userId = Auth::id();
         $merchandises = Merchandise::where('user_id', $userId)->get();
         return MerchandiseResource::collection($merchandises);
     }

@@ -143,6 +143,7 @@ class ReservationController extends Controller
     }
 
 
+
     public function ticket($reservationId)
     {
         $reservation = Reservation::findOrFail($reservationId);
