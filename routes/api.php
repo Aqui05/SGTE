@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/transport/{id}',[TransportController::class,'show']);
     Route::get('/transport/sortBy/{query}',[TransportController::class,'sortBy']);
     Route::get('/transport/search/{info}',[TransportController::class,'search']);
+    Route::get('/transports',[TransportController::class,'index']);
 
 
     Route::get('/vehicle/{id}',[VehicleController::class,'show']);
@@ -93,7 +94,6 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
 
     Route::put('/transport/{id}',[TransportController::class,'update']);
     Route::put('/transport/{id}',[TransportController::class,'destroy']);
-    Route::get('/transports',[TransportController::class,'index']);
 
     Route::get('users',[AuthController::class,'users'])->name('usersList');
 
