@@ -1,1 +1,38 @@
-<p>merchandise-list works!</p>
+
+<br><p></p>
+
+<nz-table #basicTable [nzData]="getFilteredMerchandises()">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Quantité</th>
+      <th>Poids</th>
+      <th>Volume</th>
+      <th>Categorie</th>
+      <th>depart</th>
+      <th>destination</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.name }}</td>
+      <td>{{ data.quantity }}</td>
+      <td>{{ data.weight }}</td>
+      <td>{{ data.volume }}</td>
+      <td>{{ data.category }}</td>
+      <td>{{ data.depart }}</td>
+      <td>{{ data.destination }}</td>
+      <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+      <td>
+        <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'en transit'">Détails</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="default" (click)="shipped(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification'">Expédier</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit'">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

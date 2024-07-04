@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ExpeditionRoutingModule } from './expedition-routing.module';
 import { ExpeditionHistoryComponent } from './expedition-history/expedition-history.component';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ExpeditionHistoryComponent } from './expedition-history/expedition-hist
   ],
   imports: [
     CommonModule,
-    ExpeditionRoutingModule
+    ExpeditionRoutingModule,
+    DemoNgZorroAntdModule
   ]
 })
 export class ExpeditionModule { }

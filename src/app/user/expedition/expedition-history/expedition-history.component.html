@@ -1,1 +1,32 @@
-<p>expedition-history works!</p>
+
+<br><p></p>
+
+<nz-table #basicTable [nzData]="getFilteredExpeditions()">
+  <thead>
+    <tr>
+      <th>Numéro</th>
+      <th>Type</th>
+      <th>depart</th>
+      <th>destination</th>
+      <th>date départ</th>
+      <th>date livraison prévu</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.expedition_number }}</td>
+      <td>{{ data.type }}</td>
+      <td>{{ data.origin }}</td>
+      <td>{{ data.destination }}</td>
+      <td>{{ data.date_expedition }}</td>
+      <td>{{ data.date_livraison_prevue }}</td>
+      <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+      <td>
+        <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'en transit'">Détails</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

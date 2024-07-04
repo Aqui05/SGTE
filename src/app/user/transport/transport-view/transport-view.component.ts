@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -12,10 +13,18 @@ export class TransportViewComponent implements OnInit {
   searchQuery: string = '';
   transports: any[] = [];
 
-  constructor(private dataService: DataService) {}
+
+
+  departureLocation = '';
+  arrivalLocation = '';
+  departureTime: Date | null = null;
+  arrivalTime: Date | null = null;
+
+  constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadTransports();
+    this.filterTransports();
   }
 
   loadTransports(): void {
@@ -33,16 +42,19 @@ export class TransportViewComponent implements OnInit {
     );
   }
 
+
   filterTransports(): void {
-    if (!this.searchQuery) {
-      this.filteredTransports = this.transports;
-    } else {
-      this.filteredTransports = this.transports.filter(transport =>
-        transport.numero_transport.includes(this.searchQuery) ||
-        transport.type.includes(this.searchQuery) ||
-        transport.departure_location.includes(this.searchQuery) ||
-        transport.destination_location.includes(this.searchQuery)
-      );
-    }
+    this.filteredTransports = this.transports.filter(transport =>
+      (!this.departureLocation || transport.departure_location.toLowerCase().includes(this.departureLocation.toLowerCase())) &&
+      (!this.arrivalLocation || transport.destination_location.toLowerCase().includes(this.arrivalLocation.toLowerCase())) &&
+      (!this.departureTime || new Date(transport.departure_time).toLocaleString().includes(this.departureTime.toLocaleString())) &&
+      (!this.arrivalTime || new Date(transport.arrival_time).toLocaleString().includes(this.arrivalTime.toLocaleString()))
+    );
   }
+
+
+  reservation(transport: any): void {
+    this.router.navigate(['user/reservation/add'], { queryParams: { transportId: transport.id } });
+  }
+
 }

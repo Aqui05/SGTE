@@ -1,12 +1,8 @@
+<!--
 
-<div class="search-container">
-  <nz-input-group nzSuffixIcon="search">
-    <input [(ngModel)]="searchQuery" (ngModelChange)="filterTransports()" type="text" nz-input placeholder="Search Transports...">
-  </nz-input-group>
-</div>
 
 <div nz-row nzGutter="16" *ngIf="filteredTransports.length > 0; else noData">
-  <div nz-col nzSpan="8" *ngFor="let transport of filteredTransports">
+  <div nz-col nzSpan="8" *ngFor="let ">
     <nz-card [nzTitle]="'Transport ' + transport.numero_transport">
       <p>Type: {{ transport.type }}</p>
       <p>Departure: {{ transport.departure_location }}</p>
@@ -20,8 +16,79 @@
   </div>
 </div>
 
-<ng-template #noData>
-  <div class="no-data">
-    <p>No transports available.</p>
+-->
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <nz-input-group nzPrefixIcon="environment">
+        <input [(ngModel)]="departureLocation" (ngModelChange)="filterTransports()" type="text" nz-input placeholder="Lieu de départ">
+      </nz-input-group>
+    </div>
+    <div class="col-md-3">
+      <nz-input-group nzPrefixIcon="environment">
+        <input [(ngModel)]="arrivalLocation" (ngModelChange)="filterTransports()" type="text" nz-input placeholder="Lieu d'arrivée">
+      </nz-input-group>
+    </div>
+    <div class="col-md-3">
+      <nz-date-picker [(ngModel)]="departureTime" (ngModelChange)="filterTransports()" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" nzPlaceHolder="Heure de départ"></nz-date-picker>
+    </div>
+    <div class="col-md-3">
+      <nz-date-picker [(ngModel)]="arrivalTime" (ngModelChange)="filterTransports()" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" nzPlaceHolder="Heure d'arrivée"></nz-date-picker>
+    </div>
   </div>
-</ng-template>
+
+  <div class="row">
+    <div class="col-xl-4 col-md-6 col-sm-12 mb-4" *ngFor="let transport of filteredTransports">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div [ngClass]="{
+                'bg-gradient-info': transport.type === 'aérien',
+                'bg-warning p-2 text-white': transport.type === 'routier',
+                'bg-gradient-success': transport.type === 'ferroviaire',
+                'bg-gradient-dark': transport.type === 'maritime'
+              }"
+              class="icon icon-lg icon-shape shadow-{{transport.type | lowercase}} text-center border-radius-xl mt-n4 position-absolute">
+            <i class="material-icons opacity-10">
+              {{
+                transport.type === 'aérien' ? 'flight_takeoff' :
+                transport.type === 'routier' ? 'directions_bus' :
+                transport.type === 'ferroviaire' ? 'train' :
+                transport.type === 'maritime' ? 'directions_boat' :
+                'local_shipping'
+              }}
+            </i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize">Transport {{transport.numero_transport}}</p>
+            <br>
+            <div class="d-flex justify-content-between">
+              <h4 class="mb-0">{{transport.departure_location}}</h4>
+              -
+              <h4 class="mb-0">{{transport.destination_location}}</h4>
+            </div>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">Départ: {{ transport.departure_time | date:'short' }}</p>
+            <p class="mb-0">Arrivée: {{ transport.arrival_time | date:'short' }}</p>
+          </div>
+          <p class="mb-0">Type: {{ transport.type }}</p>
+          <p class="mb-0">Price: {{ transport.price | currency }}</p>
+          <p class="mb-0">Seats: {{ transport.seats }}</p>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+          <button (click)="reservation(transport)" nz-button nzType="primary" [disabled]="transport.seats === 0">Réserver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <div class="no-data">
+      <p>No transports available.</p>
+    </div>
+  </ng-template>
+</div>

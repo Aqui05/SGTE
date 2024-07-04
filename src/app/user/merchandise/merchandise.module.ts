@@ -7,17 +7,23 @@ import { MerchandiseAddComponent } from './merchandise-add/merchandise-add.compo
 import { MerchandiseEditComponent } from './merchandise-edit/merchandise-edit.component';
 import { MerchandiseDetailsComponent } from './merchandise-details/merchandise-details.component';
 
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
+
 
 @NgModule({
   declarations: [
     MerchandiseListComponent,
     MerchandiseAddComponent,
     MerchandiseEditComponent,
-    MerchandiseDetailsComponent
+    MerchandiseDetailsComponent,
   ],
   imports: [
     CommonModule,
-    MerchandiseRoutingModule
+    MerchandiseRoutingModule,
+    DemoNgZorroAntdModule,
+    ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class MerchandiseModule { }
