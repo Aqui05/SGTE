@@ -21,6 +21,7 @@ export class MerchandiseAddComponent implements OnInit {
     this.merchandiseForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      category: [''],
       quantity: [0, [Validators.required, Validators.min(1)]],
       weight: [0, [Validators.required, Validators.min(0)]],
       volume: [0, [Validators.required, Validators.min(0)]],
@@ -58,7 +59,7 @@ export class MerchandiseAddComponent implements OnInit {
         this.dataService.addMerchandise(merchandiseData).subscribe(
           response => {
             console.log('Merchandise has been added successfully:', response);
-            this.router.navigate(['/merchandises']);
+            this.router.navigate(['/user/merchandise/list']);
           },
           error => {
             console.error('Error adding merchandise:', error);
