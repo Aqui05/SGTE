@@ -38,24 +38,32 @@ class MerchandiseController extends Controller
 
     public function store(Request $request)
     {
-        $userId = auth()->id();
+        $userId = Auth::id();
+
+        // Valider les données du formulaire
         $validatedData = $request->validate([
-            'expedition_id' => 'exists:expeditions,id',
-            'user_id' => $userId,
-            'name' => 'string',
+            //'expedition_id' => 'exists:expeditions,id',
+            'name' => 'required|string', // Ajoutez 'required' si ce champ est obligatoire
             'description' => 'nullable|string',
-            'quantity' => 'integer|min:1',
-            'weight' => 'numeric|min:0',
-            'volume' => 'numeric|min:0',
+            'quantity' => 'nullable|integer|min:1',
+            'weight' => 'nullable|numeric|min:0',
+            'volume' => 'nullable|numeric|min:0',
+            'category' => 'nullable|string', // Ajoutez 'string' si ce champ est une chaîne de caractères
             'numero_suivi' => 'nullable|string',
             'depart' => 'required|string',
             'destination' => 'required|string',
         ]);
 
+        // Ajouter user_id aux données validées
+        $validatedData['user_id'] = $userId;
+
+        // Créer une nouvelle marchandise avec les données validées
         $merchandise = Merchandise::create($validatedData);
 
+        // Retourner la ressource de la marchandise nouvellement créée
         return new MerchandiseResource($merchandise);
     }
+
 
     public function show($id)
     {
