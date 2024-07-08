@@ -16,19 +16,6 @@ class TransportFactory extends Factory
      */
     public function definition(): array
     {
-        /**
-         *         'vehicle_id',
-        'route_id',
-        'numero_transport',
-        'type',
-        'departure_location',
-        'destination_location',
-        'departure_time',
-        'arrival_time',
-        'price',
-        'seats',
-        'status',
-         */
         return [
             'vehicle_id' => \App\Models\Vehicle::factory(),
             'numero_transport' => $this->faker->unique()->bothify('??-####'),

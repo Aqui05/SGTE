@@ -15,6 +15,7 @@ class Merchandise extends Model
         'name',
         'description',
         'quantity',
+        'category',
         'weight',
         'volume',
         'numero_suivi',
