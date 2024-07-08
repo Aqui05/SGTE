@@ -43,7 +43,7 @@ export class AcceuilComponent implements OnInit{
           this.InfoCard()
         },
         (error) => {
-          console.error('Error fetching transports:', error);
+          console.error('Error fetching reservations:', error);
         }
       )
     }
@@ -57,7 +57,7 @@ export class AcceuilComponent implements OnInit{
           this.InfoCard()
         },
         (error) => {
-          console.error('Error fetching transports:', error);
+          console.error('Error fetching merchandises:', error);
         }
       )
     }
@@ -98,7 +98,7 @@ export class AcceuilComponent implements OnInit{
     countTransportStatus(): { [key: string]: number } {
       const statusCounts: { [key: string]: number } = {
         confirmed: 0,
-        inProgress: 0,
+        'in Progress': 0,
         finished: 0,
         cancelled: 0
       };
@@ -121,7 +121,7 @@ export class AcceuilComponent implements OnInit{
           label: 'Transport',
           data: [
             statusCounts['confirmed'],
-            statusCounts['inProgress'],
+            statusCounts['in Progress'],
             statusCounts['finished'],
             statusCounts['cancelled']
           ],
