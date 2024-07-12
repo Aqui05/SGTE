@@ -29,6 +29,7 @@ const routes: Routes = [
       { path: 'internal-server-error', component: InternalServerErrorComponent },
       { path: 'unavailable', component: ServiceUnavailableComponent },
       { path: 'unauthorized', component: UnauthorizedComponent },
+      { path: 'map/:id', component: MapComponent, data: { title: 'map' }  },
     ]
   },
   {
@@ -51,6 +52,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'accueil', pathMatch: 'full' },
       { path: 'accueil', component: AcceuilComponent, data: { title: 'Dashboard' } },
+      { path: 'map', component: MapComponent, data: { title: 'map' }  },
       { path: 'profile', component: ProfileComponent, data: { title: 'Profil' }  },
       { path: 'reservation', loadChildren: () => import('./user/reservation/reservation.module').then(m => m.ReservationModule) },
       { path: 'transport', loadChildren: () => import('./user/transport/transport.module').then(m => m.TransportModule)},

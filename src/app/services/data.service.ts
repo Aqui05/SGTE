@@ -302,10 +302,6 @@ export class DataService {
 
 
 
-
-
-
-
   //User Dashboard Info
 
   getUserExpeditions(): Observable<any> {
@@ -315,4 +311,38 @@ export class DataService {
   getUserTransports(): Observable<any> {
     return this.http.get(`${this.apiUrl}/transports/user/list`);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*POLYLINE WAYPOINT ROUTES */
+
+  getPolylines(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/route/${id}/polyline`);
+  }
+
+  getRoute(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/transport/${id}/route`);
+  }
+
 }
