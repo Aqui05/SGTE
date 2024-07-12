@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PolylineResource;
+use App\Http\Resources\RouteResource;
 use Illuminate\Http\Request;
 use App\Models\Transport;
 use App\Http\Resources\TransportResource;
@@ -160,5 +162,58 @@ class TransportController extends Controller
 
         return new TransportResource($transports);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function showRoute(Request $request, $id)
+    {
+        $transport = Transport::find($id);
+
+        if (!$transport) {
+            return response()->json(['error' => 'Transport not found'], 404);
+        }
+
+        $route = Route::find($transport->route_id);
+
+        if (!$route) {
+            return response()->json(['error' => 'Route not found'], 404);
+        }
+
+        return new RouteResource($route);
+    }
+
+
+    public function showPolyline($id)
+    {
+        $transport = Transport::find($id);
+
+        if (!$transport) {
+            return response()->json(['error' => 'Transport not found'], 404);
+        }
+
+        $route = Route::find($transport->route_id);
+
+        if (!$route) {
+            return response()->json(['error' => 'Route not found'], 404);
+        }
+
+        $polylines = Polyline::where('route_id', $route->id)->get();
+
+        return new PolylineResource($polylines);
+    }
+
 
 }

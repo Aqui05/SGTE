@@ -72,6 +72,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     //Pour les fonctions subsidiaires.
 
     Route::get('/search', [FunctionController::class, 'search']);
+
+
+
+
+    //Pour les routes / polylines
+    Route::get('/transport/{id}/route',[TransportController::class,'showRoute']);
+    Route::get('/route/{id}/polyline',[TransportController::class,'showPolyline']);
 });
 
 Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
