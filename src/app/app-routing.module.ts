@@ -43,7 +43,7 @@ const routes: Routes = [
       { path: 'vehicle', loadChildren: () => import('./admin/vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'expedition', loadChildren: () => import('./admin/expedition/expedition.module').then(m => m.ExpeditionModule) },
       { path: 'merchandise', loadChildren: () => import('./admin/merchandise/merchandise.module').then(m => m.MerchandiseModule) },
-
+      { path: 'map/:id', component: MapComponent, data: { title: 'map' }  },
     ]
   },
   {

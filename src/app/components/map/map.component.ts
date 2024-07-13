@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
+import 'leaflet-routing-machine';
 import { Feature, Geometry } from 'geojson';
 import { DataService } from 'src/app/services/data.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { error } from 'jquery';
 
 // Détails d'un point
 interface DataPoint {
@@ -28,13 +31,19 @@ export class MapComponent implements OnInit {
   private departmentCounts: { [key: string]: number } = {};
 
   TransportId!: number;
+  transport: any;
+  type!: string;
+
+  searchQuery: string = '';
+  private searchMarker: L.Marker | null = null;
 
   constructor(
     private msg: NzMessageService,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private http: HttpClient
   ) {
     // Transport id from the router
     this.TransportId = Number(this.route.snapshot.paramMap.get('id')!);
@@ -44,6 +53,8 @@ export class MapComponent implements OnInit {
     this.initMap();
     this.loadGeoJson();
     this.loadDataPoints();
+    this.loadRoutes();
+    this.findTransport();
   }
 
   private initMap(): void {
@@ -86,29 +97,11 @@ export class MapComponent implements OnInit {
   private loadDataPoints(): void {
     this.dataService.getPolylines(this.TransportId).subscribe({
       next: (response: any) => {
-        if (response.success && Array.isArray(response.data)) {
-          this.dataPoints = response.data.flatMap((polyline: any) => {
-            const startCoordinates = JSON.parse(polyline.start_coordinate).coordinates;
-            const endCoordinates = JSON.parse(polyline.end_coordinate).coordinates;
-
-            return [
-              {
-                latitude: startCoordinates[1],
-                longitude: startCoordinates[0],
-                name: `Start Point ${polyline.id}`,
-                description: `Distance: ${polyline.distance} km`,
-                id: polyline.id
-              },
-              {
-                latitude: endCoordinates[1],
-                longitude: endCoordinates[0],
-                name: `End Point ${polyline.id}`,
-                description: `Distance: ${polyline.distance} km`,
-                id: polyline.id
-              }
-            ];
-          });
-          this.addDataPointsToMap();
+        console.log(response);
+        if (Array.isArray(response)) {
+          this.processPolylines(response);
+        } else if (response.data && Array.isArray(response.data)) {
+          this.processPolylines(response.data);
         } else {
           console.error('Invalid response format from getPolylines():', response);
         }
@@ -119,6 +112,67 @@ export class MapComponent implements OnInit {
     });
   }
 
+  private loadRoutes(): void {
+    this.dataService.getRoute(this.TransportId).subscribe({
+      next: (response: any) => {
+        console.log(response.data);
+        const route = response.data;
+
+        if (route) {
+          const waypoints = [
+            L.latLng(route.start_latitude, route.start_longitude),
+            L.latLng(route.end_latitude, route.end_longitude)
+          ];
+
+          // Ajouter les waypoints intermédiaires si disponibles
+          if (route.route_waypoints) {
+            const waypointsData = JSON.parse(route.route_waypoints).coordinates;
+            for (const coord of waypointsData) {
+              waypoints.push(L.latLng(coord[1], coord[0]));
+            }
+          }
+
+          // Ajouter la route à la carte
+          L.Routing.control({
+            waypoints: waypoints,
+            routeWhileDragging: true
+          }).addTo(this.map);
+
+          // Zoomer sur la route
+          const bounds = L.latLngBounds(waypoints);
+          this.map.fitBounds(bounds);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching routes:', error);
+      }
+    });
+  }
+
+  private processPolylines(polylines: any[]): void {
+    this.dataPoints = polylines.flatMap((polyline: any) => {
+      const startCoordinates = JSON.parse(polyline.start_coordinate).coordinates;
+      const endCoordinates = JSON.parse(polyline.end_coordinate).coordinates;
+
+      return [
+        {
+          latitude: startCoordinates[1],
+          longitude: startCoordinates[0],
+          name: `Start Point ${polyline.id}`,
+          description: `Distance: ${polyline.distance} km`,
+          id: polyline.id
+        },
+        {
+          latitude: endCoordinates[1],
+          longitude: endCoordinates[0],
+          name: `End Point ${polyline.id}`,
+          description: `Distance: ${polyline.distance} km`,
+          id: polyline.id
+        }
+      ];
+    });
+    this.addDataPointsToMap();
+  }
 
   private addDataPointsToMap(): void {
     const markers = new L.MarkerClusterGroup();
@@ -127,82 +181,55 @@ export class MapComponent implements OnInit {
       const marker = L.marker([point.latitude, point.longitude]);
       marker.bindPopup(`<b>${point.name}</b><br>${point.description}`);
       markers.addLayer(marker);
-
-      this.updateDepartmentCount(point);
     });
 
     this.map.addLayer(markers);
-    this.addDepartmentLabels();
   }
 
-  private updateDepartmentCount(point: DataPoint): void {
-    this.map.eachLayer(layer => {
-      if (layer instanceof L.GeoJSON) {
-        const geoJsonLayer = layer as L.GeoJSON;
-        if (geoJsonLayer.feature && this.isPointInPolygon(L.latLng(point.latitude, point.longitude), geoJsonLayer)) {
-          if ('properties' in geoJsonLayer.feature && geoJsonLayer.feature.properties) {
-            const departmentName = geoJsonLayer.feature.properties.NAME_1;
-            this.departmentCounts[departmentName]++;
+  searchLocation(): void {
+    if (this.searchQuery.trim() !== '') {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}`;
+
+      this.http.get(url).subscribe({
+        next: (results: any) => {
+          if (results.length > 0) {
+            const { lat, lon } = results[0];
+            this.centerMapOnLocation(parseFloat(lat), parseFloat(lon));
+          } else {
+            this.msg.error('Aucun résultat trouvé pour cette recherche.');
           }
+        },
+        error: (error) => {
+          console.error('Erreur lors de la recherche :', error);
+          this.msg.error('Une erreur est survenue lors de la recherche.');
         }
-      }
-    });
+      });
+    }
   }
 
-  private addDepartmentLabels(): void {
-    this.map.eachLayer(layer => {
-      if (layer instanceof L.GeoJSON) {
-        const geoJsonLayer = layer as L.GeoJSON;
-        if (geoJsonLayer.feature && 'properties' in geoJsonLayer.feature && geoJsonLayer.feature.properties) {
-          const departmentName = geoJsonLayer.feature.properties.NAME_1;
-          const count = this.departmentCounts[departmentName];
-          if (count > 0 && 'geometry' in geoJsonLayer.feature && geoJsonLayer.feature.geometry) {
-            const centroid = this.getCentroid(geoJsonLayer.feature.geometry.coordinates as any);
-            L.marker(centroid, {
-              icon: L.divIcon({
-                className: 'label',
-                html: `<div style="background-color: rgba(255, 255, 255, 0.7); border-radius: 3px; padding: 2px;">${count}</div>`,
-                iconSize: [30, 30]
-              })
-            }).addTo(this.map);
-          }
-        }
-      }
-    });
-  }
+  private centerMapOnLocation(lat: number, lon: number): void {
+    this.map.setView([lat, lon], 13);
 
-  private getCentroid(coords: any): L.LatLngExpression {
-    if (coords.length === 2 && typeof coords[0] === 'number' && typeof coords[1] === 'number') {
-      // Point
-      return [coords[1], coords[0]];
-    } else if (coords.length >= 1 && Array.isArray(coords[0])) {
-      // Polygon ou LineString
-      let latSum = 0, lngSum = 0, numPoints = 0;
-      const processCoord = (coord: number[]) => {
-        if (coord.length === 2) {
-          latSum += coord[1];
-          lngSum += coord[0];
-          numPoints++;
-        }
-      };
-
-      if (Array.isArray(coords[0][0])) {
-        // Polygon
-        (coords as number[][][]).forEach(ring => ring.forEach(processCoord));
-      } else {
-        // LineString
-        (coords as number[][]).forEach(processCoord);
-      }
-
-      return numPoints > 0 ? [latSum / numPoints, lngSum / numPoints] : [0, 0];
+    if (this.searchMarker) {
+      this.map.removeLayer(this.searchMarker);
     }
 
-    console.error('Invalid coordinates format', coords);
-    return [0, 0]; // Retourner un point par défaut en cas d'erreur :: pour éviter des erreurs évidentes
+    this.searchMarker = L.marker([lat, lon]).addTo(this.map);
+    this.searchMarker.bindPopup(this.searchQuery).openPopup();
   }
 
-  private isPointInPolygon(point: L.LatLng, layer: L.GeoJSON): boolean {
-    const polygonBounds = layer.getBounds();
-    return polygonBounds.contains(point);
-  }
+
+
+  findTransport(): void {
+    this.dataService.getTransport(this.TransportId).subscribe(
+        (response: any) => {
+          console.log(response);
+          this.transport = response.data;
+          this.type = this.transport.type;
+        },
+        (error) => {
+          this.msg.error('Erreur lors de la récupération du transport.', error);
+        }
+      );
+    }
 }
