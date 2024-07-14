@@ -57,6 +57,11 @@ import { IconsProviderModule } from './icons-provider.module';
 import { NZ_ICONS,  } from 'ng-zorro-antd/icon';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
+
+
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+
 const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
 
@@ -105,7 +110,9 @@ registerLocaleData(en);
 
     BrowserAnimationsModule,
     MatIconModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    NzInputModule,
+    NzButtonModule,
 
 
   ],

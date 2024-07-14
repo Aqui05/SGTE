@@ -53,7 +53,6 @@ export class MapComponent implements OnInit {
     this.initMap();
     this.loadGeoJson();
     this.loadDataPoints();
-    this.loadRoutes();
     this.findTransport();
   }
 
@@ -92,6 +91,75 @@ export class MapComponent implements OnInit {
       .catch(error => {
         console.error('Error loading GeoJSON:', error);
       });
+  }
+
+
+  addPolyline(): void {
+    // const polyline = L.polyline([], { color: 'green', weight: 3 });
+    // polyline.addTo(this.map);
+
+    // let lat: number = 0;
+    // let lng: number = 0;
+
+    // const onMapClick = (e: L.LeafletMouseEvent) => {
+    //   lat = e.latlng.lat;
+    //   lng = e.latlng.lng;
+
+    //   const marker = L.marker([lat, lng]).addTo(this.map);
+    //   polyline.addLatLng(e.latlng);
+
+    //   if (this.searchMarker) {
+    //     this.map.removeLayer(this.searchMarker);
+    //   }
+    //   this.searchMarker = marker;
+
+    //   this.searchMarker.bindPopup(`Lat: ${lat}, Lng: ${lng}`);
+    // };
+
+    // this.map.on('click', onMapClick);
+
+    // //Demande confirmation avant d'ajouter le point
+
+    // this.dataService.createPolyline(this.TransportId, polylineData).subscribe({
+
+    // })
+  }
+
+  createRoute(): void {
+    // if (!this.searchMarker) {
+    //   this.msg.error('Veuillez d\'abord ajouter des points de départ et d\'arrivée.');
+    //   return;
+    // }
+
+    // const startMarker = this.searchMarker;
+    // const endMarker = this.map.markerCluster.getCenter();
+
+    // if (!startMarker ||!endMarker) {
+    //   this.msg.error('Les marqueurs de départ et d\'arrivée ne sont pas disponibles.');
+    //   return;
+    // }
+
+    // const routeData = {
+    //   start_latitude: startMarker.getLatLng().lat,
+    //   start_longitude: startMarker.getLatLng().lng,
+    //   end_latitude: endMarker.getLatLng().lat,
+    //   end_longitude: endMarker.getLatLng().lng
+    // };
+
+    // this.dataService.createRoute(this.TransportId, routeData).subscribe({
+    //   next: (response: any) => {
+    //     console.log(response);
+    //     this.msg.success('Route créée avec succès.');
+    //   },
+
+    //   error: (error) => {
+    //     console.error('Error fetching polylines:', error);
+    //   }
+
+    // });
+
+
+
   }
 
   private loadDataPoints(): void {
@@ -148,6 +216,7 @@ export class MapComponent implements OnInit {
       }
     });
   }
+
 
   private processPolylines(polylines: any[]): void {
     this.dataPoints = polylines.flatMap((polyline: any) => {
@@ -218,14 +287,13 @@ export class MapComponent implements OnInit {
     this.searchMarker.bindPopup(this.searchQuery).openPopup();
   }
 
-
-
   findTransport(): void {
     this.dataService.getTransport(this.TransportId).subscribe(
         (response: any) => {
           console.log(response);
           this.transport = response.data;
           this.type = this.transport.type;
+          this.loadRoutes();  // Charger les routes après avoir récupéré le transport
         },
         (error) => {
           this.msg.error('Erreur lors de la récupération du transport.', error);

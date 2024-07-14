@@ -8,6 +8,7 @@ import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransportListComponent } from './transport-list/transport-list.component';
 import { TransportDetailsComponent } from './transport-details/transport-details.component';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { TransportDetailsComponent } from './transport-details/transport-details
     ReactiveFormsModule,
     TransportRoutingModule,
     FormsModule,
+    NzMessageModule,
   ]
 })
 export class TransportModule { }

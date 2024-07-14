@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class TransportAddComponent implements OnInit {
     private msg: NzMessageService,
     private fb: FormBuilder,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private notification: NzNotificationService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +59,7 @@ export class TransportAddComponent implements OnInit {
           this.VehicleTypes = response.data;
           this.VehicleId = this.VehicleTypes.map(vehicle => vehicle.id);
           this.transportForm.controls['vehicle_id'].setValue(this.VehicleId);
-          console.log(this.VehicleId)
+          console.log(this.VehicleId);
         },
         (error) => {
           this.msg.error('Erreur lors de la recherche du véhicule.', error);
@@ -86,8 +88,6 @@ export class TransportAddComponent implements OnInit {
     }
   }
 
-
-
   submitForm(): void {
     this.loading = true;
     if (this.transportForm.valid) {
@@ -97,8 +97,16 @@ export class TransportAddComponent implements OnInit {
       });
 
       this.dataService.addTransport(formData).subscribe(
-        (response) => {
-          this.msg.success('Transport enregistré avec succès!');
+        (response: any) => {
+          console.log(response)
+          const transportId = response.id;  // Assurez-vous que l'ID du transport est retourné dans la réponse
+          const messageContent = `
+            Transport enregistré avec succès!
+            <button nz-button nzType="link" (click)="navigateToMap(${transportId})">
+              Associer une route
+            </button>
+          `;
+          this.msg.success(messageContent, { nzDuration: 50000, nzPauseOnHover: true });
           this.router.navigate(['/transports']);
           this.loading = false;
           this.resetForm();
@@ -120,6 +128,17 @@ export class TransportAddComponent implements OnInit {
       });
       this.loading = false;
     }
+  }
+
+  navigateToMap(transportId: number): void {
+    this.router.navigate(['/admin/map', transportId]);
+  }
+
+
+
+
+  associateRoute(transportId: number): void {
+    this.router.navigate(['/admin/map', transportId]);
   }
 
   resetForm(): void {

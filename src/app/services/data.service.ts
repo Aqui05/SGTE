@@ -199,15 +199,6 @@ export class DataService {
     return this.http.put(`${this.apiUrl}/transport/${id}`, transport);
   }
 
-  createRoute(id: number, route: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/transport/${id}/route`, route);
-  }
-
-  createPolyline(id: number, polyline: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/route/${id}/polyline`, polyline);
-  }
-
-
   /*
     * Merchandise  Service
   */
@@ -343,6 +334,15 @@ export class DataService {
 
   getRoute(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/transport/${id}/route`);
+  }
+
+
+  createRoute(id: number, route: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/transport/${id}/route`, route);
+  }
+
+  createPolyline(id: number, polyline: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/route/${id}/polyline`, polyline);
   }
 
 }
