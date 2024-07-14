@@ -99,8 +99,8 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::post('/transport/{id}/route',[TransportController::class,'createRoute']);
     Route::post('/route/{id}/polyline',[TransportController::class,'createPolyline']);
 
-    Route::put('/transport/{id}',[TransportController::class,'update']);
-    Route::put('/transport/{id}',[TransportController::class,'destroy']);
+    Route::put('/create/transport/{id}',[TransportController::class,'update']);
+    Route::put('/delete/transport/{id}',[TransportController::class,'destroy']);
 
     Route::get('users',[AuthController::class,'users'])->name('usersList');
 

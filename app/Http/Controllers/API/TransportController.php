@@ -64,7 +64,7 @@ class TransportController extends Controller
     }
 
 
-    /*public function createRoute(Request $request, $id)
+    public function createRoute(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'route_name' => 'string',
@@ -95,18 +95,70 @@ class TransportController extends Controller
 
     public function createPolyline(Request $request, $id)
     {
-        $route = Route::findOrFail($id);
+        $transport = Transport::findOrFail($id);
+
+        if (!$transport) {
+            return response()->json(['error' => 'Transport not found'], 404);
+        }
+
+        $route = Route::find($transport->route_id);
+
+        if (!$route) {
+            return response()->json(['error' => 'Route not found'], 404);
+        }
 
         $polylineData = $request->validate([
-            'route_id' => '',
-            'start_coordinate' => 'required',
-            'end_coordinate' => 'required',
-            'distance' => 'nullable',
+            'start_coordinate' => 'required|array',
+            'end_coordinate' => 'required|array',
+            'distance' => 'nullable|numeric',
         ]);
-        $polylineData['route_id'] = $route->id;
 
-        return Polyline::create($polylineData);
-    }*/
+        // Convertir les coordonnées en format JSON requis
+        $startCoordinate = json_encode([
+            'type' => 'Point',
+            'coordinates' => [
+                $polylineData['start_coordinate']['longitude'],
+                $polylineData['start_coordinate']['latitude']
+            ]
+        ]);
+
+        $endCoordinate = json_encode([
+            'type' => 'Point',
+            'coordinates' => [
+                $polylineData['end_coordinate']['longitude'],
+                $polylineData['end_coordinate']['latitude']
+            ]
+        ]);
+
+        // Créer la polyline
+        $polyline = Polyline::create([
+            'route_id' => $route->id,
+            'start_coordinate' => $startCoordinate,
+            'end_coordinate' => $endCoordinate,
+            'distance' => $polylineData['distance']
+        ]);
+
+        // Mettre à jour route_waypoints avec les nouvelles coordonnées
+        $polylines = Polyline::where('route_id', $route->id)->get();
+        $waypoints = [];
+
+        foreach ($polylines as $polyline) {
+            $start = json_decode($polyline->start_coordinate, true)['coordinates'];
+            $end = json_decode($polyline->end_coordinate, true)['coordinates'];
+            $waypoints[] = $start;
+            $waypoints[] = $end;
+        }
+
+        $route->update([
+            'route_waypoints' => json_encode([
+                'type' => 'MultiPoint',
+                'coordinates' => $waypoints
+            ])
+        ]);
+
+        return response()->json($polyline, 201);
+    }
+
 
     public function index(Request $request)
     {
