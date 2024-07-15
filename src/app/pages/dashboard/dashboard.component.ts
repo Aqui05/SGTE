@@ -120,7 +120,7 @@ export class DashboardComponent implements OnInit {
   countTransportStatus(): { [key: string]: number } {
     const statusCounts: { [key: string]: number } = {
       confirmed: 0,
-      inProgress: 0,
+      'in Progress': 0,
       finished: 0,
       cancelled: 0
     };
@@ -143,7 +143,7 @@ export class DashboardComponent implements OnInit {
         label: 'Transport',
         data: [
           statusCounts['confirmed'],
-          statusCounts['inProgress'],
+          statusCounts['in Progress'],
           statusCounts['finished'],
           statusCounts['cancelled']
         ],

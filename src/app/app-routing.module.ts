@@ -8,13 +8,14 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 import { ProfileComponent } from './pages/profil/profil.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { MapComponent } from './components/map/map.component';
 import { InternalServerErrorComponent } from './components/internal-server-error/internal-server-error.component';
 import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { MapUserComponent } from './user/map-user/map-user.component';
+import { MapComponent } from './admin/map/map.component';
 
 const routes: Routes = [
   {
@@ -52,7 +53,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'accueil', pathMatch: 'full' },
       { path: 'accueil', component: AcceuilComponent, data: { title: 'Dashboard' } },
-      { path: 'map', component: MapComponent, data: { title: 'map' }  },
+      { path: 'map/:id', component: MapUserComponent, data: { title: 'map' }  },
       { path: 'profile', component: ProfileComponent, data: { title: 'Profil' }  },
       { path: 'reservation', loadChildren: () => import('./user/reservation/reservation.module').then(m => m.ReservationModule) },
       { path: 'transport', loadChildren: () => import('./user/transport/transport.module').then(m => m.TransportModule)},

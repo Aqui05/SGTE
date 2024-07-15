@@ -57,4 +57,9 @@ export class TransportViewComponent implements OnInit {
     this.router.navigate(['user/reservation/add'], { queryParams: { transportId: transport.id } });
   }
 
+  seeMap(transport: any): void {
+    this.router.navigate([`/user/map/${transport.id}`]);
+  }
+
+
 }

@@ -46,7 +46,7 @@ import { RouteComponent } from './pages/route/route.component';
 import { PolylineComponent } from './pages/polyline/polyline.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { MapComponent } from './components/map/map.component';
+import { MapComponent } from './admin/map/map.component';
 import { InternalServerErrorComponent } from './components/internal-server-error/internal-server-error.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
@@ -61,6 +61,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { MapUserComponent } from './user/map-user/map-user.component';
 
 const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
@@ -84,8 +85,6 @@ registerLocaleData(en);
     ForbiddenComponent,
     NotFoundComponent,
 
-    MapComponent,
-
     InternalServerErrorComponent,
     UnauthorizedComponent,
     ServiceUnavailableComponent,
@@ -93,6 +92,10 @@ registerLocaleData(en);
     HomeLayoutComponent,
     AdminLayoutComponent,
     UserLayoutComponent,
+
+
+    MapComponent,
+    MapUserComponent,
 
   ],
   imports: [

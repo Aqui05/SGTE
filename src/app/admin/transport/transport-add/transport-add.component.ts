@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzNotificationComponent, NzNotificationService } from 'ng-zorro-antd/notification';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -11,10 +11,15 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./transport-add.component.css']
 })
 export class TransportAddComponent implements OnInit {
+
+  @ViewChild('template', { static: true }) notificationTemplate!: TemplateRef<{}>;
+  @ViewChild('notificationTpl', { static: true }) btnTemplate!: TemplateRef<{ $implicit: NzNotificationComponent } | string>;
+
   transportForm!: FormGroup;
   submitError = false;
   submitErrorMessage = '';
   loading = false;
+  transportId!: number;
 
   VehicleTypes: any[] = [];
   VehicleLicenses: any[] = [];
@@ -27,7 +32,7 @@ export class TransportAddComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private dataService: DataService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
   ) {}
 
   ngOnInit(): void {
@@ -89,37 +94,31 @@ export class TransportAddComponent implements OnInit {
   }
 
   submitForm(): void {
-    this.loading = true;
-    if (this.transportForm.valid) {
-      const formData = new FormData();
-      Object.keys(this.transportForm.controls).forEach(key => {
-        formData.append(key, this.transportForm.get(key)?.value);
-      });
+      this.loading = true;
+      if (this.transportForm.valid) {
+        const formData = new FormData();
+        Object.keys(this.transportForm.controls).forEach(key => {
+          formData.append(key, this.transportForm.get(key)?.value);
+        });
 
-      this.dataService.addTransport(formData).subscribe(
-        (response: any) => {
-          console.log(response)
-          const transportId = response.id;  // Assurez-vous que l'ID du transport est retourné dans la réponse
-          const messageContent = `
-            Transport enregistré avec succès!
-            <button nz-button nzType="link" (click)="navigateToMap(${transportId})">
-              Associer une route
-            </button>
-          `;
-          this.msg.success(messageContent, { nzDuration: 50000, nzPauseOnHover: true });
-          this.router.navigate(['/transports']);
-          this.loading = false;
-          this.resetForm();
-        },
-        (error) => {
-          console.error('Erreur lors de l\'ajout du transport:', error);
-          this.msg.error('Erreur lors de l\'enregistrement du transport.');
-          this.submitError = true;
-          this.submitErrorMessage = error.error.message || 'Erreur inconnue';
-          this.loading = false;
-        }
-      );
-    } else {
+        this.dataService.addTransport(formData).subscribe(
+          (response: any) => {
+            console.log(response);
+            this.transportId = response.success.id;
+            console.log(this.transportId);
+            this.openNotification(this.notificationTemplate, this.transportId);
+            this.loading = false;
+            this.resetForm();
+          },
+          (error) => {
+            console.error('Erreur lors de l\'ajout du transport:', error);
+            this.msg.error('Erreur lors de l\'enregistrement du transport.');
+            this.submitError = true;
+            this.submitErrorMessage = error.error.message || 'Erreur inconnue';
+            this.loading = false;
+          }
+        );
+      } else {
       Object.values(this.transportForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
@@ -130,15 +129,17 @@ export class TransportAddComponent implements OnInit {
     }
   }
 
-  navigateToMap(transportId: number): void {
-    this.router.navigate(['/admin/map', transportId]);
+  openNotification(template: TemplateRef<{}>, transportId: number): void {
+    this.notification.template(template, {
+      nzData: { transportId: transportId },
+      nzDuration: 0
+    });
   }
 
+  associateRoute(): void {
+    this.notification.remove();
 
-
-
-  associateRoute(transportId: number): void {
-    this.router.navigate(['/admin/map', transportId]);
+      this.router.navigate([`/admin/map/${this.transportId}`]);
   }
 
   resetForm(): void {

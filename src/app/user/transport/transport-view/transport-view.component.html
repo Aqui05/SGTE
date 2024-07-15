@@ -79,8 +79,9 @@
           <p class="mb-0">Seats: {{ transport.seats }}</p>
         </div>
         <hr class="dark horizontal my-0">
-        <div class="card-footer p-3">
-          <button (click)="reservation(transport)" nz-button nzType="primary" [disabled]="transport.seats === 0">Réserver</button>
+        <div class="card-footer p-3 d-flex justify-content-between">
+          <button (click)="reservation(transport)" nz-button nzType="primary" class="btn-reservation" [disabled]="transport.seats === 0">Réserver</button>
+          <button (click)="seeMap(transport)" nz-button nzType="default" class="btn-map" [disabled]="!transport.route_id">Voir la carte</button>
         </div>
       </div>
     </div>
@@ -92,3 +93,4 @@
     </div>
   </ng-template>
 </div>
+
