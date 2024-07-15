@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 use App\Jobs\UpdateVehicleAvailability;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
+use App\Events\TransportCreated;
 
 class TransportController extends Controller
 {
@@ -50,6 +51,8 @@ class TransportController extends Controller
         $vehicle->update([
             'available' => false,
         ]);
+
+        event(new TransportCreated($transport));
 
         // Mettre à jour la disponibilité du véhicule après l'arrivée
         if ($transport->arrival_time) {
