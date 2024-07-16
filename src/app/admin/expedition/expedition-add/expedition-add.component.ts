@@ -17,6 +17,7 @@ export class ExpeditionAddComponent implements OnInit {
   submitSuccessMessage = '';
   loading = false;
   selectAll = false;
+  showAllMerchandises = false;
 
   VehicleTypes: any[] = [];
   VehicleLicenses: any[] = [];
@@ -57,6 +58,7 @@ export class ExpeditionAddComponent implements OnInit {
       this.findVehicleId();
     });
   }
+
   findVehicleId(): void {
     const vehicleLicense = this.expeditionForm.get('vehicle_license')?.value;
     if (vehicleLicense) {
@@ -75,7 +77,6 @@ export class ExpeditionAddComponent implements OnInit {
       );
     }
   }
-
 
   sortVehicleType(): void {
     const vehicleType = this.expeditionForm.get('type')?.value;
@@ -109,9 +110,8 @@ export class ExpeditionAddComponent implements OnInit {
     );
   }
 
-
-  loadAllMerchandises(): void {
-    this.dataService.getMerchandises().subscribe(
+  loadAllMerchandisesNoShipped(): void {
+    this.dataService.getMerchandisesShip().subscribe(
       (data) => {
         this.merchandises = data.data;
       },
@@ -121,25 +121,29 @@ export class ExpeditionAddComponent implements OnInit {
     );
   }
 
-  onMerchandiseSelect(merchandise: any): void {
-    const index = this.selectedMerchandises.indexOf(merchandise);
-    if (index === -1) {
-      this.selectedMerchandises.push(merchandise);
+  toggleAllMerchandises() {
+    this.showAllMerchandises = !this.showAllMerchandises;
+    if (this.showAllMerchandises) {
+      this.loadAllMerchandisesNoShipped();
     } else {
-      this.selectedMerchandises.splice(index, 1);
+      this.loadMerchandises();
     }
   }
 
 
+  onMerchandiseSelect(merchandise: any): void {
+    merchandise.selected = !merchandise.selected;
+    this.updateSelectedMerchandises();
+  }
+
+  updateSelectedMerchandises(): void {
+    this.selectedMerchandises = this.merchandises.filter(m => m.selected);
+  }
+
   toggleSelectAll(): void {
     this.selectAll = !this.selectAll;
-    if (this.selectAll) {
-      this.selectedMerchandises = [...this.merchandises];
-      this.merchandises.forEach(merchandise => merchandise.selected = true);
-    } else {
-      this.selectedMerchandises = [];
-      this.merchandises.forEach(merchandise => merchandise.selected = false);
-    }
+    this.merchandises.forEach(merchandise => merchandise.selected = this.selectAll);
+    this.updateSelectedMerchandises();
   }
 
   submitSelectedMerchandises(): void {
@@ -193,7 +197,6 @@ export class ExpeditionAddComponent implements OnInit {
       this.loading = false;
     }
   }
-
 
   resetForm(): void {
     this.expeditionForm.reset();

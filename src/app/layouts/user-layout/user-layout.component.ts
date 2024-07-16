@@ -63,7 +63,7 @@ export class UserLayoutComponent implements OnInit {
     this.dataService.logout().subscribe(
       response => {
         console.log('Logout successful:', response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
         this.dataService.clearToken()
       },
       error => {

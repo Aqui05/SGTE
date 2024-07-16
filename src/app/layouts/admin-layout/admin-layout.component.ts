@@ -81,12 +81,6 @@ export class AdminLayoutComponent {
     this.router.navigate(['/profil']);
   }
 
-    //search function
-    performSearch() {
-      this.dataService.search(this.query).subscribe(
-        data => this.results = data,
-        error => console.error(error)
-      );
-    }
+
 
 }

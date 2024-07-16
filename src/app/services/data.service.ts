@@ -238,6 +238,12 @@ export class DataService {
   }
 
 
+  //Marchandises pas encore relié à une expédition
+  getMerchandisesShip(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/merchandises/ship`);
+  }
+
+
 
   /*
     * Expeditions Services
