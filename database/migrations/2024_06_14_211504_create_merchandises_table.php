@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->string('numero_suivi')->nullable()->unique();
                 $table->string('depart')->nullable();
                 $table->string('destination')->nullable();
-                $table->enum('status', ['confirmé', 'planification', 'enTransit', 'delivré', 'annulé'])->default('confirmé');
+                $table->enum('status', ['confirmé', 'planification', 'en transit', 'delivré', 'annulé'])->default('confirmé');
                 $table->timestamps();
 
                 $table->foreign('expedition_id')->references('id')->on('expeditions')->onDelete('cascade');

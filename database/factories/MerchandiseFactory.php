@@ -31,7 +31,7 @@ class MerchandiseFactory extends Factory
             'numero_suivi' => $this->faker->unique()->bothify('??-####'),
             'depart' => $this->faker->city,
             'destination' => $this->faker->city,
-            'status' => $this->faker->randomElement(['confirmé', 'planification', 'enTransit', 'delivré', 'annulé']),
+            'status' => $this->faker->randomElement(['confirmé', 'planification', 'en transit', 'delivré', 'annulé']),
         ];
     }
 }

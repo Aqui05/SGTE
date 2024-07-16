@@ -51,18 +51,6 @@ class TransportController extends Controller
         $vehicle->update([
             'available' => false,
         ]);
-
-        event(new TransportCreated($transport));
-
-        // Mettre à jour la disponibilité du véhicule après l'arrivée
-        if ($transport->arrival_time) {
-            $arrivalTime = Carbon::parse($transport->arrival_time);
-
-            // Planifier une tâche pour rendre le véhicule disponible après l'arrivée
-            $job = (new UpdateVehicleAvailability($vehicle->id))->delay($arrivalTime);
-            dispatch($job);
-        }
-
         return response()->json(['success' => $transport], 200);
     }
 

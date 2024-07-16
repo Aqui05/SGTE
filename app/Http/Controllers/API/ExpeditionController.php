@@ -24,7 +24,7 @@ class ExpeditionController extends Controller
             'destination' => 'required',
             'date_expedition' => 'required|date',
             'date_livraison_prevue' => 'required|date',
-            'status' => 'en cours de planification',
+            'status' => 'planification',
             'vehicle_id' => 'required|exists:vehicles,id',
             'notes' => 'nullable',
         ]);
@@ -56,7 +56,7 @@ class ExpeditionController extends Controller
             'destination' => 'required',
             'date_expedition' => 'required|date',
             'date_livraison_prevue' => 'required|date',
-            'status' => 'en cours de planification',
+            'status' => 'planification',
             'vehicle_id' => 'required|exists:vehicles,id',
             'notes' => 'nullable',
         ]);

@@ -118,7 +118,11 @@ class MerchandiseController extends Controller
         $merchandiseIds = $validatedData['merchandiseIds'];
 
         // Mettre à jour les marchandises avec le nouvel ID d'expédition
-        Merchandise::whereIn('id', $merchandiseIds)->update(['expedition_id' => $expeditionId]);
+        Merchandise::whereIn('id', $merchandiseIds)->update(
+            [
+                'expedition_id' => $expeditionId,
+                'status' => 'planification',
+            ]);
 
         return response()->json(['message' => 'Marchandises mises à jour avec succès!'], 200);
     }
@@ -131,6 +135,18 @@ class MerchandiseController extends Controller
         $merchandises = Merchandise::where('destination', $destination)
                                         ->where('depart', $depart)
                                         ->get();
+        return MerchandiseResource::collection($merchandises);
+    }
+
+
+    //Marchandises à expédier :: si status == 'confirmé'
+
+
+    public function MerchandisesShip()
+    {
+        // si status == 'confirmé'
+
+        $merchandises = Merchandise::where('status', 'confirmé')->get();
         return MerchandiseResource::collection($merchandises);
     }
 

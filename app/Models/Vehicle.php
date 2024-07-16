@@ -47,4 +47,15 @@ class Vehicle extends Model
      */
     protected $hidden = [
     ];
+
+
+    public function transports()
+    {
+        return $this->hasMany(Transport::class);
+    }
+
+    public function expeditions()
+    {
+        return $this->hasMany(Expedition::class);
+    }
 }

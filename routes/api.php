@@ -119,4 +119,8 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
 
     Route::put('/expeditions/{expeditionId}/merchandises',[MerchandiseController::class,'updateMerchandises']);
 
+
+    //Marchandises pas encore planifié
+
+    Route::get('/merchandises/ship',[MerchandiseController::class,'MerchandisesShip']);
 });
