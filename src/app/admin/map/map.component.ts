@@ -39,8 +39,6 @@ export class MapComponent implements OnInit {
 
   constructor(
     private msg: NzMessageService,
-    private fb: FormBuilder,
-    private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
     private http: HttpClient

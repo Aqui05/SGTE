@@ -17,17 +17,7 @@
 
     <div class="map-container">
     <div id="map" class="map"></div>
-  <div class="controls">
-    <input
-      nz-input
-      placeholder="Rechercher un lieu"
-      [(ngModel)]="searchQuery"
-      (keyup.enter)="searchLocation()"
-    />
-    <button nz-button nzType="primary" (click)="searchLocation()">Rechercher</button>
-    <button nz-button nzType="default" (click)="addPolyline()">Ajouter Polyline</button>
-    <button nz-button nzType="default" (click)="createRoute()">Créer Route</button>
-  </div>
+
 </div>
 
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
