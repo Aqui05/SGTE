@@ -7,48 +7,67 @@
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-        <h1>Ant Design Of Angular</h1>
+      <a href="" target="_blank">
+        <img src="assets/logiTrack.png" alt="logo">
+        <h1>LogiTrack</h1>
       </a>
     </div>
     <div>
       <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
         <li nz-menu-item [routerLink]="['/admin/dashboard']" routerLinkActive="active">
-          <span nz-icon nzType="dashboard"></span>
-          <span>Dashboard</span>
+          <i class="bi bi-speedometer2"></i>
+          <span>  Dashboard</span>
         </li>
         <li nz-submenu nzTitle="Vehicle" nzIcon="car">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/vehicle/create']" routerLinkActive="active">Ajouter Vehicle</li>
-            <li nz-menu-item [routerLink]="['/admin/vehicle']" routerLinkActive="active">Liste Vehicles</li>
+            <li nz-menu-item [routerLink]="['/admin/vehicle/create']" routerLinkActive="active">
+              <i class="bi bi-plus-circle"></i> Ajouter Vehicle
+            </li>
+            <li nz-menu-item [routerLink]="['/admin/vehicle']" routerLinkActive="active">
+              <i class="bi bi-list-ul"></i> Liste Vehicles
+            </li>
+          </ul>
+
+          <li nz-submenu nzTitle="Transport" nzIcon="Transport">
+            <ul>
+              <li nz-menu-item [routerLink]="['/admin/transport/create']" routerLinkActive="active">
+                <i class="bi bi-plus-circle"></i> Ajouter Transport
+              </li>
+              <li nz-menu-item [routerLink]="['/admin/transport']" routerLinkActive="active">
+                <i class="bi bi-list-ul"></i> Liste Transports
+              </li>
+            </ul>
+          </li>
+
+        <li nz-submenu nzTitle="Marchandise" nzIcon="merchandiseIcon">
+          <ul>
+            <li nz-menu-item [routerLink]="['/admin/merchandise']" routerLinkActive="active">
+              <i class="bi bi-list-ul"></i> Liste des marchandises
+            </li>
           </ul>
         </li>
-        <li nz-submenu nzTitle="Transport" nzIcon="car">
+        <li nz-submenu nzTitle="Expedition" nzIcon="expedition">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/transport/create']" routerLinkActive="active">Ajouter Transport</li>
-            <li nz-menu-item [routerLink]="['/admin/transport']" routerLinkActive="active">Liste Transports</li>
-          </ul>
-        </li>
-        <li nz-submenu nzTitle="Marchandise" nzIcon="car">
-          <ul>
-            <li nz-menu-item [routerLink]="['/admin/merchandise']" routerLinkActive="active">Liste des marchandises</li>
-          </ul>
-        </li>
-        <li nz-submenu nzTitle="Expedition" nzIcon="car">
-          <ul>
-            <li nz-menu-item [routerLink]="['/admin/expedition/create']" routerLinkActive="active">Ajouter une Expédition</li>
-            <li nz-menu-item [routerLink]="['/admin/expedition']" routerLinkActive="active">Liste Expéditions</li>
+            <li nz-menu-item [routerLink]="['/admin/expedition/create']" routerLinkActive="active">
+              <i class="bi bi-plus-circle"></i> Ajouter une Expédition
+            </li>
+            <li nz-menu-item [routerLink]="['/admin/expedition']" routerLinkActive="active">
+              <i class="bi bi-list-ul"></i> Liste Expéditions
+            </li>
           </ul>
         </li>
         <li nz-submenu nzTitle="User" nzIcon="user">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin/user_page']" routerLinkActive="active">User Page</li>
+            <li nz-menu-item [routerLink]="['/admin/user_page']" routerLinkActive="active">
+              <i class="bi bi-people"></i> User Page
+            </li>
           </ul>
         </li>
         <li nz-submenu nzTitle="Settings" nzIcon="setting">
           <ul>
-            <li nz-menu-item [routerLink]="['/admin']" routerLinkActive="active">Setting Admin</li>
+            <li nz-menu-item [routerLink]="['/admin']" routerLinkActive="active">
+              <i class="bi bi-tools"></i> Setting Admin
+            </li>
           </ul>
         </li>
       </ul>

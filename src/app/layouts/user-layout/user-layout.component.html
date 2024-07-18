@@ -16,8 +16,8 @@
 <div *ngIf="!isAdmin">
   <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
     <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
-      <span nz-icon nzType="dashboard"></span>
-      <span>Dashboard</span>
+      <i class="bi bi-speedometer2"></i>
+      <span>  Dashboard</span>
     </li>
     <li nz-submenu nzTitle="Transport" nzIcon="car">
       <ul>
@@ -42,9 +42,12 @@
         <li nz-menu-item [routerLink]="['/user/expedition/history']" routerLinkActive="active">Historique des Expéditions</li>
       </ul>
     </li>
+
     <li nz-submenu nzTitle="Settings" nzIcon="setting">
       <ul>
-        <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">Paramètres</li>
+        <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
+          <i class="bi bi-tools"></i> Setting Admin
+        </li>
       </ul>
     </li>
   </ul>
