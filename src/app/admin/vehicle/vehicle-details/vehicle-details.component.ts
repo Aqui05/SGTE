@@ -1,19 +1,16 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { DataService } from 'src/app/services/data.service';
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 @Component({
   selector: 'app-vehicle-details',
   templateUrl: './vehicle-details.component.html',
   styleUrls: ['./vehicle-details.component.css']
 })
-export class VehicleDetailsComponent implements OnInit, AfterViewInit {
+export class VehicleDetailsComponent implements OnInit {
   vehicle: any;
-  @ViewChild('threeCanvas') threeCanvas!: ElementRef;
-
-
+  fileList: NzUploadFile[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -26,8 +23,15 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit {
     this.dataService.getVehicle(Number(id)).subscribe(
       (data) => {
         this.vehicle = data.data;
-        // Load the 3D model once the vehicle data is available
-        this.load3DModel(this.vehicle.model_3d_link);
+        console.log('Véhicule:', this.vehicle);
+        if (this.vehicle.model_3d_link) {
+          this.fileList = [{
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: this.vehicle.model_3d_link
+          }];
+        }
       },
       (error) => {
         console.error('Erreur lors de la récupération du véhicule:', error);
@@ -35,44 +39,16 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit(): void {
-    // Initialize the 3D scene here if the vehicle data is already available
-    if (this.vehicle) {
-      this.load3DModel(this.vehicle.model_3d_link);
-    }
-  }
-
-  load3DModel(modelUrl: string): void {
-    if (!modelUrl) {
-      console.error('Model URL is not available');
-      return;
-    }
-
-    const canvas = this.threeCanvas.nativeElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.z = 5;
-
-    const renderer = new THREE.WebGLRenderer({ canvas });
-    renderer.setSize(width, height);
-
-    const loader = new GLTFLoader();
-    loader.load(modelUrl, (gltf) => {
-      scene.add(gltf.scene);
-      gltf.scene.position.set(0, 0, 0);
-
-      const animate = () => {
-        requestAnimationFrame(animate);
-        gltf.scene.rotation.y += 0.01; // Optional: rotate the model
-        renderer.render(scene, camera);
-      };
-      animate();
-    }, undefined, (error) => {
-      console.error('An error happened', error);
+  handleChange(info: NzUploadChangeParam): void {
+    let fileList = [...info.fileList];
+    fileList = fileList.slice(-1);
+    fileList = fileList.map(file => {
+      if (file.response) {
+        file.url = file.response.url;
+      }
+      return file;
     });
+    this.fileList = fileList;
   }
 
   editVehicle(id: number): void {
@@ -90,6 +66,3 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit {
     );
   }
 }
-
-
-

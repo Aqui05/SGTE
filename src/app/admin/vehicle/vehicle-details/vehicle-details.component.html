@@ -1,41 +1,36 @@
-<nz-card [nzBordered]="false">
-  <ng-container *ngIf="vehicle">
-    <!-- Contenu du card avec les détails du véhicule -->
-    <div nz-row nzGutter="16">
-
-            <div nz-col nzSpan="8">
-              <h4>Type:</h4>
-              <p>{{ vehicle.type }}</p>
+<nz-card nzTitle="Détails du Véhicule">
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="8">
+      <div class="vehicle-image">
+        <nz-upload
+          nzAction="https://jsonplaceholder.typicode.com/posts/"
+          [nzFileList]="fileList"
+          [nzShowUploadList]="false"
+          (nzChange)="handleChange($event)">
+          <ng-container *ngIf="fileList.length > 0; else uploadButton">
+            <img [src]="fileList[0].url" alt="Vehicle Image" style="width: 100%;" />
+          </ng-container>
+          <ng-template #uploadButton>
+            <div>
+              <i nz-icon nzType="plus"></i>
+              <div style="margin-top: 8px">Upload</div>
             </div>
-            <div nz-col nzSpan="8">
-              <h4>Brand:</h4>
-              <p>{{ vehicle.brand }}</p>
-            </div>
-            <div nz-col nzSpan="8">
-              <h4>Model:</h4>
-              <p>{{ vehicle.model }}</p>
-            </div>
-          </div>
-          <div nz-row nzGutter="16">
-            <div nz-col nzSpan="8">
-              <h4>License Plate:</h4>
-              <p>{{ vehicle.license_plate }}</p>
-            </div>
-            <div nz-col nzSpan="8">
-              <h4>Seats:</h4>
-              <p>{{ vehicle.seats }}</p>
-            </div>
-            <div nz-col nzSpan="8">
-              <h4>Available:</h4>
-              <p>{{ vehicle.available ? 'Yes' : 'No' }}</p>
-            </div>
-
-    </div>
-    <!-- Bouton Suivant -->
-    <div nz-row nzJustify="center">
-      <div nz-col nzSpan="24" style="text-align: center;">
-        <button nz-button nzType="primary" (click)="ngAfterViewInit()">Suivant</button>
+          </ng-template>
+        </nz-upload>
       </div>
-    </div>
-  </ng-container>
+    </nz-col>
+    <nz-col [nzSpan]="16">
+      <nz-descriptions nzTitle="Informations du Véhicule" nzBordered [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Type">{{ vehicle?.type }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Marque">{{ vehicle?.brand }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Modèle">{{ vehicle?.model }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Plaque d'Immatriculation">{{ vehicle?.license_plate }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Nombre de Sièges">{{ vehicle?.seats }}</nz-descriptions-item>
+      </nz-descriptions>
+      <div style="margin-top: 16px;">
+        <button nz-button nzType="primary" (click)="editVehicle(vehicle.id)">Modifier</button>
+        <button nz-button nzType="primary" (click)="deleteVehicle(vehicle.id)" style="margin-left: 8px;">Supprimer</button>
+      </div>
+    </nz-col>
+  </nz-row>
 </nz-card>

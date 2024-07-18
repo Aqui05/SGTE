@@ -24,6 +24,7 @@ interface DataPoint {
   templateUrl: './map-user.component.html',
   styleUrls: ['./map-user.component.css']
 })
+
 export class MapUserComponent implements OnInit {
   private map!: L.Map;
   private dataPoints: DataPoint[] = [];

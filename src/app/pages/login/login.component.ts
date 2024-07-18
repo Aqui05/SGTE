@@ -72,6 +72,7 @@ export class LoginComponent implements OnInit {
 
   onSubmitLogin() {
     if (this.loginForm.valid) {
+      this.dataService.clearToken();
       this.dataService.login(this.loginForm.value).subscribe(
         (response) => {
           console.log(response);
