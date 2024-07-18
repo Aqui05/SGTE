@@ -29,12 +29,11 @@ class VehicleController extends Controller
             'model' => 'required|string|max:255',
             'license_plate' => 'required|string|unique:vehicles,license_plate|max:255',
             'seats' => 'required|integer',
-            'model_3d' => 'nullable|file|mimes:obj,stl,fbx,glb,gltf|max:10240', // Accepter les types de fichiers 3D courants et une taille maximale de 10 Mo
+            'model_3d_link' => 'nullable|file|max:10240|mimes:jpg,jpeg,png,gif', // Accepter les types de fichiers courants et une taille maximale de 10 Mo
         ]);
 
-        // Gérer le téléchargement du fichier modèle 3D
-        if ($request->hasFile('model_3d')) {
-            $file = $request->file('model_3d');
+        if ($request->hasFile('model_3d_link')) {
+            $file = $request->file('model_3d_link');
             $filePath = $file->store('models_3d', 'public'); // Stocker le fichier dans le dossier "models_3d" dans le système de fichiers public
             $validatedData['model_3d_link'] = Storage::url($filePath); // Enregistrer le chemin du fichier
         }
@@ -44,12 +43,21 @@ class VehicleController extends Controller
         return new VehicleResource($vehicle);
     }
 
+    // public function show($id)
+    // {
+    //     $vehicle = Vehicle::findOrFail($id);
+    //     return new VehicleResource($vehicle);
+    // }
 
-    public function show($id)
-    {
-        $vehicle = Vehicle::findOrFail($id);
-        return new VehicleResource($vehicle);
+    public function show($id) {
+        $vehicle = Vehicle::findorFail($id);
+        if ($vehicle) {
+            $vehicle->model_3d_link = url('storage/' . $vehicle->model_3d_link);
+            return new VehicleResource($vehicle);
+        }
+        return response()->json(['error' => 'Vehicle not found'], 404);
     }
+
 
     public function update(Request $request, $id)
     {
