@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Ticket;
 use App\Models\Reservation;
 use App\Models\Merchandise;
 use App\Models\Transport;
 use App\Http\Resources\ReservationResource;
+use App\Notifications\Notif;
+use App\Notifications\ReservationAdd;
 
 class FunctionController extends Controller
 {
@@ -44,5 +47,20 @@ class FunctionController extends Controller
         ];
 
         return response()->json($results);
+    }
+
+    public function sendNotification()
+    {
+        $user = User::first();
+        $reservation = Reservation::first();
+        $ticket = Ticket::first();
+
+        if ($user) {
+            $user->notify(new ReservationAdd($reservation, $ticket));
+        } else {
+            echo "User not found";
+        }
+        dd($user);
+        return response()->json(['message' => 'Notification sent successfully']);
     }
 }

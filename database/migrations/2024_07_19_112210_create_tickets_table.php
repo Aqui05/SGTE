@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('reservation_id')->nullable();
+            $table->unsignedBigInteger('reservation_id');
             $table->string('ticket_number')->unique();
-            $table->dateTime('issued_at');
-            $table->string('ticket_lien')->nullable();
+            $table->timestamp('issued_at');
+            $table->string('ticket_lien');
             $table->timestamps();
 
-            $table->foreign('reservation_id')->references('id')->on('reservations')->onDelete('cascade');
+            $table->foreign('reservation_id')->references('id')->on('reservations')->onDelete('cascade')->unique();
+
         });
     }
-
     /**
      * Reverse the migrations.
      */

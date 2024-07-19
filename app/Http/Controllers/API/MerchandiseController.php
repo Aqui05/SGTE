@@ -17,8 +17,11 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Notification;
 
 use App\Http\Resources\MerchandiseResource;
+use App\Models\Expedition;
+use App\Notifications\ExpeditionMerchandiseAdd;
 
 class MerchandiseController extends Controller
 {
@@ -118,14 +121,25 @@ class MerchandiseController extends Controller
         $merchandiseIds = $validatedData['merchandiseIds'];
 
         // Mettre à jour les marchandises avec le nouvel ID d'expédition
-        Merchandise::whereIn('id', $merchandiseIds)->update(
-            [
-                'expedition_id' => $expeditionId,
-                'status' => 'planification',
-            ]);
+        Merchandise::whereIn('id', $merchandiseIds)->update([
+            'expedition_id' => $expeditionId,
+            'status' => 'planification',
+        ]);
 
-        return response()->json(['message' => 'Marchandises mises à jour avec succès!'], 200);
+        // Récupérer les utilisateurs dont les marchandises sont sélectionnées
+        // Assume that you have a relationship defined in the Merchandise model to get the associated users
+        $users = User::whereIn('id', Merchandise::whereIn('id', $merchandiseIds)->pluck('user_id'))->get();
+
+        // Préparer les informations pour la notification
+        $merchandises = Merchandise::whereIn('id', $merchandiseIds)->get();
+        $expedition = Expedition::findOrFail($expeditionId);
+
+        // Envoyer les notifications aux utilisateurs
+        Notification::send($users, new ExpeditionMerchandiseAdd($expedition, $merchandises));
+
+        return response()->json(['message' => 'Marchandises mises à jour pour l’expédition avec succès !'], 200);
     }
+
 
 
     // récupérer les marchandises selon le lieu de départ et d'arrivée

@@ -9,6 +9,7 @@ use App\Models\Transport;
 use App\Models\User;
 use App\Models\Ticket;
 use App\Http\Resources\ReservationResource;
+use App\Notifications\ReservationAdd;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +21,12 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Notification;
+
 
 class ReservationController extends Controller
 {
+
     public function store(Request $request, $TransportId)
     {
         $user = Auth::user();
@@ -42,19 +46,21 @@ class ReservationController extends Controller
         }
 
         $reservationData = $validator->validated();
+        $reservationData['reservation_datetime'] = now(); // Set reservation datetime to current time
 
-         // Vérifier s'il y a des sièges disponibles dans le transport
+        // Check if there are available seats in the transport
         if ($transport->seats > 0) {
             $reservation = Reservation::create(array_merge($reservationData, [
                 'transport_id' => $TransportId,
                 'user_id' => $userId,
             ]));
 
-            //$transport->decrement('seats');
+            $transport->decrement('seats'); // Decrement the number of available seats
 
-            $transport->decrement('seats');
+            // Generate the ticket and retrieve the Ticket object
+            $ticket = $this->ticket($reservation->id);
 
-            $this->ticket($reservation->id);
+            Notification::send($user, new ReservationAdd($reservation, $ticket));
 
             return (new ReservationResource($reservation))
                 ->response()
@@ -63,6 +69,46 @@ class ReservationController extends Controller
             return response()->json(['error' => 'No seats available'], 422);
         }
     }
+
+
+    public function ticket($reservationId)
+    {
+        $reservation = Reservation::findOrFail($reservationId);
+
+        // Generate the QR code with relevant content
+        $qrCodeContent = "Reservation ID: {$reservation->id}, User ID: {$reservation->user_id}";
+        $qrCode = QrCode::format('png')->size(200)->generate($qrCodeContent);
+
+        // Generate the HTML content for the ticket
+        $html = View::make('ticket', compact('reservation', 'qrCode'))->render();
+
+        // Create the PDF from the HTML content
+        $pdf = PDF::loadHTML($html);
+
+        // Generate a unique ticket number
+        $ticketNumber = 'TICKET_' . Str::random(10);
+
+        // Save the PDF on the server
+        $fileName = $ticketNumber . '.pdf';
+        $filePath = public_path('tickets/' . $fileName);
+        $pdf->save($filePath);
+
+        // Save the ticket information in the database
+        $ticket = new Ticket();
+        $ticket->reservation_id = $reservationId;
+        $ticket->ticket_number = $ticketNumber;
+        $ticket->issued_at = now();
+        $ticket->ticket_lien = 'tickets/' . $fileName;
+
+        $ticket->save();
+
+        // Return the Ticket object
+        return $ticket;
+    }
+
+
+
+
 
     public function update(Request $request, $id)
     {
@@ -144,39 +190,6 @@ class ReservationController extends Controller
 
 
 
-    public function ticket($reservationId)
-    {
-        $reservation = Reservation::findOrFail($reservationId);
-
-        // Générez le code QR
-        $qrCode = QrCode::format('png')->size(200)->generate('Contenu du code QR');
-
-        // Générez le contenu de la vue HTML
-        $html = View::make('ticket', compact('reservation', 'qrCode'))->render();
-
-        // Générez le PDF à partir du HTML
-        $pdf = PDF::loadHTML($html);
-
-        // Générez un numéro de ticket unique
-        $ticketNumber = 'TICKET_' . Str::random(10);
-
-        // Enregistrez le PDF sur le serveur
-        $fileName = $ticketNumber . '.pdf';
-        $filePath = public_path('tickets/' . $fileName);
-        $pdf->save($filePath);
-
-        // Enregistrez les informations du ticket dans la base de données
-        $ticket = new Ticket();
-        $ticket->reservation_id = $reservationId;
-        $ticket->ticket_number = $ticketNumber;
-        $ticket->issued_at = now();
-        $ticket->ticket_lien = 'tickets/' . $fileName;
-
-        $ticket->save();
-
-        // Retournez le lien vers le fichier PDF
-        return response()->json(['ticket_lien' => asset('tickets/' . $fileName)]);
-    }
 
 
     public function reservationList() {
