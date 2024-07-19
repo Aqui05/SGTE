@@ -42,4 +42,16 @@ export class ProfileComponent implements OnInit {
 }
 
 
+ModifyProfile():void {
+  this.dataService.updateUser(this.user).subscribe(
+    () => {
+      console.log('Profil mis à jour avec succès!');
+    },
+    error => {
+      console.error('Erreur de mise à jour du profil:', error);
+    }
+  );
+}
+
+
 }

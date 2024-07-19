@@ -59,6 +59,15 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 
+import { SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { AvatarModule } from 'primeng/avatar';
+import { StyleClassModule } from 'primeng/styleclass';
+import { Sidebar } from 'primeng/sidebar';
+
+
+
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MapUserComponent } from './user/map-user/map-user.component';
@@ -116,6 +125,16 @@ registerLocaleData(en);
     MatSlideToggleModule,
     NzInputModule,
     NzButtonModule,
+
+
+
+
+
+    SidebarModule,
+    ButtonModule,
+    RippleModule,
+    AvatarModule,
+    StyleClassModule
 
 
   ],

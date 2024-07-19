@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { PageTitleService } from 'src/app/services/title-service.service';
+
 
 @Component({
   selector: 'app-user-layout',
@@ -73,7 +74,7 @@ export class UserLayoutComponent implements OnInit {
   }
 
   profile(): void {
-    this.router.navigate(['/profil']);
+    this.router.navigate(['/user/profile']);
   }
 
 
@@ -86,3 +87,4 @@ export class UserLayoutComponent implements OnInit {
     );
   }
 }
+

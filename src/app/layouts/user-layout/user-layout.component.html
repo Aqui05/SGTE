@@ -7,39 +7,54 @@
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-        <h1>Ant Design Of Angular</h1>
+      <a href="" target="_blank">
+        <img src="assets/logiTrack.png" alt="logo">
+        <h1>LogiTrack</h1>
       </a>
     </div>
 
 <div *ngIf="!isAdmin">
   <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
     <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
-      <i class="bi bi-speedometer2"></i>
-      <span>  Dashboard</span>
+      <span nz-icon nzType="dashboard" nzTheme="outline"></span>
+      <span> Dashboard</span>
     </li>
-    <li nz-submenu nzTitle="Transport" nzIcon="car">
+    <li nz-submenu nzTitle="Transport"  nzIcon="box-plot">
       <ul>
-        <li nz-menu-item [routerLink]="['/user/transport/view']" routerLinkActive="active">Visualiser des Transports</li>
-        <li nz-menu-item [routerLink]="['/user/transport/history']" routerLinkActive="active">Historique des Transports</li>
+        <li nz-menu-item [routerLink]="['/user/transport/view']" routerLinkActive="active">
+          <i class="bi bi-view-list"></i>
+          Visualiser des Transports</li>
+        <li nz-menu-item [routerLink]="['/user/transport/history']" routerLinkActive="active">
+          <i class="bi bi-clock-history"></i>
+          Historique des Transports</li>
       </ul>
     </li>
-    <li nz-submenu nzTitle="Réservation" nzIcon="car">
+    <li nz-submenu nzTitle="Réservation" nzIcon="idcard">
       <ul>
-        <li nz-menu-item [routerLink]="['/user/reservation/add']" routerLinkActive="active">Faire une réservation</li>
-        <li nz-menu-item [routerLink]="['/user/reservation/list']" routerLinkActive="active">Liste des réservations</li>
+        <li nz-menu-item [routerLink]="['/user/reservation/add']" routerLinkActive="active">
+          <i class="bi bi-patch-plus"></i>
+          Faire une réservation</li>
+        <li nz-menu-item [routerLink]="['/user/reservation/list']" routerLinkActive="active">
+          <i class="bi bi-list-ul"></i>
+          Liste des réservations</li>
       </ul>
     </li>
-    <li nz-submenu nzTitle="Marchandise" nzIcon="car">
+    <li nz-submenu nzTitle="Marchandise" nzIcon="hdd">
       <ul>
-        <li nz-menu-item [routerLink]="['/user/merchandise/list']" routerLinkActive="active">Liste des marchandises</li>
-        <li nz-menu-item [routerLink]="['/user/merchandise/add']" routerLinkActive="active">Enregistrer une marchandise</li>
+        <li nz-menu-item [routerLink]="['/user/merchandise/list']" routerLinkActive="active">
+          <i class="bi bi-list-ul"></i>
+          Liste des marchandises</li>
+        <li nz-menu-item [routerLink]="['/user/merchandise/add']" routerLinkActive="active">
+          <i class="bi bi-save2"></i>
+          Enregistrer une marchandise</li>
+
       </ul>
     </li>
-    <li nz-submenu nzTitle="Expedition" nzIcon="car">
+    <li nz-submenu nzTitle="Expedition" nzIcon="global">
       <ul>
-        <li nz-menu-item [routerLink]="['/user/expedition/history']" routerLinkActive="active">Historique des Expéditions</li>
+        <li nz-menu-item [routerLink]="['/user/expedition/history']" routerLinkActive="active">
+          <i class="bi bi-clock-history"></i>
+          Historique des Expéditions</li>
       </ul>
     </li>
 
@@ -76,9 +91,6 @@
               <li nz-menu-item class="logout" (click)="logout()">Logout</li>
             </ul>
           </nz-dropdown-menu>
-          <!-- <button nz-button nzType="text" class="theme-toggle" (click)="toggleTheme()">
-            <span nz-icon [nzType]="theme === 'light' ? 'moon' : 'sun'" class="theme-icon"></span>
-          </button> -->
 
         </div>
       </div>
@@ -95,44 +107,3 @@
   </nz-layout>
 </nz-layout>
 <div #containerRef></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

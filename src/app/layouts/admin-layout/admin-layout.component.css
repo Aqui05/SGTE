@@ -11,6 +11,16 @@
   overflow: hidden;
 }
 
+.menu-title {
+  display: flex;
+  align-items: center;
+}
+
+.menu-title i {
+  margin-right: 8px; /* Ajustez la marge selon vos besoins */
+}
+
+
 .menu-sidebar {
   position: fixed;
   left: 0;

@@ -42,6 +42,7 @@
     "ngx-toastr": "^18.0.0",
     "node-three-gltf": "^1.7.0",
     "nouislider": "^15.7.2",
+    "primeng": "^16.9.1",
     "rxjs": "~7.8.0",
     "three": "^0.165.0",
     "tslib": "^2.3.0",

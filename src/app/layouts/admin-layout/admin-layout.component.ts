@@ -78,7 +78,7 @@ export class AdminLayoutComponent {
   }
 
   profile(): void {
-    this.router.navigate(['/profil']);
+    this.router.navigate(['/admin/profile']);
   }
 
 
