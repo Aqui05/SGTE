@@ -105,27 +105,6 @@ class AuthController extends Controller
         return UserResource::collection($users);
     }
 
-    /*public function update_profile(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $request->user()->id,
-        ]);
-
-        if ($validator->fails())
-        {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
-
-        $request->user()->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-
-        return response()->json(['message' => 'Profile updated successfully']);
-    }*/
-
-
     public function updateUser(Request $request)
     {
         $request->user()->update($request->all());
@@ -136,8 +115,11 @@ class AuthController extends Controller
 
 
 
-
-
+    public function deleteUser(Request $request)
+    {
+        $request->user()->delete();
+        return response()->json(['message' => 'User deleted successfully']);
+    }
 
 
 
@@ -206,26 +188,26 @@ class AuthController extends Controller
 
 
     public function handle($provider)
-{
-    $user = Socialite::driver($provider)->user();
-    $user = User::firstOrCreate([
-        'email' => $user->getEmail()
-    ], [
-        'name' => $user->getName(),
-        'email' => $user->getEmail(),
-        'provider_id' => $user->getId(),
-        'password' => Hash::make($user->getName() . '@' . $user->getId()),
-        'avatar' => $user->getAvatar()
-    ]);
+    {
+        $user = Socialite::driver($provider)->user();
+        $user = User::firstOrCreate([
+            'email' => $user->getEmail()
+        ], [
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+            'provider_id' => $user->getId(),
+            'password' => Hash::make($user->getName() . '@' . $user->getId()),
+            'avatar' => $user->getAvatar()
+        ]);
 
-    // Générer le token d'accès
-    $accessToken = $user->createToken('authToken')->accessToken;
+        // Générer le token d'accès
+        $accessToken = $user->createToken('authToken')->accessToken;
 
-    // Rediriger vers la page frontend avec les informations de l'utilisateur et le token d'accès
-    $redirectUrl = "http://localhost:4200/auth/confirmation?token={$accessToken}&user={$user}";
+        // Rediriger vers la page frontend avec les informations de l'utilisateur et le token d'accès
+        $redirectUrl = "http://localhost:4200/auth/confirmation?token={$accessToken}&user={$user}";
 
-    return redirect($redirectUrl);
-}
+        return redirect($redirectUrl);
+    }
 
 
 }
