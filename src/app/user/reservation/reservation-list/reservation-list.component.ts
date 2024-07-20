@@ -37,12 +37,12 @@ export class ReservationListComponent implements OnInit{
 
 
   viewDetails(id: number): void {
-    this.router.navigate([``]);
+    this.router.navigate([`/user/reservation/details/${id}`]);
   }
 
 
   editReservation(id: number): void {
-    this.router.navigate([``]);
+    this.router.navigate([`/user/reservation/edit/${id}`]);
   }
 
 
@@ -61,11 +61,11 @@ export class ReservationListComponent implements OnInit{
     switch (status) {
       case 'confirmed':
         return 'success';
-      case 'in progress':
+      case 'used':
         return 'processing';
-      case 'finished':
-        return 'default';
-      case 'canceled':
+      case 'delayed':
+        return 'yellow';
+      case 'cancelled':
         return 'error';
       default:
         return 'default';

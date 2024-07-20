@@ -1,7 +1,8 @@
 <button nz-button nzType="primary" (click)="addTransport()">Ajouter un transport</button>
 <br><p></p>
 
-<nz-table #basicTable [nzData]="transports">
+<div class="table-container">
+<nz-table #basicTable [nzData]="transports" class="single-line-table">
   <thead>
     <tr>
       <th>ID Transport</th>
@@ -31,3 +32,4 @@
     </tr>
   </tbody>
 </nz-table>
+</div>

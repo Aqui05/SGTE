@@ -112,6 +112,10 @@ export class DataService {
     return this.http.post<any>(`${this.apiUrl}/update/user`, userData);
   }
 
+  deleteUser(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/user`);
+  }
+
   getUserInfo() {
     return this.http.get<any>(`${this.apiUrl}/user-details`);
   }

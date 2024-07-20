@@ -40,7 +40,6 @@ import { DataInterceptor } from './data.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { ThreeSceneComponent } from './components/three-scene/three-scene.component';
 import { ProfileComponent } from './pages/profil/profil.component';
-import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { ReservationComponent } from './pages/reservation/reservation.component';
 import { RouteComponent } from './pages/route/route.component';
 import { PolylineComponent } from './pages/polyline/polyline.component';
@@ -87,7 +86,6 @@ registerLocaleData(en);
     HomeComponent,
     ConfirmationComponent,
     ThreeSceneComponent,
-    EditProfileComponent,
     ReservationComponent,
     RouteComponent,
     PolylineComponent,
@@ -105,6 +103,8 @@ registerLocaleData(en);
 
     MapComponent,
     MapUserComponent,
+
+    ProfileComponent,
 
   ],
   imports: [
@@ -125,16 +125,6 @@ registerLocaleData(en);
     MatSlideToggleModule,
     NzInputModule,
     NzButtonModule,
-
-
-
-
-
-    SidebarModule,
-    ButtonModule,
-    RippleModule,
-    AvatarModule,
-    StyleClassModule
 
 
   ],

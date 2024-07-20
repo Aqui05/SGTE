@@ -12,22 +12,24 @@ export class MerchandiseListComponent implements OnInit {
 
   merchandises: any[] = [];
 
+
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadMerchandises();
   }
 
+
   getStatusType(status: string): string {
     switch (status) {
       case 'confirmé':
         return 'success';
       case 'planification':
-        return 'processing';
+        return 'yellow';
       case 'en transit':
-        return 'default';
+        return 'processing';
       case 'delivré':
-        return 'default';
+        return 'purple';
       case 'annulé':
         return 'error';
       default:

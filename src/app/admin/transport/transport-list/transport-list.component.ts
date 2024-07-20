@@ -21,11 +21,11 @@ export class TransportListComponent {
     switch (status) {
       case 'confirmed':
         return 'success';
-      case 'in progress':
+      case 'in Progress':
         return 'processing';
       case 'finished':
-        return 'default';
-      case 'canceled':
+        return 'magenta';
+      case 'cancelled':
         return 'error';
       default:
         return 'default';

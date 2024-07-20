@@ -39,11 +39,11 @@ export class TransportHistoryComponent implements OnInit {
     switch (status) {
       case 'confirmed':
         return 'success';
-      case 'in progress':
+      case 'in Progress':
         return 'processing';
       case 'finished':
-        return 'default';
-      case 'canceled':
+        return 'yellow';
+      case 'cancelled':
         return 'error';
       default:
         return 'default';

@@ -40,11 +40,11 @@ export class ExpeditionHistoryComponent {
       case 'confirmé':
         return 'success';
       case 'planification':
-        return 'processing';
+        return 'yellow';
       case 'en transit':
-        return 'default';
+        return 'processing';
       case 'delivré':
-        return 'default';
+        return 'purple';
       case 'annulé':
         return 'error';
       default:

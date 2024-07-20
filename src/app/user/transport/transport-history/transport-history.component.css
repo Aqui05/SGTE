@@ -1,19 +1,31 @@
-.status-confirmed {
-  color: #52c41a; /* green */
+
+
+
+
+.single-line-table {
+  width: 100%;
+  table-layout: fixed;
 }
 
-.status-in-progress {
-  color: #1890ff; /* blue */
+.single-line-table th,
+.single-line-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.status-finished {
-  color: #d9d9d9; /* grey */
+.single-line-table .ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.status-cancelled {
-  color: #ff4d4f; /* red */
+.single-line-table .actions-cell {
+  white-space: nowrap;
+  width: 1%;
 }
 
-.status-default {
-  color: #d9d9d9; /* default grey */
+.single-line-table .actions-cell button {
+  margin-right: 4px;
 }
