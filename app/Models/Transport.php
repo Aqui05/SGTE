@@ -26,6 +26,7 @@ class Transport extends Model
         'price',
         'seats',
         'status',
+        'paid',
     ];
 
     public function vehicle()

@@ -53,6 +53,7 @@ class ReservationController extends Controller
             $reservation = Reservation::create(array_merge($reservationData, [
                 'transport_id' => $TransportId,
                 'user_id' => $userId,
+                'total_price' => $transport->price,
             ]));
 
             $transport->decrement('seats'); // Decrement the number of available seats
