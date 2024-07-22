@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { PaymentModalComponent } from 'src/app/pages/payment-modal/payment-modal.component';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -14,11 +16,16 @@ export class ReservationAddComponent implements OnInit {
   selectedTransportId: number | null = null;
   selectedTransport: any | null = null;
 
+  isPaymentModalVisible = false;
+  reservationId!: number;
+
+
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modal: NzModalService
   ) {
     this.reservationForm = this.fb.group({
       transport_id: [''],
@@ -95,15 +102,13 @@ export class ReservationAddComponent implements OnInit {
     };
   }
 
-  // calculateTotalPrice(): void {
-  //   const numberOfSeats = this.reservationForm.get('number_of_seats')?.value;
-  //   if (this.selectedTransport && numberOfSeats >= 0) {
-  //     const totalPrice = numberOfSeats * this.selectedTransport.price;
-  //     this.reservationForm.patchValue({ total_price: totalPrice });
-  //   }
-  // }
 
-  onSubmit(): void {
+  onSubmit() {
+    if (this.reservationForm.valid) {
+      this.saveReservation();
+    }
+  }
+  saveReservation(): void {
     if (this.reservationForm.valid) {
       const reservationData = this.reservationForm.getRawValue();
       const transportId = this.selectedTransportId ? this.selectedTransportId : reservationData.transport_id;
@@ -112,7 +117,10 @@ export class ReservationAddComponent implements OnInit {
         this.dataService.addReservation(transportId, reservationData).subscribe(
           response => {
             console.log('Reservation created successfully:', response);
-            this.router.navigate(['/reservations']);
+            console.log('Reservation ID:', response.data.id);
+            this.reservationId = response.data.id;
+            //this.router.navigate(['/user/reservation/list']);
+            this.showModal();
           },
           error => {
             console.error('Error creating reservation:', error);
@@ -123,4 +131,17 @@ export class ReservationAddComponent implements OnInit {
       }
     }
   }
+
+  showModal(): void {
+    console.log(this.reservationId);
+    this.modal.create({
+      nzTitle: 'Formulaire de payement',
+      nzContent: PaymentModalComponent,
+      nzData: {
+        reservationId: this.reservationId,
+      },
+      nzFooter: null
+    });
+  }
+
 }

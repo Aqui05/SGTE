@@ -355,4 +355,11 @@ export class DataService {
     return this.http.post(`${this.apiUrl}/route/${id}/polyline`, polyline);
   }
 
+  makeMerchandisePayment(id: number, payment: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/merchandise/${id}/payment`, payment);
+  }
+
+  makeReservationPayment(id: number, payment: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reservation/${id}/payment`, payment);
+  }
 }

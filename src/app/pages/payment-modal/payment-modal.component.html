@@ -1,0 +1,110 @@
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="paymentMethod">Méthode de Paiement</label>
+      <select id="paymentMethod" formControlName="paymentMethod" class="form-control" (change)="onPaymentMethodChange($event)">
+        <option *ngFor="let method of paymentMethods" [value]="method.value">{{ method.label }}</option>
+      </select>
+    </div>
+
+    <div *ngIf="paymentForm.get('paymentMethod')?.value === 'creditCard'">
+      <div class="form-group">
+        <label for="cardNumber">Numéro de Carte</label>
+        <input type="text" id="cardNumber" formControlName="cardNumber" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="cardExpiry">Date d'Expiration</label>
+        <input type="text" id="cardExpiry" formControlName="cardExpiry" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="cardCVC">CVC</label>
+        <input type="text" id="cardCVC" formControlName="cardCVC" class="form-control" />
+      </div>
+    </div>
+
+    <div *ngIf="paymentForm.get('paymentMethod')?.value === 'paypal'">
+      <div class="form-group">
+        <label for="paypalEmail">Email PayPal</label>
+        <input type="email" id="paypalEmail" formControlName="paypalEmail" class="form-control" />
+      </div>
+    </div>
+
+    <div *ngIf="paymentForm.get('paymentMethod')?.value === 'phone'">
+      <div class="form-group">
+        <label for="phoneNumber">Numéro de Téléphone</label>
+        <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control" />
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!paymentForm.valid">Payer</button>
+  </form>
+
+
+
+
+
+  <section class="p-4 p-md-5" style="
+    background-image: url(https://mdbcdn.b-cdn.net/img/Photos/Others/background3.webp);
+  ">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-5">
+      <div class="card rounded-3">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <h3>Settings</h3>
+            <h6>Payment</h6>
+          </div>
+          <form action="">
+
+            <p class="fw-bold mb-4">Payment methods:</p>
+
+            <div class="d-flex flex-row align-items-center mb-4 pb-1">
+              <img class="img-fluid" src="https://img.icons8.com/color/48/000000/visa.png" />
+              <div class="flex-fill mx-3">
+                <div data-mdb-input-init class="form-outline">
+                  <input type="text" id="formControlLgXs" class="form-control form-control-lg"
+                    value="**** **** **** 4296" />
+                  <label class="form-label" for="formControlLgXs">Card Number</label>
+                </div>
+              </div>
+              <a href="#!">Remove card</a>
+            </div>
+
+            <p class="fw-bold mb-4">Add new card:</p>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+              <input type="text" id="formControlLgXsd" class="form-control form-control-lg"
+                value="Anna Doe" />
+              <label class="form-label" for="formControlLgXsd">Cardholder's Name</label>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-7">
+                <div data-mdb-input-init class="form-outline">
+                  <input type="text" id="formControlLgXM" class="form-control form-control-lg"
+                    value="1234 5678 1234 5678" />
+                  <label class="form-label" for="formControlLgXM">Card Number</label>
+                </div>
+              </div>
+              <div class="col-3">
+                <div data-mdb-input-init class="form-outline">
+                  <input type="password" id="formControlLgExpk" class="form-control form-control-lg"
+                    placeholder="MM/YYYY" />
+                  <label class="form-label" for="formControlLgExpk">Expire</label>
+                </div>
+              </div>
+              <div class="col-2">
+                <div data-mdb-input-init class="form-outline">
+                  <input type="password" id="formControlLgcvv" class="form-control form-control-lg"
+                    placeholder="Cvv" />
+                  <label class="form-label" for="formControlLgcvv">Cvv</label>
+                </div>
+              </div>
+            </div>
+
+            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-lg btn-block">Add card</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

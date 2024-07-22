@@ -70,6 +70,7 @@ import { Sidebar } from 'primeng/sidebar';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MapUserComponent } from './user/map-user/map-user.component';
+import { PaymentModalComponent } from './pages/payment-modal/payment-modal.component';
 
 const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
@@ -105,6 +106,9 @@ registerLocaleData(en);
     MapUserComponent,
 
     ProfileComponent,
+
+
+    PaymentModalComponent,
 
   ],
   imports: [
