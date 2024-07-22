@@ -22,9 +22,9 @@ export class ReservationAddComponent implements OnInit {
   ) {
     this.reservationForm = this.fb.group({
       transport_id: [''],
-      number_of_seats: ['', [Validators.required, Validators.min(0)]],
-      total_price: [{ value: '', disabled: true }, Validators.required],
-      status: ['', Validators.required],
+      // number_of_seats: ['', [Validators.required, Validators.min(0)]],
+      // total_price: [{ value: '', disabled: true }, Validators.required],
+      // status: ['', Validators.required],
       destination_waypoint: ['', Validators.required],
       additional_info: [''],
       departure_waypoint: ['', Validators.required]
@@ -37,9 +37,9 @@ export class ReservationAddComponent implements OnInit {
       this.loadTransports();
     });
 
-    this.reservationForm.get('number_of_seats')?.valueChanges.subscribe(value => {
-      this.calculateTotalPrice();
-    });
+    // this.reservationForm.get('number_of_seats')?.valueChanges.subscribe(value => {
+    //   this.calculateTotalPrice();
+    // });
   }
 
   loadTransports(): void {
@@ -54,7 +54,7 @@ export class ReservationAddComponent implements OnInit {
             destination_waypoint: this.selectedTransport.destination_location
           });
           this.updateSeatValidator();
-          this.calculateTotalPrice();
+          // this.calculateTotalPrice();
         }
       },
       (error) => {
@@ -72,7 +72,7 @@ export class ReservationAddComponent implements OnInit {
         destination_waypoint: this.selectedTransport.destination_location
       });
       this.updateSeatValidator();
-      this.calculateTotalPrice();
+      // this.calculateTotalPrice();
     }
   }
 
@@ -95,13 +95,13 @@ export class ReservationAddComponent implements OnInit {
     };
   }
 
-  calculateTotalPrice(): void {
-    const numberOfSeats = this.reservationForm.get('number_of_seats')?.value;
-    if (this.selectedTransport && numberOfSeats >= 0) {
-      const totalPrice = numberOfSeats * this.selectedTransport.price;
-      this.reservationForm.patchValue({ total_price: totalPrice });
-    }
-  }
+  // calculateTotalPrice(): void {
+  //   const numberOfSeats = this.reservationForm.get('number_of_seats')?.value;
+  //   if (this.selectedTransport && numberOfSeats >= 0) {
+  //     const totalPrice = numberOfSeats * this.selectedTransport.price;
+  //     this.reservationForm.patchValue({ total_price: totalPrice });
+  //   }
+  // }
 
   onSubmit(): void {
     if (this.reservationForm.valid) {
