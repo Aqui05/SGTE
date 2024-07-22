@@ -67,6 +67,13 @@ class MerchandiseController extends Controller
         return new MerchandiseResource($merchandise);
     }
 
+    public function makePayment(Request $request, $id)
+    {
+        $merchandise = Merchandise::findOrFail($id);
+        $merchandise->update(['paid' => true]);
+        return response()->json(['message' => 'Reservation paid successfully']);
+    }
+
 
     public function show($id)
     {

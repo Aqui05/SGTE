@@ -35,7 +35,6 @@ class ReservationController extends Controller
         $transport = Transport::findOrFail($TransportId);
 
         $validator = Validator::make($request->all(), [
-            'reservation_datetime' => now(),
             'destination_waypoint' => 'required|string',
             'departure_waypoint' => 'required|string',
             'additional_info' => 'nullable|string',
@@ -54,14 +53,10 @@ class ReservationController extends Controller
                 'transport_id' => $TransportId,
                 'user_id' => $userId,
                 'total_price' => $transport->price,
+                'paid' => false, // Set initial payment status to false
             ]));
 
             $transport->decrement('seats'); // Decrement the number of available seats
-
-            // Generate the ticket and retrieve the Ticket object
-            $ticket = $this->ticket($reservation->id);
-
-            Notification::send($user, new ReservationAdd($reservation, $ticket));
 
             return (new ReservationResource($reservation))
                 ->response()
@@ -71,6 +66,28 @@ class ReservationController extends Controller
         }
     }
 
+
+    public function makePayment(Request $request, $id)
+    {
+        $user = Auth::user();
+        $reservation = Reservation::findOrFail($id);
+
+        // Simulate the payment process
+        $paymentSuccessful = true; // This should be replaced with actual payment gateway logic
+
+        if ($paymentSuccessful) {
+            $reservation->update(['paid' => true]);
+
+            // Generate the ticket and retrieve the Ticket object
+            $ticket = $this->ticket($reservation->id);
+
+            Notification::send($user, new ReservationAdd($reservation,$ticket));
+
+            return response()->json(['message' => 'Reservation paid successfully', 'ticket' => $ticket]);
+        } else {
+            return response()->json(['error' => 'Payment failed'], 422);
+        }
+    }
 
     public function ticket($reservationId)
     {
@@ -106,6 +123,7 @@ class ReservationController extends Controller
         // Return the Ticket object
         return $ticket;
     }
+
 
 
 

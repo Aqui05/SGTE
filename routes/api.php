@@ -52,7 +52,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/reservations/transport/{id}',[ReservationController::class,'transportReservations']);
     Route::get('/reservations/vehicle/{id}',[ReservationController::class,'vehicleReservations']);
 
-
+    Route::post('/reservation/{id}/payment',[ReservationController::class,'makePayment']);
+    Route::post('/merchandise/{id}/payment',[MerchandiseController::class,'makePayment']);
 
     Route::get('/expedition/{id}',[ExpeditionController::class,'show']);
 
