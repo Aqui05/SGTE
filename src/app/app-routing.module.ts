@@ -16,6 +16,8 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { MapUserComponent } from './user/map-user/map-user.component';
 import { MapComponent } from './admin/map/map.component';
+import { NotificationComponent } from './admin/notification/notification.component';
+import { NotificationUserComponent } from './user/notification/notification.component';
 
 const routes: Routes = [
   {
@@ -30,7 +32,7 @@ const routes: Routes = [
       { path: 'internal-server-error', component: InternalServerErrorComponent },
       { path: 'unavailable', component: ServiceUnavailableComponent },
       { path: 'unauthorized', component: UnauthorizedComponent },
-      { path: 'map/:id', component: MapComponent, data: { title: 'map' }  },
+      { path: 'map/:id', component: MapComponent, data: { title: 'map' }},
     ]
   },
   {
@@ -44,7 +46,8 @@ const routes: Routes = [
       { path: 'vehicle', loadChildren: () => import('./admin/vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'expedition', loadChildren: () => import('./admin/expedition/expedition.module').then(m => m.ExpeditionModule) },
       { path: 'merchandise', loadChildren: () => import('./admin/merchandise/merchandise.module').then(m => m.MerchandiseModule) },
-      { path: 'map/:id', component: MapComponent, data: { title: 'map' }  },
+      { path: 'map/:id', component: MapComponent, data: { title: 'map' }},
+      { path: 'notifications', component: NotificationComponent, data: { title: 'Notifications' }},
     ]
   },
   {
@@ -59,6 +62,7 @@ const routes: Routes = [
       { path: 'transport', loadChildren: () => import('./user/transport/transport.module').then(m => m.TransportModule)},
       { path: 'expedition', loadChildren: () => import('./user/expedition/expedition.module').then(m => m.ExpeditionModule) },
       { path: 'merchandise', loadChildren: () => import('./user/merchandise/merchandise.module').then(m => m.MerchandiseModule) },
+      { path: 'notifications', component: NotificationUserComponent, data: { title: 'Notifications' }},
     ]
   },
   { path: '**', redirectTo: 'not-found' }

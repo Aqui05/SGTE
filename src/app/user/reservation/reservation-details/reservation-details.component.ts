@@ -39,14 +39,29 @@ export class ReservationDetailsComponent implements OnInit {
     );
   }
 
-  downloadTicket():void {
+  downloadTicket(): void {
     if (this.reservation.paid) {
-      // Logic to download/view the ticket
-      this.msg.success('Ticket downloaded/viewed successfully');
+      this.dataService.getTicket(this.reservationId, { responseType: 'blob' }).subscribe(
+        (response: Blob) => {
+          const file = new Blob([response], { type: 'application/pdf' });
+          const fileURL = URL.createObjectURL(file);
+          const a = document.createElement('a');
+          a.href = fileURL;
+          a.download = `Ticket_${this.reservationId}.pdf`;  // Sets a name for the downloaded file
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        },
+        (error) => {
+          console.error(error);
+          this.msg.error('Erreur lors de la récupération du ticket');
+        }
+      );
     } else {
       this.msg.warning('You must proceed with the payment first');
     }
   }
+  
 
 
   proceedToPayment(): void {

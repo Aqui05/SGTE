@@ -40,7 +40,6 @@ import { DataInterceptor } from './data.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { ThreeSceneComponent } from './components/three-scene/three-scene.component';
 import { ProfileComponent } from './pages/profil/profil.component';
-import { ReservationComponent } from './pages/reservation/reservation.component';
 import { RouteComponent } from './pages/route/route.component';
 import { PolylineComponent } from './pages/polyline/polyline.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
@@ -58,12 +57,12 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 
-import { SidebarModule } from 'primeng/sidebar';
-import { ButtonModule } from 'primeng/button';
-import { RippleModule } from 'primeng/ripple';
-import { AvatarModule } from 'primeng/avatar';
-import { StyleClassModule } from 'primeng/styleclass';
-import { Sidebar } from 'primeng/sidebar';
+// import { SidebarModule } from 'primeng/sidebar';
+// import { ButtonModule } from 'primeng/button';
+// import { RippleModule } from 'primeng/ripple';
+// import { AvatarModule } from 'primeng/avatar';
+// import { StyleClassModule } from 'primeng/styleclass';
+// import { Sidebar } from 'primeng/sidebar';
 
 
 
@@ -71,6 +70,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MapUserComponent } from './user/map-user/map-user.component';
 import { PaymentModalComponent } from './pages/payment-modal/payment-modal.component';
+import fr from '@angular/common/locales/fr';
 
 const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
@@ -87,7 +87,6 @@ registerLocaleData(en);
     HomeComponent,
     ConfirmationComponent,
     ThreeSceneComponent,
-    ReservationComponent,
     RouteComponent,
     PolylineComponent,
     ForbiddenComponent,

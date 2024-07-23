@@ -325,9 +325,19 @@ export class DataService {
 
 
 
+  ///TICKET
+  // getTicket(reservationId: number, options: any): Observable<Blob> {
+  //   return this.http.get<Blob>(`${this.apiUrl}/get/ticket/${reservationId}`, { ...options, responseType: 'blob' });
+  // }
+  
 
-
-
+  getTicket(reservationId: number, options: any): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/get/ticket/${reservationId}`, 
+      { ...options, responseType: 'blob' as 'json' })
+      .pipe(
+        map(response => new Blob([response], { type: 'application/pdf' }))
+      );
+  }
 
 
 
