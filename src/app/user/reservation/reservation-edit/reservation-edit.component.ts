@@ -11,12 +11,14 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class ReservationEditComponent implements OnInit {
 
-  reservationId !:number;
-  reservation !:{};
-  selectedTransportId: number | null = null;
+  reservationId!: number;
+  reservation: any = {}; // Ensure reservation is an object
+  selectedTransportId!: number;
   selectedTransport: any | null = null;
 
-  reservationForm !:FormGroup;
+  reservationForm!: FormGroup;
+
+  transports: any[] = [];
 
   constructor(
     private dataService: DataService,
@@ -25,19 +27,16 @@ export class ReservationEditComponent implements OnInit {
     private fb: FormBuilder,
     private msg: NzMessageService
   ) {
-      this.reservationForm = this.fb.group ({
-        transport_id: [''],
-        number_of_seats: ['', [Validators.required, Validators.min(0)]],
-        total_price: [{ value: '', disabled: true }, Validators.required],
-        status: ['', Validators.required],
-        destination_waypoint: ['', Validators.required],
-        additional_info: [''],
-        departure_waypoint: ['', Validators.required]
-      })
+    this.reservationForm = this.fb.group({
+      transport_id: [''],
+      destination_waypoint: ['', Validators.required],
+      additional_info: [''],
+      departure_waypoint: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
-    this.reservationId= this.route.snapshot.params['id'];
+    this.reservationId = this.route.snapshot.params['id'];
     this.loadReservationData();
   }
 
@@ -45,13 +44,14 @@ export class ReservationEditComponent implements OnInit {
     this.dataService.getReservation(this.reservationId).subscribe(
       (response) => {
         this.reservation = response.data;
+        this.selectedTransportId = response.data.transport_id;
+        this.loadTransports();
       },
-
       (error) => {
-        console.error (error);
+        console.error(error);
         this.msg.error('Erreur de chargement de l\'expédition');
       }
-    )
+    );
   }
 
   onSubmit(): void {
@@ -72,6 +72,36 @@ export class ReservationEditComponent implements OnInit {
       } else {
         console.error('No transport ID provided');
       }
+    }
+  }
+
+  loadTransports(): void {
+    this.dataService.getTransports().subscribe(
+      (data) => {
+        this.transports = data.data;
+        if (this.selectedTransportId) {
+          this.selectedTransport = this.transports.find(t => t.id === this.selectedTransportId);
+          this.reservationForm.patchValue({
+            transport_id: this.selectedTransportId,
+            departure_waypoint: this.selectedTransport.departure_location,
+            destination_waypoint: this.selectedTransport.destination_location
+          });
+        }
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des transports:', error);
+      }
+    );
+  }
+
+  onTransportChange(event: Event): void {
+    const selectedTransportId = (event.target as HTMLSelectElement).value;
+    this.selectedTransport = this.transports.find(t => t.id === +selectedTransportId);
+    if (this.selectedTransport) {
+      this.reservationForm.patchValue({
+        departure_waypoint: this.selectedTransport.departure_location,
+        destination_waypoint: this.selectedTransport.destination_location
+      });
     }
   }
 

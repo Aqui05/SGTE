@@ -6,7 +6,7 @@ import { ReservationListComponent } from './reservation-list/reservation-list.co
 import { ReservationEditComponent } from './reservation-edit/reservation-edit.component';
 import { ReservationAddComponent } from './reservation-add/reservation-add.component';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 
 
@@ -22,6 +22,8 @@ import { ReservationDetailsComponent } from './reservation-details/reservation-d
     ReservationRoutingModule,
     DemoNgZorroAntdModule,
     ReactiveFormsModule,
+    FormsModule,
+
   ]
 })
 export class ReservationModule { }

@@ -168,7 +168,7 @@ export class DataService {
     return this.http.put(`${this.apiUrl}/reservation/${id}`, reservation);
   }
   deleteReservation(id: number, reservation: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/reservation/${id}`, reservation);
+    return this.http.put(`${this.apiUrl}/reservation/delete/${id}`, reservation);
   }
 
   ReservationTransport(id: number): Observable<any> {
@@ -197,10 +197,10 @@ export class DataService {
     return this.http.post(`${this.apiUrl}/transport`, transport);
   }
   updateTransport(id: number, transport: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/transport/${id}`, transport);
+    return this.http.put(`${this.apiUrl}/update/transport/${id}`, transport);
   }
   deleteTransport(id: number, transport: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/transport/${id}`, transport);
+    return this.http.put(`${this.apiUrl}/delete/transport/${id}`, transport);
   }
 
   /*
@@ -247,6 +247,12 @@ export class DataService {
     return this.http.get(`${this.apiUrl}/merchandises/ship`);
   }
 
+  //annulé une merchandise:
+
+  cancelMerchandise(id: number, merchandise: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/merchandise/cancel/${id}`, merchandise);
+  }
+
 
 
   /*
@@ -275,7 +281,7 @@ export class DataService {
   }
 
   deleteExpedition(id: number, expedition: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/expedition/${id}`, expedition);
+    return this.http.put(`${this.apiUrl}/expedition/delete/${id}`, expedition);
   }
 
   getExpeditionsList(): Observable<any> {

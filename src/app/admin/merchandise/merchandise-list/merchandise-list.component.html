@@ -24,11 +24,11 @@
         <td><span class="ellipsis">{{ data.destination }}</span></td>
         <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
         <td class="actions-cell">
-          <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'en transit'">Détails</button>
+          <button nz-button nzType="primary" (click)="viewDetails(data.id)">Détails</button>
           <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="default" (click)="shipped(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification'">Expédier</button>
+          <button nz-button nzType="default" (click)="shipped(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification'  || data.status === 'delivré'">Expédier</button>
           <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit'">Supprimer</button>
+          <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification'  || data.status === 'delivré'">Annuler</button>
         </td>
       </tr>
     </tbody>

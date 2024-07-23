@@ -29,9 +29,6 @@ export class ReservationAddComponent implements OnInit {
   ) {
     this.reservationForm = this.fb.group({
       transport_id: [''],
-      // number_of_seats: ['', [Validators.required, Validators.min(0)]],
-      // total_price: [{ value: '', disabled: true }, Validators.required],
-      // status: ['', Validators.required],
       destination_waypoint: ['', Validators.required],
       additional_info: [''],
       departure_waypoint: ['', Validators.required]
@@ -60,8 +57,6 @@ export class ReservationAddComponent implements OnInit {
             departure_waypoint: this.selectedTransport.departure_location,
             destination_waypoint: this.selectedTransport.destination_location
           });
-          this.updateSeatValidator();
-          // this.calculateTotalPrice();
         }
       },
       (error) => {
@@ -78,29 +73,9 @@ export class ReservationAddComponent implements OnInit {
         departure_waypoint: this.selectedTransport.departure_location,
         destination_waypoint: this.selectedTransport.destination_location
       });
-      this.updateSeatValidator();
-      // this.calculateTotalPrice();
     }
   }
 
-  updateSeatValidator(): void {
-    const seatsControl = this.reservationForm.get('number_of_seats');
-    if (this.selectedTransport && seatsControl) {
-      seatsControl.setValidators([
-        Validators.required,
-        Validators.min(0),
-        this.maxSeatsValidator(this.selectedTransport.seats)
-      ]);
-      seatsControl.updateValueAndValidity();
-    }
-  }
-
-  maxSeatsValidator(maxSeats: number) {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const seats = control.value;
-      return seats > maxSeats ? { maxSeats: { value: seats, maxSeats: maxSeats } } : null;
-    };
-  }
 
 
   onSubmit() {
@@ -119,7 +94,7 @@ export class ReservationAddComponent implements OnInit {
             console.log('Reservation created successfully:', response);
             console.log('Reservation ID:', response.data.id);
             this.reservationId = response.data.id;
-            //this.router.navigate(['/user/reservation/list']);
+            this.router.navigate(['/user/reservation/list']);
             this.showModal();
           },
           error => {

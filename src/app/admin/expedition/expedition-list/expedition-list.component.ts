@@ -62,16 +62,15 @@ export class ExpeditionListComponent {
   }
 
 
-
   cancel(id: number): void {
-    /*this.dataService.deleteVehicle(id).subscribe(
+    this.dataService.deleteExpedition(id,this.expeditions).subscribe(
       (response) => {
-        this.loadMerchandises();
+        this.loadExpeditions();
       },
       (error) => {
         console.error('Erreur lors de la suppression du véhicule:', error);
       }
-    );*/
+    );
   }
 
 }

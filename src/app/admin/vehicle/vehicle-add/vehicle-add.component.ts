@@ -19,6 +19,8 @@ export class VehicleAddComponent implements OnInit {
   submitErrorMessage = '';
   loading = false;
 
+  TransportTypes: string[] = ['maritime', 'routier', 'aérien', 'ferroviaire'];
+
   constructor(
     private msg: NzMessageService,
     private fb: FormBuilder,

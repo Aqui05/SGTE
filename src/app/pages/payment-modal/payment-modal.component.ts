@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
-import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-payment-modal',
@@ -21,52 +21,80 @@ export class PaymentModalComponent implements OnInit {
 
   reservationId!: number;
 
+  user: any = {};
+
+  price = 0.00;
+
   constructor(
     private modal: NzModalRef,
     private fb: FormBuilder,
     private msg: NzMessageService,
     private dataService: DataService,
     private router: Router
-  ) {
-    console.log(this.reservationId)
-    this.paymentForm = this.fb.group({
-      paymentMethod: ['', Validators.required],
-      cardNumber: [''],
-      // Ajoutez d'autres contrôles pour les détails de paiement ici
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.paymentForm.get('paymentMethod')?.setValue(this.paymentMethods[0].value);
-
+    this.initForm();
     this.reservationId = this.modal.getConfig().nzData.reservationId;
-    console.log('Reservation ID:', this.reservationId);
+    this.loadReservation();
+    this.loadUser();
+    if (this.user && this.user.phone) {
+      this.paymentForm.patchValue({
+        phoneNumber: this.user.phone
+      });
+    }
   }
 
-  onPaymentMethodChange(event: Event): void {
-    const paymentMethod = (event.target as HTMLSelectElement).value;
-    this.paymentForm.get('cardNumber')?.disable();
-    this.paymentForm.get('cardExpiry')?.disable();
-    this.paymentForm.get('cardCVC')?.disable();
-    this.paymentForm.get('paypalEmail')?.disable();
-    this.paymentForm.get('phoneNumber')?.disable();
-    if (paymentMethod === 'creditCard') {
-      this.paymentForm.get('cardNumber')?.enable();
-      this.paymentForm.get('cardExpiry')?.enable();
-      this.paymentForm.get('cardCVC')?.enable();
-    } else if (paymentMethod === 'paypal') {
-      this.paymentForm.get('paypalEmail')?.enable();
-    } else if (paymentMethod === 'phone') {
-      this.paymentForm.get('phoneNumber')?.enable();
+  initForm(): void {
+    this.paymentForm = this.fb.group({
+      paymentMethod: ['creditCard', Validators.required],
+      cardNumber: [''],
+      cardExpiry: [''],
+      cardCVC: [''],
+      paypalEmail: [''],
+      phoneNumber: [''] // Ajoutez cette ligne si elle n'existe pas déjà
+    });
+    this.onPaymentMethodChange();
+  }
+
+  onPaymentMethodChange(): void {
+    const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
+    this.paymentForm.get('cardNumber')?.clearValidators();
+    this.paymentForm.get('cardExpiry')?.clearValidators();
+    this.paymentForm.get('cardCVC')?.clearValidators();
+    this.paymentForm.get('paypalEmail')?.clearValidators();
+    this.paymentForm.get('phoneNumber')?.clearValidators();
+
+    switch (paymentMethod) {
+      case 'creditCard':
+        this.paymentForm.get('cardNumber')?.setValidators([Validators.required]);
+        this.paymentForm.get('cardExpiry')?.setValidators([Validators.required]);
+        this.paymentForm.get('cardCVC')?.setValidators([Validators.required]);
+        break;
+      case 'paypal':
+        this.paymentForm.get('paypalEmail')?.setValidators([Validators.required, Validators.email]);
+        break;
+      case 'phone':
+        this.paymentForm.get('phoneNumber')?.setValidators([Validators.required]);
+        break;
     }
+
+    this.paymentForm.updateValueAndValidity();
   }
 
   onSubmit(): void {
     if (this.paymentForm.valid) {
-      this.dataService.makeReservationPayment(this.reservationId, this.paymentForm.value).subscribe(
+      const paymentData = {
+        method: this.paymentForm.get('paymentMethod')?.value,
+        ...this.paymentForm.value
+      };
+
+      this.dataService.makeReservationPayment(this.reservationId, paymentData).subscribe(
         (response: any) => {
           this.msg.success('Paiement effectué avec succès');
-          this.router.navigate(['/reservations']);
+          console.log('Paiement:', response.data);
+          this.modal.close(true);
+          this.router.navigate([`/user/reservation/details/${this.reservationId}`]);
         },
         (error: any) => {
           this.msg.error('Erreur lors du paiement');
@@ -76,7 +104,27 @@ export class PaymentModalComponent implements OnInit {
     }
   }
 
+  loadReservation(): void {
+    this.dataService.getReservation(this.reservationId).subscribe(
+      (data) => {
+        console.log('Expedition:', data.data);
+        this.price = data.data.total_price;
+        console.log(this.price);
+      },
+      (error) => {
+        console.error('Erreur de création de l\'expédition:', error);
+      }
+    );
+  }
 
-
-
+  loadUser(): void {
+    this.dataService.getUserInfo().subscribe(
+      (data) => {
+        this.user = data;
+      },
+      (error) => {
+        console.error('Erreur de la récupération du profil:', error);
+      }
+    );
+  }
 }

@@ -18,6 +18,7 @@
       <th>Départ</th>
       <th>Arrivé</th>
       <th>Status</th>
+      <th>Payer</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -28,6 +29,15 @@
       <td>{{ data.departure_waypoint}}</td>
       <td>{{ data.destination_waypoint}}</td>
       <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+      <td>
+        <span
+          [class]="data.paid ? 'badge text-bg-success' : 'badge text-bg-danger'"
+          [class.rounded-pill]="true"
+          [class.d-inline]="true"
+        >
+          {{ data.paid ? 'OUI' : 'NON' }}
+        </span>
+      </td>
       <td>
         <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'canceled'">Détails</button>
         <nz-divider nzType="vertical"></nz-divider>

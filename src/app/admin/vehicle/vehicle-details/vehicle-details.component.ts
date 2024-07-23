@@ -52,8 +52,9 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   editVehicle(id: number): void {
-    this.router.navigate([`/vehicle/edit/${id}`]);
+    this.router.navigate([`admin/vehicle/edit/${id}`]);
   }
+
 
   deleteVehicle(id: number): void {
     this.dataService.deleteVehicle(id).subscribe(

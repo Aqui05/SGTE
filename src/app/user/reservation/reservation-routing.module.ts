@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'list', component: ReservationListComponent ,data: { title: 'Liste des réservations' } },
   { path: 'add', component: ReservationAddComponent,data: { title: 'Faire une Reservation' } },
   { path: 'edit/:id', component: ReservationEditComponent,data: { title: 'Modifier une Reservation' }  },
-  { path: 'details/:id', component: ReservationDetailsComponent,data: { title: 'Modifier une Reservation' }  },
+  { path: 'details/:id', component: ReservationDetailsComponent,data: { title: 'Détails d\'une Reservation' }  },
 ];
 
 @NgModule({

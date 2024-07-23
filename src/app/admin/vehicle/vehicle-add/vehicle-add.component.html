@@ -4,7 +4,9 @@
       <nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-control [nzErrorTip]="'Le type est requis'">
-            <input nz-input formControlName="type" placeholder="Type de véhicule">
+            <nz-select formControlName="type" nzPlaceHolder="Sélectionnez le type du transport">
+            <nz-option *ngFor="let type of TransportTypes" [nzLabel]="type" [nzValue]="type"></nz-option>
+          </nz-select>
           </nz-form-control>
         </nz-form-item>
       </nz-col>

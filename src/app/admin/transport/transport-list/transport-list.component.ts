@@ -63,7 +63,7 @@ export class TransportListComponent {
         this.loadTransports();
       },
       (error) => {
-        console.error('Erreur lors de la suppression du véhicule:', error);
+        console.error('Erreur lors de la suppression du transport:', error);
       }
     );
   }

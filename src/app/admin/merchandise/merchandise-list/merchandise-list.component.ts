@@ -65,14 +65,14 @@ export class MerchandiseListComponent implements OnInit {
 
 
   cancel(id: number): void {
-    /*this.dataService.deleteVehicle(id).subscribe(
+    this.dataService.cancelMerchandise(id,this.merchandises).subscribe(
       (response) => {
         this.loadMerchandises();
       },
       (error) => {
         console.error('Erreur lors de la suppression du véhicule:', error);
       }
-    );*/
+    );
   }
 
 }

@@ -28,7 +28,7 @@
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="default" (click)="editVehicle(data.id)">Modifier</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" nzDanger (click)="deleteVehicle(data.id)">Supprimer</button>
+        <button nz-button nzType="primary" nzDanger (click)="deleteVehicle(data.id)"  [disabled]="data.available == false">Supprimer</button>
       </td>
     </tr>
   </tbody>
