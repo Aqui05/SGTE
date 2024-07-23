@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
@@ -233,4 +235,29 @@ class ReservationController extends Controller
     }
 
 
+    public function getTicket($reservationId)
+    {
+        try {
+            $ticket = Ticket::where('reservation_id', $reservationId)->firstOrFail();
+    
+            $filePath = Storage::disk('public')->path($ticket->ticket_lien);
+    
+            if (!Storage::disk('public')->exists($ticket->ticket_lien)) {
+                Log::error("Ticket file not found: {$filePath}");
+                return response()->json(['message' => 'Ticket file not found'], 404);
+            }
+    
+            return response()->file($filePath, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="' . basename($filePath) . '"'
+            ]);
+        } catch (ModelNotFoundException $e) {
+            Log::error("Ticket not found for reservation ID: {$reservationId}");
+            return response()->json(['message' => 'Ticket not found'], 404);
+        } catch (\Exception $e) {
+            Log::error("Error retrieving ticket: " . $e->getMessage());
+            return response()->json(['message' => 'An error occurred while retrieving the ticket'], 500);
+        }
+    }
+    
 }

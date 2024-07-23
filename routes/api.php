@@ -30,6 +30,10 @@ Route::delete('/delete/user', [AuthController::class,'deleteUser'])->middleware(
 
 Route::group(['middleware' => ['auth:api']], function () {
 
+    //Récupérer le ticket
+
+    Route::get('/get/ticket/{id}', [ReservationController::class,'getTicket']);
+
     Route::get('/transport/{id}',[TransportController::class,'show']);
     Route::get('/transport/sortBy/{query}',[TransportController::class,'sortBy']);
     Route::get('/transport/search/{info}',[TransportController::class,'search']);

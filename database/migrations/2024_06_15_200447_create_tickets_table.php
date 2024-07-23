@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('reservation_id')->nullable();
+            $table->unsignedBigInteger('reservation_id')->nullable()->unique();
             $table->string('ticket_number')->unique();
             $table->dateTime('issued_at');
             $table->string('ticket_lien')->nullable();
