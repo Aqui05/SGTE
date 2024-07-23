@@ -22,6 +22,7 @@ class Merchandise extends Model
         'depart',
         'destination',
         'status',
+        'paid',
     ];
 
 

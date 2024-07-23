@@ -107,8 +107,19 @@ class MerchandiseController extends Controller
         $merchandise = Merchandise::findOrFail($id);
         $merchandise::delete();
 
+        return response()->json(['message' => 'Merchandise destroyed successfully', 204]);
+    }
+
+    public function cancel($id)
+    {
+        $merchandise = Merchandise::findOrFail($id);
+        $merchandise->update([
+            'status' => 'annulé',
+        ]);
+
         return response()->json(['message' => 'Merchandise canceled successfully', 204]);
     }
+
 
     public function merchandiseList()
     {

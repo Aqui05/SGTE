@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/reservations',[ReservationController::class,'index']);
     Route::get('/reservation/{id}',[ReservationController::class,'show']);
     Route::put('/reservation/{id}',[ReservationController::class,'update']);
-    Route::put('/reservation/{id}',[ReservationController::class,'destroy']);
+    Route::put('/reservation/delete/{id}',[ReservationController::class,'destroy']);
 
 
 
@@ -66,6 +66,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/merchandise/{id}',[MerchandiseController::class,'destroy']);
 
 
+    //Annuler une marchadise.
+
+    Route::put('/merchandise/cancel/{id}',[MerchandiseController::class,'cancel']);
 
 
     Route::get('/transports/user/list',[TransportController::class,'UserTransports']);
@@ -89,7 +92,7 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::post('/expedition',[ExpeditionController::class,'store']);
     Route::get('/expeditions',[ExpeditionController::class,'index']);
     Route::put('/expedition/{id}',[ExpeditionController::class,'update']);
-    Route::put('/expedition/{id}',[ExpeditionController::class,'destroy']);
+    Route::put('/expedition/delete/{id}',[ExpeditionController::class,'destroy']);
 
     Route::get('/vehicles', [VehicleController::class, 'index']);
     Route::post('/vehicle',[VehicleController::class,'store']);
@@ -102,7 +105,7 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::post('/transport/{id}/route',[TransportController::class,'createRoute']);
     Route::post('/route/{id}/polyline',[TransportController::class,'createPolyline']);
 
-    Route::put('/create/transport/{id}',[TransportController::class,'update']);
+    Route::put('/update/transport/{id}',[TransportController::class,'update']);
     Route::put('/delete/transport/{id}',[TransportController::class,'destroy']);
 
     Route::get('users',[AuthController::class,'users'])->name('usersList');

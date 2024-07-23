@@ -14,6 +14,9 @@ use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\File;
@@ -69,59 +72,72 @@ class ReservationController extends Controller
 
     public function makePayment(Request $request, $id)
     {
-        $user = Auth::user();
-        $reservation = Reservation::findOrFail($id);
+        try {
+            $user = Auth::user();
+            $reservation = Reservation::findOrFail($id);
 
-        // Simulate the payment process
-        $paymentSuccessful = true; // This should be replaced with actual payment gateway logic
+            // Simulate the payment process
+            $paymentSuccessful = true; // This should be replaced with actual payment gateway logic
 
-        if ($paymentSuccessful) {
-            $reservation->update(['paid' => true]);
+            if ($paymentSuccessful) {
+                $reservation->update(['paid' => true]);
 
-            // Generate the ticket and retrieve the Ticket object
-            $ticket = $this->ticket($reservation->id);
+                // Generate the ticket and retrieve the Ticket object
+                $ticket = $this->generateTicket($reservation->id);
 
-            Notification::send($user, new ReservationAdd($reservation,$ticket));
-
-            return response()->json(['message' => 'Reservation paid successfully', 'ticket' => $ticket]);
-        } else {
-            return response()->json(['error' => 'Payment failed'], 422);
+                if ($ticket) {
+                    Notification::send($user, new ReservationAdd($reservation, $ticket));
+                    return response()->json(['message' => 'Reservation paid successfully', 'ticket' => $ticket]);
+                } else {
+                    throw new \Exception('Failed to generate ticket');
+                }
+            } else {
+                return response()->json(['error' => 'Payment failed'], 422);
+            }
+        } catch (\Exception $e) {
+            Log::error('Payment error: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred during payment process'], 500);
         }
     }
 
-    public function ticket($reservationId)
+    public function generateTicket($reservationId)
     {
-        $reservation = Reservation::findOrFail($reservationId);
+        try {
+            $reservation = Reservation::findOrFail($reservationId);
 
-        // Generate the QR code with relevant content
-        $qrCodeContent = "Reservation ID: {$reservation->id}, User ID: {$reservation->user_id}";
-        $qrCode = QrCode::format('png')->size(200)->generate($qrCodeContent);
+            // Generate the QR code with relevant content
+            $qrCodeContent = "Reservation ID: {$reservation->id}, User ID: {$reservation->user_id}";
+            $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrCodeContent));
 
-        // Generate the HTML content for the ticket
-        $html = View::make('ticket', compact('reservation', 'qrCode'))->render();
+            // Generate the HTML content for the ticket
+            $html = view('ticket', compact('reservation', 'qrCode'))->render();
 
-        // Create the PDF from the HTML content
-        $pdf = PDF::loadHTML($html);
+            // Create the PDF from the HTML content
+            $pdf = PDF::loadHTML($html);
+            $pdf->setPaper('A4', 'portrait');
 
-        // Generate a unique ticket number
-        $ticketNumber = 'TICKET_' . Str::random(10);
+            // Generate a unique ticket number
+            $ticketNumber = 'TICKET_' . Str::random(10);
 
-        // Save the PDF on the server
-        $fileName = $ticketNumber . '.pdf';
-        $filePath = public_path('tickets/' . $fileName);
-        $pdf->save($filePath);
+            // Save the PDF on the server
+            $fileName = $ticketNumber . '.pdf';
+            $filePath = 'tickets/' . $fileName;
 
-        // Save the ticket information in the database
-        $ticket = new Ticket();
-        $ticket->reservation_id = $reservationId;
-        $ticket->ticket_number = $ticketNumber;
-        $ticket->issued_at = now();
-        $ticket->ticket_lien = 'tickets/' . $fileName;
+            Storage::disk('public')->put($filePath, $pdf->output());
 
-        $ticket->save();
+            // Save the ticket information in the database
+            $ticket = new Ticket();
+            $ticket->reservation_id = $reservationId;
+            $ticket->ticket_number = $ticketNumber;
+            $ticket->issued_at = now();
+            $ticket->ticket_lien = $filePath;
+            $ticket->save();
 
-        // Return the Ticket object
-        return $ticket;
+            return $ticket;
+        } catch (\Exception $e) {
+            Log::error('Ticket generation error: ' . $e->getMessage());
+            return null;
+        }
     }
 
 
@@ -165,7 +181,7 @@ class ReservationController extends Controller
                 }
 
                 // Créer un nouveau ticket
-                $this->ticket($reservation->id);
+                $this->generateTicket($reservation->id);
 
                 return (new ReservationResource($reservation))
                     ->response()

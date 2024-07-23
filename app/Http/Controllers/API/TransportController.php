@@ -174,7 +174,7 @@ class TransportController extends Controller
     public function destroy($id)
     {
         $transport = Transport::find($id);
-        $transport->update(['status' => 'canceled']);
+        $transport->update(['status' => 'cancelled']);
 
         return response()->json(['message' => 'Transport deleted successfully']);
     }
