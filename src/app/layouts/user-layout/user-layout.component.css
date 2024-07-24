@@ -250,3 +250,26 @@ nz-footer {
   transform: scale(1.1) rotate(10deg);
   color: #1890ff;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.notification-item {
+  transition: background-color 0.3s ease;
+}
+
+.notification-item:hover {
+  background-color: #a1a4a5;
+}

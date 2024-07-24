@@ -80,7 +80,7 @@
         <div class="header-center">
         </div>
         <div class="header-right">
-          <span nz-icon nzType="bell" class="notification-icon"></span>
+          <span nz-icon nzType="bell" (click)="openNotifications()" class="notification-icon"></span>
           <div nz-dropdown [nzDropdownMenu]="menu" class="user-dropdown">
             <nz-avatar [nzSrc]="user.avatar" class="user-avatar"></nz-avatar>
             <span class="user-name">{{ user.name }}</span>
@@ -107,3 +107,29 @@
   </nz-layout>
 </nz-layout>
 <div #containerRef></div>
+
+
+<!-- Drawer for Notifications -->
+<nz-drawer
+  [nzVisible]="isDrawerVisible"
+  nzTitle="NOTIFICATIONS"
+  (nzOnClose)="closeDrawer()"
+  [nzPlacement]="'right'"
+  [nzWidth]="400"
+>
+  <ng-container *nzDrawerContent>
+    <nz-list [nzDataSource]="notifications" [nzRenderItem]="notificationItem">
+      <ng-template #notificationItem let-item let-i="index">
+        <ng-container *ngIf="i > 0">
+        </ng-container>
+        <nz-list-item
+          (click)="showNotification(item)"
+          [ngStyle]="{'background-color': item.read_at ? 'white' : '#f0f0f0', 'cursor': 'pointer'}"
+          class="notification-item"
+        >
+          {{ getNotificationMessage(item) }}
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </ng-container>
+</nz-drawer>

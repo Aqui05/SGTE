@@ -71,6 +71,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MapUserComponent } from './user/map-user/map-user.component';
 import { PaymentModalComponent } from './pages/payment-modal/payment-modal.component';
 import fr from '@angular/common/locales/fr';
+import { NotificationComponent } from './admin/notification/notification.component';
+import { NotificationUserComponent } from './user/notification/notification.component';
 
 const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
@@ -108,6 +110,8 @@ registerLocaleData(en);
 
 
     PaymentModalComponent,
+    NotificationComponent,
+    NotificationUserComponent,
 
   ],
   imports: [

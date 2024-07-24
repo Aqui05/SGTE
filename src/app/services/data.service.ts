@@ -329,22 +329,27 @@ export class DataService {
   // getTicket(reservationId: number, options: any): Observable<Blob> {
   //   return this.http.get<Blob>(`${this.apiUrl}/get/ticket/${reservationId}`, { ...options, responseType: 'blob' });
   // }
-  
+
 
   getTicket(reservationId: number, options: any): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/get/ticket/${reservationId}`, 
+    return this.http.get(`${this.apiUrl}/get/ticket/${reservationId}`,
       { ...options, responseType: 'blob' as 'json' })
       .pipe(
         map(response => new Blob([response], { type: 'application/pdf' }))
       );
   }
 
+  // Route::get('/notif', [FunctionController::class,'index']);
+  // Route::put('/notif/{id}/read', [FunctionController::class,'markAsRead']);
 
 
+  getNotifications(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/notifications`);
+  }
 
-
-
-
+  getNotification(notificationId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/notification/${notificationId}`);
+  }
 
 
 
