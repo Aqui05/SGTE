@@ -30,6 +30,10 @@ Route::delete('/delete/user', [AuthController::class,'deleteUser'])->middleware(
 
 Route::group(['middleware' => ['auth:api']], function () {
 
+    //Récupérer les notifications et voir chaque notifications
+    Route::get('/notifications', [FunctionController::class,'index']);
+    Route::put('/notification/{id}', [FunctionController::class,'markAsRead']);
+
     //Récupérer le ticket
 
     Route::get('/get/ticket/{id}', [ReservationController::class,'getTicket']);

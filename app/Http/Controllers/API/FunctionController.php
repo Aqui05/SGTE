@@ -63,4 +63,26 @@ class FunctionController extends Controller
         dd($user);
         return response()->json(['message' => 'Notification sent successfully']);
     }
+
+
+
+    public function index()
+    {
+        $user = Auth::user();
+
+        $notifications = $user->notifications;
+
+        return response()->json(['notification' => $notifications]);
+    }
+
+    public function markAsRead($notificationId)
+    {
+        $user = Auth::user();
+        $notification = $user->notifications->where('id', $notificationId)->first();
+        if ($notification) {
+            $notification->markAsRead();
+            return response()->json(['notification' => $notification,'success' => true ,'message' => 'Notification marked as read']);
+        }
+        return response()->json(['error' => 'Notification not found'], 404);
+    }
 }
