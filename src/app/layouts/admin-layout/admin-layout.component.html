@@ -130,3 +130,28 @@
   </nz-layout>
 </nz-layout>
 <div #containerRef></div>
+
+
+<!-- Drawer for Notifications -->
+<nz-drawer
+  [nzVisible]="isDrawerVisible"
+  nzTitle="NOTIFICATIONS"
+  (nzOnClose)="closeDrawer()"
+  [nzPlacement]="'right'"
+  [nzWidth]="400"
+>
+  <ng-container *nzDrawerContent>
+    <nz-list [nzDataSource]="notifications" [nzRenderItem]="notificationItem">
+      <ng-template #notificationItem let-item let-i="index" class="notification-item">
+        <ng-container *ngIf="i > 0">
+        </ng-container>
+        <nz-list-item
+          (click)="showNotification(item)"
+          [ngStyle]="{'background-color': item.read_at ? 'white' : '#f0f0f0', 'cursor': 'pointer'}"
+        >
+          {{ getNotificationMessage(item) }}
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </ng-container>
+</nz-drawer>

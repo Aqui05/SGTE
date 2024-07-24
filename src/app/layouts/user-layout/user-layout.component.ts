@@ -29,6 +29,8 @@ export class UserLayoutComponent implements OnInit {
   theme: 'light' | 'dark' = 'light';
   title: string;
 
+  notificationRead !: number;
+
 
   query: string = '';
   results: any = null;
@@ -50,6 +52,7 @@ export class UserLayoutComponent implements OnInit {
       this.title = title;
     });
     this.UserInfo();
+    //this.openNotifications();
   }
 
   UserInfo(): void {
@@ -108,11 +111,15 @@ export class UserLayoutComponent implements OnInit {
       (data: any) => {
         if (data && data.notification && Array.isArray(data.notification)) {
           this.notifications = data.notification;
+
+          //stocker le nombre de notification non lu dans la variable notificationRead
+          this.notificationRead = this.notifications.filter(notification => notification.read_at === null).length;
         } else {
           this.notifications = [];
           console.error('Format de données inattendu:', data);
         }
         console.log(this.notifications);
+        this.isDrawerVisible = true;
       },
       (error) => {
         console.error('Erreur lors de la recherche :', error);
@@ -120,18 +127,6 @@ export class UserLayoutComponent implements OnInit {
       }
     );
   }
-
-  // openNotifications(): void {
-  //   this.isDrawerVisible = true;
-  //   this.dataService.getNotifications().subscribe(
-  //     (data: Notification[]) => {
-  //       this.notifications = data;
-  //     },
-  //     (error) => {
-  //       console.error('Erreur lors de la recherche :', error);
-  //     }
-  //   );
-  // }
 
   closeDrawer(): void {
     this.isDrawerVisible = false;
@@ -150,13 +145,15 @@ export class UserLayoutComponent implements OnInit {
     }
   }
 
-  showNotification(notificationId: number): void {
-    this.dataService.getNotification(notificationId).subscribe(
+  showNotification(notification: Notification): void {
+    this.dataService.getNotification(notification.id, notification).subscribe(
       (data) => {
-        // Handle notification detail display
+        console.log('Notification marquée comme lue:', data);
+        // Mettre à jour le compteur de notifications non lues
+        this.openNotifications();
       },
       (error) => {
-        console.error('Erreur lors de la recherche :', error);
+        console.error('Erreur lors du marquage de la notification comme lue:', error);
       }
     );
   }

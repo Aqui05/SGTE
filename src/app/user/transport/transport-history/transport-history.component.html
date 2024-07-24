@@ -22,7 +22,7 @@
       <td>{{ data.seats }}</td>
       <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
       <td>
-        <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'canceled'">Détails</button>
+        <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'cancelled'">Détails</button>
         <nz-divider nzType="vertical"></nz-divider>
       </td>
     </tr>

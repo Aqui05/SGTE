@@ -340,15 +340,16 @@ export class DataService {
   }
 
   // Route::get('/notif', [FunctionController::class,'index']);
-  // Route::put('/notif/{id}/read', [FunctionController::class,'markAsRead']);
+
 
 
   getNotifications(): Observable<any> {
     return this.http.get(`${this.apiUrl}/notifications`);
   }
 
-  getNotification(notificationId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/notification/${notificationId}`);
+    // Route::put('/notif/{id}/read', [FunctionController::class,'markAsRead']);
+  getNotification(notificationId: string, notification: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/notification/${notificationId}`, notification);
   }
 
 

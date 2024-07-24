@@ -119,13 +119,12 @@
 >
   <ng-container *nzDrawerContent>
     <nz-list [nzDataSource]="notifications" [nzRenderItem]="notificationItem">
-      <ng-template #notificationItem let-item let-i="index">
+      <ng-template #notificationItem let-item let-i="index" class="notification-item">
         <ng-container *ngIf="i > 0">
         </ng-container>
         <nz-list-item
           (click)="showNotification(item)"
           [ngStyle]="{'background-color': item.read_at ? 'white' : '#f0f0f0', 'cursor': 'pointer'}"
-          class="notification-item"
         >
           {{ getNotificationMessage(item) }}
         </nz-list-item>
