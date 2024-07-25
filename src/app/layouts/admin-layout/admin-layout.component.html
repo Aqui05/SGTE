@@ -86,7 +86,7 @@
         <div class="header-center">
         </div>
         <div class="header-right">
-          <span nz-icon nzType="bell" class="notification-icon"></span>
+          <span nz-icon nzType="bell" (click)="openNotifications()" class="notification-icon"></span>
           <div nz-dropdown [nzDropdownMenu]="menu" class="user-dropdown">
             <nz-avatar [nzSrc]="user.avatar" class="user-avatar"></nz-avatar>
             <span class="user-name">{{ user.name }}</span>

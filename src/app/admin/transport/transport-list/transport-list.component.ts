@@ -36,12 +36,16 @@ export class TransportListComponent {
   loadTransports(): void {
     this.dataService.getTransports().subscribe(
       (data) => {
-        this.transports = data.data;
+        this.transports = this.filterTransports(data.data);
       },
       (error) => {
         console.error('Erreur lors de la récupération des transports:', error);
       }
     );
+  }
+
+  private filterTransports(transports: any[]): any[] {
+    return transports.filter(transport => transport.status !== 'cancelled');
   }
 
   viewDetails(id: number): void {

@@ -27,7 +27,7 @@
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="default" (click)="editTransport(data.id)" [disabled]="data.status === 'cancelled' || data.status === 'finished' || data.status === 'in Progress' ">Modifier</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" nzDanger (click)="deleteTransport(data.id)" [disabled]="data.status === 'cancelled' || data.status === 'finished' || data.status === 'in Progress' ">Supprimer</button>
+        <button nz-button nzType="primary" nzDanger (click)="deleteTransport(data.id)" [disabled]="data.status === 'cancelled' || data.status === 'finished' || data.status === 'in Progress' ">Annuler</button>
       </td>
     </tr>
   </tbody>
