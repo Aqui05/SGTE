@@ -117,8 +117,6 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::put('/delete/transport/{id}',[TransportController::class,'destroy']);
 
     Route::get('users',[AuthController::class,'users'])->name('usersList');
-
-
     Route::get('/reservations/list',[ReservationController::class,'reservationList']);
 
     Route::get('/merchandises/list',[MerchandiseController::class,'merchandiseList']);
