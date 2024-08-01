@@ -9,16 +9,14 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class MerchandiseListComponent implements OnInit {
 
-
   merchandises: any[] = [];
-
+  searchTerm: string = '';
 
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadMerchandises();
   }
-
 
   getStatusType(status: string): string {
     switch (status) {
@@ -38,10 +36,33 @@ export class MerchandiseListComponent implements OnInit {
   }
 
   getFilteredMerchandises() {
-    return this.merchandises.filter(m => m.status !== 'delivré' && m.status !== 'annulé');
+    return this.merchandises
+      .filter(m =>
+        m.status !== 'delivré' &&
+        m.status !== 'annulé' &&
+        (m.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        m.depart.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      )
+      .sort((a, b) => this.getStatusPriority(a.status) - this.getStatusPriority(b.status));
   }
 
-
+  getStatusPriority(status: string): number {
+    switch (status) {
+      case 'confirmé':
+        return 1;
+      case 'planification':
+        return 2;
+      case 'en transit':
+        return 3;
+      case 'delivré':
+        return 4;
+      case 'annulé':
+        return 5;
+      default:
+        return 6;
+    }
+  }
 
   loadMerchandises(): void {
     this.dataService.getMerchandisesList().subscribe(
@@ -62,17 +83,14 @@ export class MerchandiseListComponent implements OnInit {
     this.router.navigate([`admin/merchandise/send/${id}`]);
   }
 
-
-
   cancel(id: number): void {
-    this.dataService.cancelMerchandise(id,this.merchandises).subscribe(
+    this.dataService.cancelMerchandise(id, this.merchandises).subscribe(
       (response) => {
         this.loadMerchandises();
       },
       (error) => {
-        console.error('Erreur lors de la suppression du véhicule:', error);
+        console.error('Erreur lors de l\'annulation de la marchandise:', error);
       }
     );
   }
-
 }

@@ -10,6 +10,8 @@ import { DataService } from 'src/app/services/data.service';
 export class TransportListComponent {
 
   transports: any[] = [];
+  filteredTransports: any[] = [];
+  searchTerm: string = '';
 
   constructor(private dataService: DataService, private router: Router) {}
 
@@ -32,11 +34,11 @@ export class TransportListComponent {
     }
   }
 
-
   loadTransports(): void {
     this.dataService.getTransports().subscribe(
       (data) => {
-        this.transports = this.filterTransports(data.data);
+        this.transports = this.sortTransports(data.data);
+        this.filteredTransports = this.transports; // Initial filtering with all data
       },
       (error) => {
         console.error('Erreur lors de la récupération des transports:', error);
@@ -44,14 +46,27 @@ export class TransportListComponent {
     );
   }
 
-  private filterTransports(transports: any[]): any[] {
-    return transports.filter(transport => transport.status !== 'cancelled');
+  private sortTransports(transports: any[]): any[] {
+    const statusOrder = ['confirmed', 'planification', 'in Progress', 'finished', 'cancelled'];
+    return transports.sort((a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
+  }
+
+  searchTransports(): void {
+    if (this.searchTerm) {
+      this.filteredTransports = this.transports.filter(transport =>
+        transport.numero_transport.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        transport.type.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        transport.departure_location.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        transport.destination_location.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.filteredTransports = this.transports; // Show all if no search term
+    }
   }
 
   viewDetails(id: number): void {
     this.router.navigate([`admin/transport/details/${id}`]);
   }
-
 
   editTransport(id: number): void {
     this.router.navigate([`admin/transport/edit/${id}`]);

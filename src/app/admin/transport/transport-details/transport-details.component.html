@@ -1,1 +1,62 @@
-<p>transport-details works!</p>
+<div class="card">
+  <div class="card-header">
+    <h2>Détails du Transport</h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ Transport.numero_transport }}</h5>
+    <p class="card-text"><strong>Type :</strong> {{ Transport.type }}</p>
+    <p class="card-text"><strong>Lieu de départ :</strong> {{ Transport.departure_location }}</p>
+    <p class="card-text"><strong>Destination :</strong> {{ Transport.destination_location }}</p>
+    <p class="card-text"><strong>Heure de départ :</strong> {{ Transport.departure_time | date:'short' }}</p>
+    <p class="card-text"><strong>Heure d'arrivée :</strong> {{ Transport.arrival_time | date:'short' }}</p>
+    <p class="card-text"><strong>Prix :</strong> {{ Transport.price | currency:'EUR' }}</p>
+    <p class="card-text"><strong>Places :</strong> {{ Transport.seats }}</p>
+    <p class="card-text"><strong>Status :</strong> {{ Transport.status }}</p>
+
+    <button class="btn btn-primary" (click)="reservationsList()">Voir les réservations</button>
+  </div>
+</div>
+
+<div *ngIf="Reservation && Reservation.length > 0" class="card mt-4">
+  <div class="card-header">
+    <h2>Liste des Réservations</h2>
+  </div>
+  <nz-table #basicTable [nzData]="Reservation" [nzBordered]="true" class="single-line-table">
+    <thead>
+      <tr>
+        <th>Réservation #</th>
+        <th>Utilisateur</th>
+        <th>Prix total</th>
+        <th>Point de départ</th>
+        <th>Point d'arrivée</th>
+        <th>Payé</th>
+        <th>Informations supplémentaires</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reservation of Reservation">
+        <td>{{ reservation.id }}</td>
+        <td>
+          {{ reservation.user.name }}<br>
+          <small>{{ reservation.user.email }}</small>
+        </td>
+        <td>{{ reservation.total_price | currency }}</td>
+        <td>{{ reservation.departure_waypoint }}</td>
+        <td>{{ reservation.destination_waypoint }}</td>
+        <td>
+          <nz-badge [nzStatus]="reservation.paid ? 'success' : 'error'" [nzText]="reservation.paid ? 'Oui' : 'Non'"></nz-badge>
+        </td>
+        <td>{{ reservation.additional_info }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<div *ngIf="Reservation && Reservation.length === 0" class="card mt-4">
+  <div class="card-header">
+    <h2>Liste des Réservations</h2>
+  </div>
+  <div class="card-body">
+    <p class="text-muted">Aucune réservation disponible pour ce transport.</p>
+  </div>
+</div>

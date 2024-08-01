@@ -11,6 +11,7 @@ export class TransportDetailsComponent implements OnInit {
 
   TransportId !:number;
   Transport:any = {};
+  Reservation:any = {};
 
   constructor (
     private route: ActivatedRoute,
@@ -30,5 +31,16 @@ export class TransportDetailsComponent implements OnInit {
         this.router.navigate(['/transports']);
       }
     );
+  }
+
+  reservationsList() : void {
+    this.dataService.ReservationTransport(this.TransportId).subscribe(
+      (response: any)  => {
+        this.Reservation = response.data;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des réservations:', error);
+      }
+    )
   }
 }

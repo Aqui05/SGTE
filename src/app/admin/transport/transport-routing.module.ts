@@ -7,9 +7,9 @@ import { TransportDetailsComponent } from './transport-details/transport-details
 
 const routes: Routes = [
   { path: '', component: TransportListComponent,data: { title: 'Liste Transport' }  },
-  { path: 'create', component: TransportAddComponent,data: { title: 'Ajout d\'un Véhicule' } },
-  { path: 'edit/:id', component: TransportEditComponent,data: { title: 'Modification d\'un véhicule ' } },
-  { path: 'details/:id', component: TransportDetailsComponent,data: { title: 'Détails d\'un véhicule ' } },
+  { path: 'create', component: TransportAddComponent,data: { title: 'Ajout d\'un Transport' } },
+  { path: 'edit/:id', component: TransportEditComponent,data: { title: 'Modification d\'un Transport ' } },
+  { path: 'details/:id', component: TransportDetailsComponent,data: { title: 'Détails d\'un Transport ' } },
 ];
 
 @NgModule({

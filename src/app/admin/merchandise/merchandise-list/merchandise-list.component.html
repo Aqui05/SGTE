@@ -1,5 +1,11 @@
 <br><p></p>
 
+<div class="search-container" style="text-align: right;">
+  <input nz-input [(ngModel)]="searchTerm" placeholder="Rechercher..." />
+</div>
+
+<br><p></p>
+
 <div class="table-container">
   <nz-table #basicTable [nzData]="getFilteredMerchandises()" class="single-line-table">
     <thead>
@@ -26,9 +32,9 @@
         <td class="actions-cell">
           <button nz-button nzType="primary" (click)="viewDetails(data.id)">Détails</button>
           <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="default" (click)="shipped(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification'  || data.status === 'delivré'">Expédier</button>
+          <button nz-button nzType="default" (click)="shipped(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Expédier</button>
           <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification'  || data.status === 'delivré'">Annuler</button>
+          <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Annuler</button>
         </td>
       </tr>
     </tbody>

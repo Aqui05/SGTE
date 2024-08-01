@@ -54,11 +54,15 @@ export class ExpeditionListComponent {
   }
 
   viewDetails(id: number): void {
-    this.router.navigate([`admin/expeditions/details/${id}`]);
+    this.router.navigate([`admin/expedition/details/${id}`]);
   }
 
-  shipped(id: number): void {
-    this.router.navigate([`admin/expeditions/details/${id}`]);
+  // shipped(id: number): void {
+  //   this.router.navigate([`admin/expeditions/details/${id}`]);
+  // }
+
+  edit(id: number): void {
+    this.router.navigate([`admin/expedition/edit/${id}`]);
   }
 
 
