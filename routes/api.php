@@ -57,7 +57,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 
     Route::get('/reservations/user/{id}',[ReservationController::class,'userReservations']);
-    Route::get('/reservations/transport/{id}',[ReservationController::class,'transportReservations']);
+
+    Route::get('/reservations/transport/{id}',[ReservationController::class,'reservationsTransport']);
+
     Route::get('/reservations/vehicle/{id}',[ReservationController::class,'vehicleReservations']);
 
     Route::post('/reservation/{id}/payment',[ReservationController::class,'makePayment']);
@@ -130,6 +132,9 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::get('/get/expeditions/{depart}/{destination}',[ExpeditionController::class,'expeditionDeAr']);
 
     Route::put('/expeditions/{expeditionId}/merchandises',[MerchandiseController::class,'updateMerchandises']);
+
+
+    //Route::get('/reservations/transport/{transportId}',[ReservationController::class,'reservationsTransport']);
 
 
     //Marchandises pas encore planifié

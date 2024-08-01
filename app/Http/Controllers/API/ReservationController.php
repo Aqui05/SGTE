@@ -239,14 +239,14 @@ class ReservationController extends Controller
     {
         try {
             $ticket = Ticket::where('reservation_id', $reservationId)->firstOrFail();
-    
+
             $filePath = Storage::disk('public')->path($ticket->ticket_lien);
-    
+
             if (!Storage::disk('public')->exists($ticket->ticket_lien)) {
                 Log::error("Ticket file not found: {$filePath}");
                 return response()->json(['message' => 'Ticket file not found'], 404);
             }
-    
+
             return response()->file($filePath, [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'inline; filename="' . basename($filePath) . '"'
@@ -259,5 +259,22 @@ class ReservationController extends Controller
             return response()->json(['message' => 'An error occurred while retrieving the ticket'], 500);
         }
     }
-    
+
+
+    //Les réservations pour un transport
+
+
+    public function reservationsTransport(Request $request, $transportId)
+    {
+        // Récupérer les réservations avec les informations de l'utilisateur associé
+        $reservations = Reservation::where('transport_id', $transportId)
+                                    ->with('user') // Charger les informations de l'utilisateur
+                                    ->get();
+
+        return ReservationResource::collection($reservations);
+    }
+
+
+
+
 }

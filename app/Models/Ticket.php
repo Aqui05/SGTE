@@ -15,4 +15,9 @@ class Ticket extends Model
         'issued_at',
         'ticket_lien',
     ];
+
+    public function reservation()
+    {
+        return $this->belongsTo(Reservation::class);
+    }
 }
