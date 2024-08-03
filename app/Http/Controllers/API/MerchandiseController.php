@@ -34,7 +34,9 @@ class MerchandiseController extends Controller
 
     public function MerchandisesExpedition($expeditionId)
     {
-        $merchandises = Merchandise::where('expedition_id', $expeditionId)->get();
+        $merchandises = Merchandise::where('expedition_id', $expeditionId)
+                                    ->with('user')
+                                    ->get();
         return MerchandiseResource::collection($merchandises);
     }
 
@@ -64,7 +66,8 @@ class MerchandiseController extends Controller
         $merchandise = Merchandise::create($validatedData);
 
         // Retourner la ressource de la marchandise nouvellement créée
-        return new MerchandiseResource($merchandise);
+
+        return MerchandiseResource::collection($merchandise);
     }
 
     public function makePayment(Request $request, $id)
@@ -77,8 +80,8 @@ class MerchandiseController extends Controller
 
     public function show($id)
     {
-        $merchandise = Merchandise::findOrFail($id);
-        return new MerchandiseResource($merchandise);
+        $merchandise = Merchandise::where('id', $id)->get() ;
+        return MerchandiseResource::collection($merchandise);
     }
 
     public function update(Request $request, $id)
@@ -99,7 +102,7 @@ class MerchandiseController extends Controller
 
         $merchandise->update($validatedData);
 
-        return new MerchandiseResource($merchandise);
+        return MerchandiseResource::collection($merchandise);
     }
 
     public function destroy($id)
@@ -124,7 +127,7 @@ class MerchandiseController extends Controller
     public function merchandiseList()
     {
         $merchandise = Merchandise::all();
-        return new MerchandiseResource($merchandise);
+        return MerchandiseResource::collection($merchandise);
     }
 
     public function updateMerchandises(Request $request, $expeditionId)
