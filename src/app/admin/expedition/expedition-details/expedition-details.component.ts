@@ -11,6 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 export class ExpeditionDetailsComponent implements OnInit{
   expedition!: {};
   expeditionId !: number;
+  merchandises: any[] = [];
+
 
   constructor (
     private dataService: DataService,
@@ -32,6 +34,17 @@ export class ExpeditionDetailsComponent implements OnInit{
       (error) => {
         console.error (error);
         this.msg.error('Erreur de chargement de l\'expédition');
+      }
+    )
+  }
+
+  merchandisesList() : void {
+    this.dataService.ReservationTransport(this.expeditionId).subscribe(
+      (response: any)  => {
+        this.merchandises = response.data;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des marchandises:', error);
       }
     )
   }
