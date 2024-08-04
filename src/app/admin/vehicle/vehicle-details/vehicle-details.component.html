@@ -1,0 +1,36 @@
+<nz-card nzTitle="Détails du Véhicule">
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="8">
+      <div class="vehicle-image">
+        <nz-upload
+          nzAction="https://jsonplaceholder.typicode.com/posts/"
+          [nzFileList]="fileList"
+          [nzShowUploadList]="false"
+          (nzChange)="handleChange($event)">
+          <ng-container *ngIf="fileList.length > 0; else uploadButton">
+            <img [src]="fileList[0].url" alt="Vehicle Image" style="width: 100%;" />
+          </ng-container>
+          <ng-template #uploadButton>
+            <div>
+              <i nz-icon nzType="plus"></i>
+              <div style="margin-top: 8px">Upload</div>
+            </div>
+          </ng-template>
+        </nz-upload>
+      </div>
+    </nz-col>
+    <nz-col [nzSpan]="16">
+      <nz-descriptions nzTitle="Informations du Véhicule" nzBordered [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Type">{{ vehicle?.type }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Marque">{{ vehicle?.brand }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Modèle">{{ vehicle?.model }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Plaque d'Immatriculation">{{ vehicle?.license_plate }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Nombre de Sièges">{{ vehicle?.seats }}</nz-descriptions-item>
+      </nz-descriptions>
+      <div style="margin-top: 16px;">
+        <button nz-button nzType="primary" (click)="editVehicle(vehicle.id)" [disabled]="vehicle.available == false">Modifier</button>
+        <button nz-button nzType="primary" nzDanger (click)="deleteVehicle(vehicle.id)" style="margin-left: 8px;" [disabled]="vehicle.available == false">Supprimer</button>
+      </div>
+    </nz-col>
+  </nz-row>
+</nz-card>

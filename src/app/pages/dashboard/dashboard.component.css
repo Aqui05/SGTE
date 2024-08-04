@@ -1,0 +1,152 @@
+.container-fluid {
+  padding: 20px;
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card-title {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #fff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  position: relative;
+}
+
+.card-header .icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.card-header .text-end {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.card-header p {
+  margin: 0;
+  color: #6c757d;
+}
+
+.card-header h4 {
+  margin: 0;
+  color: #343a40;
+}
+
+.card-footer {
+  background-color: #fff;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding: 16px;
+}
+
+.card-footer p {
+  margin: 0;
+  color: #6c757d;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.font-weight-bolder {
+  font-weight: bolder;
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(90deg, #232526 0%, #414345 100%);
+  color: #fff;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(90deg, #0062e6 0%, #33aeff 100%);
+  color: #fff;
+}
+
+.bg-gradient-success {
+  background: linear-gradient(90deg, #28a745 0%, #82c91e 100%);
+  color: #fff;
+}
+
+.bg-gradient-info {
+  background: linear-gradient(90deg, #17a2b8 0%, #71d3f4 100%);
+  color: #fff;
+}
+
+.shadow-dark {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-primary {
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.1);
+}
+
+.shadow-success {
+  box-shadow: 0 4px 6px rgba(40, 167, 69, 0.1);
+}
+
+.shadow-info {
+  box-shadow: 0 4px 6px rgba(23, 162, 184, 0.1);
+}
+
+.border-radius-xl {
+  border-radius: 12px;
+}
+
+.mt-n4 {
+  margin-top: -1.5rem;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.chart-container {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}

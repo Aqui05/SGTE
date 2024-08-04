@@ -1,0 +1,33 @@
+<div class="container">
+  <h2>Edit Reservation</h2>
+  <form nz-form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="transport_id">Transport</label>
+          <select id="transport_id" formControlName="transport_id" class="form-control" (change)="onTransportChange($event)">
+            <option *ngFor="let transport of transports" [value]="transport.id">
+              ID: {{ transport.numero_transport }} {{ transport.departure_location }} to {{ transport.destination_location }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="additional_info">Additional Info</label>
+          <textarea id="additional_info" formControlName="additional_info" class="form-control" style="width: 100%;"></textarea>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="destination_waypoint">Destination</label>
+          <input type="text" id="destination_waypoint" formControlName="destination_waypoint" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="departure_waypoint">Depart</label>
+          <input type="text" id="departure_waypoint" formControlName="departure_waypoint" class="form-control" />
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" [disabled]="!reservationForm.valid">Confirmer</button>
+      </div>
+    </div>
+  </form>
+</div>

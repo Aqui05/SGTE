@@ -1,0 +1,41 @@
+<form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="paymentMethod">Méthode de Paiement</label>
+    <select id="paymentMethod" formControlName="paymentMethod" class="form-control" (change)="onPaymentMethodChange()">
+      <option *ngFor="let method of paymentMethods" [value]="method.value">{{ method.label }}</option>
+    </select>
+  </div>
+
+  <ng-container [ngSwitch]="paymentForm.get('paymentMethod')?.value">
+    <ng-container *ngSwitchCase="'creditCard'">
+      <div class="form-group">
+        <label for="cardNumber">Numéro de Carte</label>
+        <input type="text" id="cardNumber" formControlName="cardNumber" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="cardExpiry">Date d'Expiration</label>
+        <input type="text" id="cardExpiry" formControlName="cardExpiry" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="cardCVC">CVC</label>
+        <input type="text" id="cardCVC" formControlName="cardCVC" class="form-control" />
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'paypal'">
+      <div class="form-group">
+        <label for="paypalEmail">Email PayPal</label>
+        <input type="email" id="paypalEmail" formControlName="paypalEmail" class="form-control" />
+      </div>
+    </ng-container>
+
+<ng-container *ngSwitchCase="'phone'">
+  <div class="form-group">
+    <label for="phoneNumber">Numéro de Téléphone</label>
+    <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control" />
+  </div>
+</ng-container>
+  </ng-container>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!paymentForm.valid">Payer {{price}} FCFA</button>
+</form>

@@ -1,0 +1,182 @@
+<!-- <div class="container" [ngClass]="{ 'active': isSignUp }">
+  <div class="form-container sign-up">
+    <form class="space-y-4" nz-form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
+      <h1>S'inscrire</h1>
+      <div class="social-icons" style="display: flex; align-items: center; justify-content: center;">
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('google')">
+          <mat-icon id="icon" svgIcon="google" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('facebook')">
+          <mat-icon svgIcon="facebook" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('github')">
+          <mat-icon svgIcon="github" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('twitter')">
+          <mat-icon svgIcon="twitter" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+      </div>
+      <span>or use your email for registration</span>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez entrer votre nom !">
+              <input type="name" nz-input formControlName="name" id="name" placeholder="nom & prénoms" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez entrer votre email !">
+              <input type="email" nz-input formControlName="email" placeholder="Email" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez entrer votre mot de passe !">
+              <input nz-input type="password" formControlName="password" id="password" placeholder="password" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Les mots de passe ne se correspondent pas">
+              <input nz-input type="password" formControlName="password_confirmation" id="password_confirmation" placeholder="Confirm Password" />
+          </nz-form-control>
+        </nz-form-item>
+      <button [disabled]="!registerForm.valid" style="background-color: #512da8 ;" type="submit">INSCRIPTION</button>
+    </form>
+  </div>
+
+  <div class="form-container sign-in">
+    <form class="space-y-4" nz-form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+      <h1>SE CONNECTER</h1>
+
+      <span>ou utiliser votre adresse mail</span>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez entrer votre mot de passe !">
+          <input type="email" placeholder="Email" formControlName="email">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez entrer votre email !">
+          <input type="password" placeholder="Password" formControlName="password">
+        </nz-form-control>
+      </nz-form-item>
+      <a href="#">Forgot Your Password?</a>
+      <button style="background-color: #512da8 ;" [disabled]="!loginForm.valid" type="submit">CONNEXION</button>
+    </form>
+  </div>
+
+  <div class="toggle-container">
+    <div class="toggle">
+      <div class="toggle-panel toggle-left">
+        <h1>Welcome Back!</h1>
+        <p>Enter your personal details to use all site features</p>
+        <button (click)="toggleForm()">Sign In</button>
+      </div>
+      <div class="toggle-panel toggle-right">
+        <h1>Hello, Friend!</h1>
+        <p>Register with your personal details to use all site features</p>
+        <button (click)="toggleForm()">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+<div class="container" [ngClass]="{ 'active': isSignUp }"  style= "margin: 0 auto; display: flex; justify-content: center; align-items: center; ">
+  <div class="form-container sign-up">
+    <form class="space-y-2" nz-form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
+      <h1>S'inscrire</h1>
+      <div class="social-icons" style="display: flex; align-items: center; justify-content: center;">
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('google')">
+          <mat-icon svgIcon="google" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('facebook')">
+          <mat-icon svgIcon="facebook" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('github')">
+          <mat-icon svgIcon="github" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+        <button mat-button style="padding: 1rem; color: white;" (click)="connect('twitter')">
+          <mat-icon svgIcon="twitter" style="width: 30px; height: 30px;"></mat-icon>
+        </button>
+      </div>
+      <span>or use your email for registration</span>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez entrer votre nom !">
+          <input type="name" nz-input formControlName="name" id="name" placeholder="nom & prénoms" style="width: 100%; padding: 10px 35px;"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez entrer votre email !">
+          <input type="email" nz-input formControlName="email" placeholder="Email" style="width: 100%; padding: 10px 35px;" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez entrer votre mot de passe !">
+          <input nz-input type="password" formControlName="password" id="password" placeholder="password" style="width: 100%; padding: 10px 35px;" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Les mots de passe ne se correspondent pas">
+          <input nz-input type="password" formControlName="password_confirmation" id="password_confirmation" placeholder="Confirm Password" style="width: 100%; padding: 10px 35px;" />
+        </nz-form-control>
+      </nz-form-item>
+      <button [disabled]="!registerForm.valid" style="background-color: #512da8;">INSCRIPTION</button>
+    </form>
+  </div>
+
+  <div class="form-container sign-in">
+    <form class="space-y-2" nz-form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+      <h1>SE CONNECTER</h1>
+      <div class="social-icons" style="display: flex; align-items: center; justify-content: center;">
+        <div class="social-icons" style="display: flex; align-items: center; justify-content: center;">
+          <button mat-button style="padding: 1rem; color: white;" (click)="connect('google')">
+            <mat-icon svgIcon="google" style="width: 30px; height: 30px;"></mat-icon>
+          </button>
+          <button mat-button style="padding: 1rem; color: white;" (click)="connect('facebook')">
+            <mat-icon svgIcon="facebook" style="width: 30px; height: 30px;"></mat-icon>
+          </button>
+          <button mat-button style="padding: 1rem; color: white;" (click)="connect('github')">
+            <mat-icon svgIcon="github" style="width: 30px; height: 30px;"></mat-icon>
+          </button>
+          <button mat-button style="padding: 1rem; color: white;" (click)="connect('twitter')">
+            <mat-icon svgIcon="twitter" style="width: 30px; height: 30px;"></mat-icon>
+          </button>
+        </div>
+      </div>
+      <span>ou utiliser votre adresse mail</span>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez entrer votre mot de passe !">
+          <input type="email" placeholder="Email" formControlName="email" style="width: 100%; padding: 12px 35px;">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez entrer votre email !">
+          <input type="password" placeholder="Password" formControlName="password" style="width: 100%; padding: 12px 35px;">
+        </nz-form-control>
+      </nz-form-item>
+      <a href="#">Forgot Your Password?</a>
+      <button style="background-color: #512da8;" [disabled]="!loginForm.valid" type="submit">CONNEXION</button>
+    </form>
+  </div>
+
+  <div class="toggle-container">
+    <div class="toggle">
+      <div class="toggle-panel toggle-left">
+        <h1>Welcome Back!</h1>
+        <p>Enter your personal details to use all site features</p>
+        <button (click)="toggleForm()">Sign In</button>
+      </div>
+      <div class="toggle-panel toggle-right">
+        <h1>Hello, Friend!</h1>
+        <p>Register with your personal details to use all site features</p>
+        <button (click)="toggleForm()">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>

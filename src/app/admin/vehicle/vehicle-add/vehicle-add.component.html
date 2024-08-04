@@ -1,0 +1,75 @@
+<nz-card nzTitle="Formulaire de Véhicule">
+  <form nz-form [formGroup]="vehicleForm" (ngSubmit)="submitForm()" enctype="multipart/form-data">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'Le type est requis'">
+            <nz-select formControlName="type" nzPlaceHolder="Sélectionnez le type du transport">
+            <nz-option *ngFor="let type of TransportTypes" [nzLabel]="type" [nzValue]="type"></nz-option>
+          </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'La marque est requise'">
+            <input nz-input formControlName="brand" placeholder="Marque du véhicule">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'Le modèle est requis'">
+            <input nz-input formControlName="model" placeholder="Modèle du véhicule">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'La plaque d\'immatriculation est requise'">
+            <input nz-input formControlName="license_plate" placeholder="Plaque d'immatriculation">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="'Le nombre de sièges est requis'">
+            <input nz-input formControlName="seats" placeholder="Nombre de sièges">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-upload
+            nzType="drag"
+            [nzMultiple]="true"
+            [nzSize]="200"
+            nzAction="https://jsonplaceholder.typicode.com/posts/"
+            (nzChange)="handleChange($event)">
+            <p class="ant-upload-drag-icon">
+              <span nz-icon nzType="inbox"></span>
+            </p>
+            <p class="ant-upload-text">Cliquez ou glissez un fichier pour le télécharger</p>
+            <p class="ant-upload-hint">
+              Support pour un téléchargement unique ou multiple. Strictement interdit de télécharger des données de l'entreprise ou d'autres fichiers interdits.
+            </p>
+          </nz-upload>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24" style="text-align: left;">
+        <button nz-button nzType="primary" [nzLoading]="loading" [disabled]="vehicleForm.invalid">
+          <i nz-icon nzType="save"></i> Enregistrer
+        </button>
+      </nz-col>
+    </nz-row>
+  </form>
+</nz-card>
+
+<nz-alert *ngIf="submitError" nzType="error" [nzMessage]="submitErrorMessage" nzShowIcon></nz-alert>
+

@@ -1,0 +1,134 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            [nzCollapsedWidth]="80"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="" target="_blank">
+        <img src="assets/logiTrack.png" alt="logo">
+        <h1>LogiTrack</h1>
+      </a>
+    </div>
+
+<div *ngIf="!isAdmin">
+  <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
+      <span nz-icon nzType="dashboard" nzTheme="outline"></span>
+      <span> Dashboard</span>
+    </li>
+    <li nz-submenu nzTitle="Transport"  nzIcon="box-plot">
+      <ul>
+        <li nz-menu-item [routerLink]="['/user/transport/view']" routerLinkActive="active">
+          <i class="bi bi-view-list"></i>
+          Visualiser des Transports</li>
+        <li nz-menu-item [routerLink]="['/user/transport/history']" routerLinkActive="active">
+          <i class="bi bi-clock-history"></i>
+          Historique des Transports</li>
+      </ul>
+    </li>
+    <li nz-submenu nzTitle="Réservation" nzIcon="idcard">
+      <ul>
+        <li nz-menu-item [routerLink]="['/user/reservation/add']" routerLinkActive="active">
+          <i class="bi bi-patch-plus"></i>
+          Faire une réservation</li>
+        <li nz-menu-item [routerLink]="['/user/reservation/list']" routerLinkActive="active">
+          <i class="bi bi-list-ul"></i>
+          Liste des réservations</li>
+      </ul>
+    </li>
+    <li nz-submenu nzTitle="Marchandise" nzIcon="hdd">
+      <ul>
+        <li nz-menu-item [routerLink]="['/user/merchandise/list']" routerLinkActive="active">
+          <i class="bi bi-list-ul"></i>
+          Liste des marchandises</li>
+        <li nz-menu-item [routerLink]="['/user/merchandise/add']" routerLinkActive="active">
+          <i class="bi bi-save2"></i>
+          Enregistrer une marchandise</li>
+
+      </ul>
+    </li>
+    <li nz-submenu nzTitle="Expedition" nzIcon="global">
+      <ul>
+        <li nz-menu-item [routerLink]="['/user/expedition/history']" routerLinkActive="active">
+          <i class="bi bi-clock-history"></i>
+          Historique des Expéditions</li>
+      </ul>
+    </li>
+
+    <li nz-submenu nzTitle="Settings" nzIcon="setting">
+      <ul>
+        <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
+          <i class="bi bi-tools"></i> Setting Admin
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+  </nz-sider>
+  <nz-layout>
+    <nz-header [ngClass]="{'collapsed-header': isCollapsed, 'expanded-header': !isCollapsed}">
+      <div class="app-header navbar navbar-expand-lg bg-body-tertiary border-bottom border-info-subtle" >
+        <div class="header-left">
+          <span class="header-trigger"
+                (click)="isCollapsed = !isCollapsed"
+                nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
+          </span>
+        </div>
+        <div class="header-center">
+        </div>
+        <div class="header-right">
+          <span nz-icon nzType="bell" (click)="openNotifications()" class="notification-icon"></span>
+          <div nz-dropdown [nzDropdownMenu]="menu" class="user-dropdown">
+            <nz-avatar [nzSrc]="user.avatar" class="user-avatar"></nz-avatar>
+            <span class="user-name">{{ user.name }}</span>
+          </div>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="profile()">Profile</li>
+              <li nz-menu-item class="logout" (click)="logout()">Logout</li>
+            </ul>
+          </nz-dropdown-menu>
+
+        </div>
+      </div>
+    </nz-header>
+    <nz-content [ngClass]="{'collapsed-content': isCollapsed, 'expanded-content': !isCollapsed}">
+      <div class="page-title-container">
+        <div class="page-title">{{ title }}</div>
+      </div>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer>LogiTrack ©2020 Implement By AQUILAS</nz-footer>
+  </nz-layout>
+</nz-layout>
+<div #containerRef></div>
+
+
+<!-- Drawer for Notifications -->
+<nz-drawer
+  [nzVisible]="isDrawerVisible"
+  nzTitle="NOTIFICATIONS"
+  (nzOnClose)="closeDrawer()"
+  [nzPlacement]="'right'"
+  [nzWidth]="400"
+>
+  <ng-container *nzDrawerContent>
+    <nz-list [nzDataSource]="notifications" [nzRenderItem]="notificationItem">
+      <ng-template #notificationItem let-item let-i="index" class="notification-item">
+        <ng-container *ngIf="i > 0">
+        </ng-container>
+        <nz-list-item
+          (click)="showNotification(item)"
+          [ngStyle]="{'background-color': item.read_at ? 'white' : '#f0f0f0', 'cursor': 'pointer'}"
+        >
+          {{ getNotificationMessage(item) }}
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </ng-container>
+</nz-drawer>

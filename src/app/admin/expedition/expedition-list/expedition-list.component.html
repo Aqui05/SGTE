@@ -1,0 +1,39 @@
+<br><p></p>
+
+<div class="search-container" style="text-align: right;">
+  <input nz-input [(ngModel)]="searchTerm" placeholder="Rechercher..." />
+</div>
+
+<nz-table #basicTable [nzData]="getFilteredExpeditions()" class="single-line-table mt-2">
+  <thead>
+    <tr>
+      <th>Numéro</th>
+      <th>Type</th>
+      <th>Départ</th>
+      <th>Destination</th>
+      <th>Date de départ</th>
+      <th>Date de livraison prévue</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.expedition_number }}</td>
+      <td>{{ data.type }}</td>
+      <td>{{ data.origin }}</td>
+      <td>{{ data.destination }}</td>
+      <td>{{ data.date_expedition | date: 'shortDate' }}</td>
+      <td>{{ data.date_livraison_prevue | date: 'shortDate' }}</td>
+      <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+      <td>
+        <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'en transit'">Détails</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="default" (click)="edit(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification'">Modifier</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit'">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

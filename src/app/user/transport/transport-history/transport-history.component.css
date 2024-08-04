@@ -1,0 +1,31 @@
+
+
+
+
+.single-line-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.single-line-table th,
+.single-line-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.single-line-table .ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.single-line-table .actions-cell {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.single-line-table .actions-cell button {
+  margin-right: 4px;
+}

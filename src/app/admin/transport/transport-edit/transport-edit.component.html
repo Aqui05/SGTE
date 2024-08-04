@@ -1,0 +1,78 @@
+<nz-card nzTitle="Modifier un Transport">
+  <form nz-form [formGroup]="transportForm" (ngSubmit)="submitForm()">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Le type est requis">
+            <nz-select formControlName="type" nzPlaceHolder="Sélectionnez le type du transport">
+              <nz-option *ngFor="let type of TransportTypes" [nzLabel]="type" [nzValue]="type"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Le numéro de transport est requis">
+            <input nz-input formControlName="numero_transport" placeholder="Numéro de transport">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Le lieu de départ est requis">
+            <input nz-input formControlName="departure_location" placeholder="Lieu de départ"/>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Le lieu de destination est requis">
+            <input nz-input formControlName="destination_location" placeholder="Lieu de destination"/>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="L'heure de départ est requise">
+            <input nz-input formControlName="departure_time" type="datetime-local" placeholder="Heure de départ"/>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="L'heure d'arrivée est requise">
+            <input nz-input formControlName="arrival_time" type="datetime-local" placeholder="Heure d'arrivée"/>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Le véhicule est requis">
+            <nz-select formControlName="vehicle_license" nzPlaceHolder="Sélectionnez l'immatriculation">
+              <nz-option *ngFor="let license of VehicleLicenses" [nzLabel]="license" [nzValue]="license"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24" style="text-align: right;">
+        <nz-form-item>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzOffset]="6">
+            <button nz-button nzType="primary" [nzLoading]="loading" [disabled]="transportForm.invalid">
+              <i nz-icon nzType="save"></i> Enregistrer
+            </button>
+            <button nz-button nzType="default" (click)="resetForm()" [disabled]="loading" style="margin-left: 8px;">Réinitialiser</button>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+  </form>
+</nz-card>
+<nz-alert *ngIf="submitError" nzType="error" [nzMessage]="submitErrorMessage" nzShowIcon></nz-alert>

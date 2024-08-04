@@ -1,0 +1,50 @@
+<p></p>
+<!--
+'transport_id',
+'user_id',
+'reservation_datetime',
+'number_of_seats',
+'total_price',
+'status',
+'destination_waypoint',
+'additional_info',
+'departure_waypoint', -->
+
+<nz-table #basicTable [nzData]="Reservation" class="single-line-table">
+  <thead>
+    <tr>
+      <th>ID Transport</th>
+      <th>Réservation effectué le</th>
+      <th>Départ</th>
+      <th>Arrivé</th>
+      <th>Status</th>
+      <th>Payer</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data" [ngClass]="{'canceled-row': data.status === 'canceled'}">
+      <td>{{ data. transport_id}}</td>
+      <td>{{ data.reservation_datetime }}</td>
+      <td>{{ data.departure_waypoint}}</td>
+      <td>{{ data.destination_waypoint}}</td>
+      <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+      <td>
+        <span
+          [class]="data.paid ? 'badge text-bg-success' : 'badge text-bg-danger'"
+          [class.rounded-pill]="true"
+          [class.d-inline]="true"
+        >
+          {{ data.paid ? 'OUI' : 'NON' }}
+        </span>
+      </td>
+      <td>
+        <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'canceled'">Détails</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="default" (click)="editReservation(data.id)" [disabled]="data.status === 'canceled'">Modifier</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" nzDanger (click)="deleteReservation(data.id)" [disabled]="data.status === 'canceled'">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

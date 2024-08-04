@@ -1,0 +1,13 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.reservation-detail p {
+  margin: 0;
+  padding: 8px 0;
+}
+
+button {
+  width: 100%;
+}

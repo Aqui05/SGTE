@@ -1,0 +1,9 @@
+.custom-message .ant-message-notice-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.custom-message button {
+  margin-left: 10px;
+}

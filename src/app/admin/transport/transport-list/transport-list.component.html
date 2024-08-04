@@ -1,0 +1,46 @@
+<button nz-button nzType="primary" (click)="addTransport()">Ajouter un transport</button>
+<br><br>
+
+<div class="row mb-4">
+  <div class="col-md-9"></div>
+  <div class="col-md-3">
+    <nz-input-group nzPrefixIcon="search">
+      <input [(ngModel)]="searchTerm" (ngModelChange)="searchTransports()" type="text" nz-input placeholder="Rechercher...">
+    </nz-input-group>
+  </div>
+</div>
+
+<div class="table-container">
+  <nz-table #basicTable [nzData]="filteredTransports" class="single-line-table">
+    <thead>
+      <tr>
+        <th>ID Transport</th>
+        <th>Type</th>
+        <th>Départ</th>
+        <th>Arrivée</th>
+        <th>Sièges</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data" [ngClass]="{'cancelled-row': data.status === 'cancelled'}">
+        <td>{{ data.numero_transport }}</td>
+        <td>{{ data.type }}</td>
+        <td>{{ data.departure_location && data.departure_time }}</td>
+        <td>{{ data.destination_location && data.arrival_time }}</td>
+        <td>{{ data.seats }}</td>
+        <td>
+          <nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge>
+        </td>
+        <td>
+          <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'cancelled'">Détails</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="default" (click)="editTransport(data.id)" [disabled]="data.status === 'cancelled' || data.status === 'finished' || data.status === 'in Progress' ">Modifier</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzDanger (click)="deleteTransport(data.id)" [disabled]="data.status === 'cancelled' || data.status === 'finished' || data.status === 'in Progress' ">Annuler</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

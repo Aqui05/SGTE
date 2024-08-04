@@ -1,0 +1,42 @@
+<br><p></p>
+
+<div class="search-container" style="text-align: right;">
+  <input nz-input [(ngModel)]="searchTerm" placeholder="Rechercher..." />
+</div>
+
+<br><p></p>
+
+<div class="table-container">
+  <nz-table #basicTable [nzData]="getFilteredMerchandises()" class="single-line-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Volume</th>
+        <th>Poids</th>
+        <th>Quantité</th>
+        <th>Depart</th>
+        <th>Destination</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td><span class="ellipsis">{{ data.name }}</span></td>
+        <td><span class="ellipsis">{{ data.volume }}</span></td>
+        <td><span class="ellipsis">{{ data.weight }}</span></td>
+        <td><span class="ellipsis">{{ data.quantity }}</span></td>
+        <td><span class="ellipsis">{{ data.depart }}</span></td>
+        <td><span class="ellipsis">{{ data.destination }}</span></td>
+        <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+        <td class="actions-cell">
+          <button nz-button nzType="primary" (click)="viewDetails(data.id)">Détails</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="default" (click)="shipped(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Expédier</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Annuler</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

@@ -1,0 +1,49 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <h2>Détails de l'Expédition</h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Expédition #{{ expedition.expedition_number }}</h5>
+    <p class="card-text"><strong>Type :</strong> {{ expedition.type }}</p>
+    <p class="card-text"><strong>Lieu de départ :</strong> {{ expedition.origin }}</p>
+    <p class="card-text"><strong>Destination :</strong> {{ expedition.destination }}</p>
+    <p class="card-text"><strong>Date de départ :</strong> {{ expedition.date_expedition | date:'short' }}</p>
+    <p class="card-text"><strong>Date de livraison prévue :</strong> {{ expedition.date_livraison_prevue | date:'short' }}</p>
+    <p class="card-text"><strong>Status :</strong> <nz-badge [nzStatus]="getStatusType(expedition.status)" [nzText]="expedition.status"></nz-badge></p>
+
+    <button nz-button nzType="primary" (click)="merchandisesList()">Voir les marchandises</button>
+  </div>
+</div>
+
+<div *ngIf="merchandises && merchandises.length > 0" class="card mt-4">
+  <div class="card-header">
+    <h2>Liste des Marchandises</h2>
+  </div>
+  <nz-table #basicTable [nzData]="merchandises" [nzBordered]="true" class="single-line-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Volume</th>
+        <th>Poids</th>
+        <th>Quantité</th>
+        <th>Départ</th>
+        <th>Destination</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let merchandise of merchandises">
+        <td>{{ merchandise.name }}</td>
+        <td>{{ merchandise.volume }}</td>
+        <td>{{ merchandise.weight }}</td>
+        <td>{{ merchandise.quantity }}</td>
+        <td>{{ merchandise.depart }}</td>
+        <td>{{ merchandise.destination }}</td>
+        <td><nz-badge [nzStatus]="getStatusType(merchandise.status)" [nzText]="merchandise.status"></nz-badge></td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+<div *ngIf="!merchandises || merchandises.length === 0" class="alert alert-info mt-4">
+  Aucune marchandise trouvée pour cette expédition.
+</div>
