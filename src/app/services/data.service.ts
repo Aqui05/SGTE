@@ -152,6 +152,10 @@ export class DataService {
   sortVehicle(value: string) : Observable<any>  {
     return this.http.get(`${this.apiUrl}/vehicle/sortBy/${value}`);
   }
+
+  historyVehicle(id: number) : Observable<any> {
+    return this.http.get(`${this.apiUrl}/vehicle/history/${id}`);
+  }
   /*
     * Reservation services
   */

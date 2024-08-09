@@ -30,7 +30,10 @@
       <div style="margin-top: 16px;">
         <button nz-button nzType="primary" (click)="editVehicle(vehicle.id)" [disabled]="vehicle.available == false">Modifier</button>
         <button nz-button nzType="primary" nzDanger (click)="deleteVehicle(vehicle.id)" style="margin-left: 8px;" [disabled]="vehicle.available == false">Supprimer</button>
+
       </div>
     </nz-col>
   </nz-row>
 </nz-card>
+
+<!-- ajouter un bouton pour afficher 2 tableaus pour les historiques expéditions et transports cote à cote : utiliser col- -->

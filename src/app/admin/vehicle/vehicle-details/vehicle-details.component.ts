@@ -11,6 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 export class VehicleDetailsComponent implements OnInit {
   vehicle: any;
   fileList: NzUploadFile[] = [];
+  expedition : any;
+  transport: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +65,19 @@ export class VehicleDetailsComponent implements OnInit {
       },
       (error) => {
         console.error('Erreur lors de la suppression du véhicule:', error);
+      }
+    );
+  }
+
+  historyVehicle(id: number) {
+    this.dataService.historyVehicle(id).subscribe(
+      (response) => {
+        console.log(response);
+        this.expedition = response.data.expeditions;
+        this.transport = response.data.transports;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération de l\'historique du véhicule:', error);
       }
     );
   }
