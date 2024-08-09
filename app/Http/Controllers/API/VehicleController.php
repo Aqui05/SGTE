@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Expedition;
+use App\Models\Transport;
 
 class VehicleController extends Controller
 {
@@ -115,12 +117,10 @@ public function history($id)
     try {
         // Fetch expeditions associated with the vehicle
         $expeditions = Expedition::where('vehicle_id', $id)
-            ->with(['origin', 'destination'])
             ->get();
 
         // Fetch transports associated with the vehicle
         $transports = Transport::where('vehicle_id', $id)
-            ->with(['departureLocation', 'arrivalLocation'])
             ->get();
 
         // Combine and format the results

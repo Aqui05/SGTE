@@ -107,7 +107,7 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::get('/vehicles', [VehicleController::class, 'index']);
     Route::post('/vehicle',[VehicleController::class,'store']);
     Route::get('/vehicle/{id}',[VehicleController::class,'show']);
-    Route::get('/history/vehicle/{id}',[VehicleController::class,'history']);
+    Route::get('/vehicle/history/{id}',[VehicleController::class,'history']);
     Route::put('/vehicle/{id}',[VehicleController::class,'update']);
     Route::delete('/vehicle/{id}',[VehicleController::class,'destroy']);
 

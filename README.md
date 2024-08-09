@@ -64,3 +64,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Command passport
+
+- **php artisan passport:client**
+
+- **php artisan passport:client --public**  
+
+- **php artisan passport:client --password**
+
+- **php artisan passport:client --client**
+
+- **php artisan passport:client --personal**
+
+- **php artisan passport:keys**
