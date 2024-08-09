@@ -1,79 +1,91 @@
 <nz-layout class="app-layout">
   <nz-sider class="menu-sidebar"
-            nzCollapsible
-            nzWidth="256px"
-            [nzCollapsedWidth]="80"
-            nzBreakpoint="md"
-            [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a href="" target="_blank">
-        <img src="assets/logiTrack.png" alt="logo">
-        <h1>LogiTrack</h1>
-      </a>
-    </div>
-    <div>
-      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-        <li nz-menu-item [routerLink]="['/admin/dashboard']" routerLinkActive="active">
-          <span nz-icon nzType="dashboard" nzTheme="outline"></span>
-          <span>Dashboard</span>
-        </li>
-        <li nz-submenu nzTitle="Vehicle" nzIcon="car">
-          <ul>
-            <li nz-menu-item [routerLink]="['/admin/vehicle/create']" routerLinkActive="active">
-              <i class="bi bi-plus-circle"></i> Ajouter Vehicle
-            </li>
-            <li nz-menu-item [routerLink]="['/admin/vehicle']" routerLinkActive="active">
-              <i class="bi bi-list-ul"></i> Liste Vehicles
-            </li>
-          </ul>
-        </li>
+  nzCollapsible
+  nzWidth="256px"
+  [nzCollapsedWidth]="80"
+  nzBreakpoint="md"
+  [(nzCollapsed)]="isCollapsed"
+  [nzTrigger]="null">
+<div class="sidebar-logo">
+<a href="" target="_blank">
+<img src="assets/logiTrack.png" alt="logo">
+<h1>LogiTrack</h1>
+</a>
+</div>
+<div>
+<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+<!-- Groupe 1 : Éléments principaux -->
+<li nz-menu-item [routerLink]="['/admin/dashboard']" routerLinkActive="active">
+<span nz-icon nzType="dashboard" nzTheme="outline"></span>
+<span>Dashboard</span>
+</li>
 
-          <li nz-submenu nzTitle="Transport" nzIcon="box-plot">
-            <ul>
-              <li nz-menu-item [routerLink]="['/admin/transport/create']" routerLinkActive="active">
-                <i class="bi bi-plus-circle"></i> Ajouter Transport
-              </li>
-              <li nz-menu-item [routerLink]="['/admin/transport']" routerLinkActive="active">
-                <i class="bi bi-list-ul"></i> Liste Transports
-              </li>
-            </ul>
-          </li>
+<nz-divider style="background-color: black; margin: 8px 0;"></nz-divider>
 
-        <li nz-submenu nzTitle="Marchandise" nzIcon="hdd">
-          <ul>
-            <li nz-menu-item [routerLink]="['/admin/merchandise']" routerLinkActive="active">
-              <i class="bi bi-list-ul"></i> Liste des marchandises
-            </li>
-          </ul>
-        </li>
-        <li nz-submenu nzTitle="Expedition" nzIcon="global">
-          <ul>
-            <li nz-menu-item [routerLink]="['/admin/expedition/create']" routerLinkActive="active">
-              <i class="bi bi-plus-circle"></i> Ajouter une Expédition
-            </li>
-            <li nz-menu-item [routerLink]="['/admin/expedition']" routerLinkActive="active">
-              <i class="bi bi-list-ul"></i> Liste Expéditions
-            </li>
-          </ul>
-        </li>
-        <li nz-submenu nzTitle="User" nzIcon="user">
-          <ul>
-            <li nz-menu-item [routerLink]="['/admin/user_page']" routerLinkActive="active">
-              <i class="bi bi-people"></i> User Page
-            </li>
-          </ul>
-        </li>
-        <li nz-submenu nzTitle="Settings" nzIcon="setting">
-          <ul>
-            <li nz-menu-item [routerLink]="['/admin']" routerLinkActive="active">
-              <i class="bi bi-tools"></i> Setting Admin
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </nz-sider>
+<!-- Groupe 2 : Actions -->
+<li nz-submenu nzTitle="Vehicle" nzIcon="car">
+<ul>
+  <li nz-menu-item [routerLink]="['/admin/vehicle/create']" routerLinkActive="active">
+    <i class="bi bi-plus-circle"></i> Ajouter Vehicle
+  </li>
+  <li nz-menu-item [routerLink]="['/admin/vehicle']" routerLinkActive="active">
+    <i class="bi bi-list-ul"></i> Liste Vehicles
+  </li>
+</ul>
+</li>
+
+<li nz-submenu nzTitle="Transport" nzIcon="box-plot">
+<ul>
+  <li nz-menu-item [routerLink]="['/admin/transport/create']" routerLinkActive="active">
+    <i class="bi bi-plus-circle"></i> Ajouter Transport
+  </li>
+  <li nz-menu-item [routerLink]="['/admin/transport']" routerLinkActive="active">
+    <i class="bi bi-list-ul"></i> Liste Transports
+  </li>
+</ul>
+</li>
+
+<li nz-submenu nzTitle="Marchandise" nzIcon="hdd">
+<ul>
+  <li nz-menu-item [routerLink]="['/admin/merchandise']" routerLinkActive="active">
+    <i class="bi bi-list-ul"></i> Liste des marchandises
+  </li>
+</ul>
+</li>
+
+<li nz-submenu nzTitle="Expedition" nzIcon="global">
+<ul>
+  <li nz-menu-item [routerLink]="['/admin/expedition/create']" routerLinkActive="active">
+    <i class="bi bi-plus-circle"></i> Ajouter une Expédition
+  </li>
+  <li nz-menu-item [routerLink]="['/admin/expedition']" routerLinkActive="active">
+    <i class="bi bi-list-ul"></i> Liste Expéditions
+  </li>
+</ul>
+</li>
+
+<nz-divider style="background-color: black; margin: 8px 0;"></nz-divider>
+
+
+<!-- Groupe 3 : Settings et User -->
+<li nz-submenu nzTitle="User" nzIcon="user">
+<ul>
+  <li nz-menu-item [routerLink]="['/admin/user_page']" routerLinkActive="active">
+    <i class="bi bi-people"></i> User Page
+  </li>
+</ul>
+</li>
+
+<li nz-submenu nzTitle="Settings" nzIcon="setting">
+<ul>
+  <li nz-menu-item [routerLink]="['/admin']" routerLinkActive="active">
+    <i class="bi bi-tools"></i> Setting Admin
+  </li>
+</ul>
+</li>
+</ul>
+</div>
+</nz-sider>
   <nz-layout>
     <nz-header [ngClass]="{'collapsed-header': isCollapsed, 'expanded-header': !isCollapsed}">
       <div class="app-header navbar navbar-expand-lg bg-body-tertiary border-bottom border-info-subtle" >
