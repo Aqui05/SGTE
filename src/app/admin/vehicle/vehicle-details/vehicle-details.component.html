@@ -30,10 +30,69 @@
       <div style="margin-top: 16px;">
         <button nz-button nzType="primary" (click)="editVehicle(vehicle.id)" [disabled]="vehicle.available == false">Modifier</button>
         <button nz-button nzType="primary" nzDanger (click)="deleteVehicle(vehicle.id)" style="margin-left: 8px;" [disabled]="vehicle.available == false">Supprimer</button>
-
+        <button nz-button nzType="default" style="margin-left: 8px;" (click)="historyVehicle(vehicle.id)">Afficher l'historique</button>
       </div>
     </nz-col>
   </nz-row>
 </nz-card>
 
-<!-- ajouter un bouton pour afficher 2 tableaus pour les historiques expéditions et transports cote à cote : utiliser col- -->
+
+<!-- Tables for Expedition and Transport Histories -->
+<nz-row [nzGutter]="16" style="margin-top: 24px;">
+  <nz-col [nzSpan]="24" [nzMd]="12">
+    <nz-card nzTitle="Historique des Expéditions">
+      <div class="table-container">
+        <nz-table #expeditionTable [nzData]="expedition" [nzPageSize]="5" [nzScroll]="{ y: '240px' }">
+          <thead>
+            <tr>
+              <th nzWidth="100px">Numéro</th>
+              <th nzWidth="120px">Origine</th>
+              <th nzWidth="120px">Destination</th>
+              <th nzWidth="120px">Date</th>
+              <th nzWidth="100px">Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let exp of expeditionTable.data">
+              <td>{{ exp.expedition_number }}</td>
+              <td>{{ exp.origin }}</td>
+              <td>{{ exp.destination }}</td>
+              <td>{{ exp.date_expedition | date:'short' }}</td>
+              <td>
+                <nz-badge [nzStatus]="getStatusExpedition(exp.status)" [nzText]="exp.status"></nz-badge>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </nz-card>
+  </nz-col>
+  <nz-col [nzSpan]="24" [nzMd]="12">
+    <nz-card nzTitle="Historique des Transports">
+      <div class="table-container">
+        <nz-table #transportTable [nzData]="transport" [nzPageSize]="5" [nzScroll]="{ y: '240px' }">
+          <thead>
+            <tr>
+              <th nzWidth="100px">Numéro</th>
+              <th nzWidth="120px">Départ</th>
+              <th nzWidth="120px">Arrivée</th>
+              <th nzWidth="120px">Date</th>
+              <th nzWidth="100px">Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let trans of transportTable.data">
+              <td>{{ trans.numero_transport }}</td>
+              <td>{{ trans.departure_location }}</td>
+              <td>{{ trans.destination_location }}</td>
+              <td>{{ trans.departure_time | date:'short' }}</td>
+              <td>
+                <nz-badge [nzStatus]="getStatusTransport(trans.status)" [nzText]="trans.status"></nz-badge>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </nz-card>
+  </nz-col>
+</nz-row>

@@ -6,3 +6,19 @@
   width: 100%;
   height: auto;
 }
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-container .ant-table-body {
+  overflow-y: auto !important;
+}
+
+.table-container .ant-table-thead > tr > th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}

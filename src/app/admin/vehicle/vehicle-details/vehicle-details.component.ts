@@ -72,7 +72,6 @@ export class VehicleDetailsComponent implements OnInit {
   historyVehicle(id: number) {
     this.dataService.historyVehicle(id).subscribe(
       (response) => {
-        console.log(response);
         this.expedition = response.data.expeditions;
         this.transport = response.data.transports;
       },
@@ -80,5 +79,38 @@ export class VehicleDetailsComponent implements OnInit {
         console.error('Erreur lors de la récupération de l\'historique du véhicule:', error);
       }
     );
+  }
+
+
+  getStatusTransport(status: string): string {
+    switch (status) {
+      case 'confirmed':
+        return 'success';
+      case 'in Progress':
+        return 'processing';
+      case 'finished':
+        return 'magenta';
+      case 'cancelled':
+        return 'error';
+      default:
+        return 'default';
+    }
+  }
+
+  getStatusExpedition(status: string): string {
+    switch (status) {
+      case 'confirmé':
+        return 'success';
+      case 'planification':
+        return 'yellow';
+      case 'en transit':
+        return 'processing';
+      case 'delivré':
+        return 'purple';
+      case 'annulé':
+        return 'error';
+      default:
+        return 'default';
+    }
   }
 }
