@@ -36,9 +36,8 @@
   </nz-row>
 </nz-card>
 
-
 <!-- Tables for Expedition and Transport Histories -->
-<nz-row [nzGutter]="16" style="margin-top: 24px;">
+<nz-row [nzGutter]="16" style="margin-top: 24px;" *ngIf="expedition?.length || transport?.length">
   <nz-col [nzSpan]="24" [nzMd]="12">
     <nz-card nzTitle="Historique des Expéditions">
       <div class="table-container">
@@ -61,6 +60,9 @@
               <td>
                 <nz-badge [nzStatus]="getStatusExpedition(exp.status)" [nzText]="exp.status"></nz-badge>
               </td>
+            </tr>
+            <tr *ngIf="!expedition?.length">
+              <td colspan="5" style="text-align: center;">Aucune expédition trouvée</td>
             </tr>
           </tbody>
         </nz-table>
@@ -89,6 +91,9 @@
               <td>
                 <nz-badge [nzStatus]="getStatusTransport(trans.status)" [nzText]="trans.status"></nz-badge>
               </td>
+            </tr>
+            <tr *ngIf="!transport?.length">
+              <td colspan="5" style="text-align: center;">Aucun transport trouvé</td>
             </tr>
           </tbody>
         </nz-table>
