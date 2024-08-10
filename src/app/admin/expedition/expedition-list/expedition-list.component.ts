@@ -38,10 +38,10 @@ export class ExpeditionListComponent implements OnInit {
     return this.expeditions
       .filter(m => m.status !== 'delivré' && m.status !== 'annulé')
       .filter(m => this.searchTerm === '' ||
-                   m.expedition_number.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                   m.type.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                   m.origin.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                   m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
+                    m.expedition_number.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                    m.type.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                    m.origin.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                    m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
       .sort((a, b) => this.getStatusPriority(a.status) - this.getStatusPriority(b.status));
   }
 
