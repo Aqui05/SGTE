@@ -1,7 +1,16 @@
 <button nz-button nzType="primary" (click)="addVehicle()">Ajouter un véhicule</button>
 <br> <p></p>
 
-<nz-table #basicTable [nzData]="vehicles">
+<div class="row mb-4">
+  <div class="col-md-9"></div>
+  <div class="col-md-3">
+    <nz-input-group nzPrefixIcon="search">
+      <input [(ngModel)]="searchTerm" (ngModelChange)="searchVehicles()" type="text" nz-input placeholder="Rechercher...">
+    </nz-input-group>
+  </div>
+</div>
+
+<nz-table #basicTable [nzData]="filteredVehicles">
   <thead>
     <tr>
       <th>Immatriculation</th>

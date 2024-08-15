@@ -91,4 +91,8 @@ export class ExpeditionListComponent implements OnInit {
       }
     );
   }
+
+  addExpedition(): void {
+    this.router.navigate([`/admin/expedition/create`]);
+  }
 }

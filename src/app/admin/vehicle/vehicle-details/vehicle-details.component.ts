@@ -9,7 +9,7 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./vehicle-details.component.css']
 })
 export class VehicleDetailsComponent implements OnInit {
-  vehicle: any;
+  vehicle: any = {};
   fileList: NzUploadFile[] = [];
   expedition : any;
   transport: any;

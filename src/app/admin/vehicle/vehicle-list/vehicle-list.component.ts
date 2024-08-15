@@ -10,6 +10,8 @@ import { DataService } from 'src/app/services/data.service';
 export class VehicleListComponent implements OnInit {
 
   vehicles: any[] = [];
+  searchTerm: string = '';
+  filteredVehicles: any[] = [];
 
   constructor(private dataService: DataService, private router: Router) {}
 
@@ -21,6 +23,7 @@ export class VehicleListComponent implements OnInit {
     this.dataService.getVehicles().subscribe(
       (data) => {
         this.vehicles = data.data;
+        this.filteredVehicles = this.vehicles; // Initial filtering with all data
       },
       (error) => {
         console.error('Erreur lors de la récupération des véhicules:', error);
@@ -49,5 +52,18 @@ export class VehicleListComponent implements OnInit {
         console.error('Erreur lors de la suppression du véhicule:', error);
       }
     );
+  }
+
+  searchVehicles(): void {
+    if (this.searchTerm) {
+      this.filteredVehicles = this.vehicles.filter(vehicle =>
+        vehicle.brand.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        vehicle.model.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        vehicle.license_plate.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        vehicle.type.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.filteredVehicles = this.vehicles; // Show all if no search term
+    }
   }
 }

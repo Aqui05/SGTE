@@ -1,7 +1,12 @@
 <br><p></p>
 
-<div class="search-container" style="text-align: right;">
-  <input nz-input [(ngModel)]="searchTerm" placeholder="Rechercher..." />
+<div class="row mb-4">
+  <div class="col-md-9"></div>
+  <div class="col-md-3">
+    <nz-input-group nzPrefixIcon="search">
+      <input nz-input [(ngModel)]="searchTerm" placeholder="Rechercher..." />
+    </nz-input-group>
+  </div>
 </div>
 
 <br><p></p>
