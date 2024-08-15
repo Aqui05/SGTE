@@ -31,7 +31,6 @@ class VehicleController extends Controller
             'model' => 'required|string|max:255',
             'license_plate' => 'required|string|unique:vehicles,license_plate|max:255',
             'seats' => 'required|integer',
-            'model_3d_link' => 'nullable|file|max:10240|mimes:jpg,jpeg,png,gif', // Accepter les types de fichiers courants et une taille maximale de 10 Mo
         ]);
 
         if ($request->hasFile('model_3d_link')) {
