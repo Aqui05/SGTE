@@ -28,6 +28,7 @@ class MerchandiseResource extends JsonResource
             'destination' => $this->destination,
             'status' => $this->status,
             'paid' => $this->paid ,
+            'total_price' => $this->total_price,
             'user' => new UserResource($this->whenLoaded('user')),
         ];
     }

@@ -22,9 +22,32 @@ use Illuminate\Support\Facades\Notification;
 use App\Http\Resources\MerchandiseResource;
 use App\Models\Expedition;
 use App\Notifications\ExpeditionMerchandiseAdd;
+use App\Services\DistanceService;
 
 class MerchandiseController extends Controller
 {
+    protected $distanceService;
+
+    public function __construct(DistanceService $distanceService)
+    {
+        $this->distanceService = $distanceService;
+    }
+
+    public function calculateDistance($origin, $destination)
+    {
+
+        if (!$origin || !$destination) {
+            return response()->json(['error' => 'Origin and destination are required'], 400);
+        }
+
+        $distance = $this->distanceService->getDistanceBetweenCities($origin, $destination);
+
+        if ($distance === null) {
+            return response()->json(['error' => 'Unable to calculate distance'], 404);
+        }
+
+        return $distance;
+    }
     public function index()
     {
         $userId = Auth::id();
@@ -47,27 +70,33 @@ class MerchandiseController extends Controller
 
         // Valider les données du formulaire
         $validatedData = $request->validate([
-            //'expedition_id' => 'exists:expeditions,id',
-            'name' => 'required|string', // Ajoutez 'required' si ce champ est obligatoire
+            'name' => 'required|string',
             'description' => 'nullable|string',
             'quantity' => 'nullable|integer|min:1',
             'weight' => 'nullable|numeric|min:0',
             'volume' => 'nullable|numeric|min:0',
-            'category' => 'nullable|string', // Ajoutez 'string' si ce champ est une chaîne de caractères
+            'category' => 'nullable|string',
             'numero_suivi' => 'nullable|string',
             'depart' => 'required|string',
             'destination' => 'required|string',
         ]);
 
-        // Ajouter user_id aux données validées
+        // Calculer la distance entre les villes en utilisant calculateDistance
+        $distance = $this->calculateDistance($validatedData['depart'], $validatedData['destination']);
+
+        if (is_a($distance, \Illuminate\Http\JsonResponse::class)) {
+            return $distance; // Retourne l'erreur si distance n'est pas calculée
+        }
+
+        // Ajouter user_id et distance aux données validées
         $validatedData['user_id'] = $userId;
+        $validatedData['total_price'] = $distance;
 
         // Créer une nouvelle marchandise avec les données validées
         $merchandise = Merchandise::create($validatedData);
 
         // Retourner la ressource de la marchandise nouvellement créée
-
-        return MerchandiseResource::collection($merchandise);
+        return new MerchandiseResource($merchandise);
     }
 
     public function makePayment(Request $request, $id)
@@ -80,9 +109,17 @@ class MerchandiseController extends Controller
 
     public function show($id)
     {
-        $merchandise = Merchandise::where('id', $id)->get() ;
-        return MerchandiseResource::collection($merchandise);
+        $merchandise = Merchandise::with('user')->find($id);
+
+        // Vérifier si la marchandise existe
+        if (!$merchandise) {
+            return response()->json(['message' => 'Marchandise non trouvée'], 404);
+        }
+
+        // Retourner la marchandise transformée en ressource
+        return new MerchandiseResource($merchandise);
     }
+
 
     public function update(Request $request, $id)
     {

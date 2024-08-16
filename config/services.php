@@ -65,6 +65,10 @@ return [
         'client_id' => env('TWITTER_CLIENT_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET'),
         'redirect' => '/auth/twitter/callback'
-    ]
+    ],
+
+    'google_maps' => [
+        'api_key' => env('GOOGLE_MAPS_API_KEY'),
+    ],
 
 ];

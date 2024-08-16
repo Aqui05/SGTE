@@ -7,12 +7,13 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^2.2",
-        "simplesoftwareio/simple-qrcode": "*",
+        "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^11.7",
         "laravel/jetstream": "^5.1",
         "laravel/passport": "^12.0",
         "laravel/socialite": "^5.14",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "simplesoftwareio/simple-qrcode": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

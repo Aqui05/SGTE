@@ -23,6 +23,7 @@ class Merchandise extends Model
         'destination',
         'status',
         'paid',
+        'total_price'
     ];
 
 

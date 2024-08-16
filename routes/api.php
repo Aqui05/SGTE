@@ -12,6 +12,11 @@ use App\Http\Controllers\API\MerchandiseController;
 use App\Http\Controllers\API\FunctionController;
 use App\Models\Expedition;
 
+
+Route::get('/distance/{origin}/{destination}', [MerchandiseController::class, 'calculateDistance']);
+
+
+
 Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::post('/register',[AuthController::class,'register'])->name('register');
 Route::middleware('auth:api')->get('user-details',[AuthController::class,'user'])->name('user-details');
@@ -142,3 +147,5 @@ Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
 
     Route::get('/merchandises/ship',[MerchandiseController::class,'MerchandisesShip']);
 });
+
+
