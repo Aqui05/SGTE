@@ -22,6 +22,7 @@
         <th>Depart</th>
         <th>Destination</th>
         <th>Status</th>
+        <th>Payer</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -34,10 +35,19 @@
         <td><span class="ellipsis">{{ data.depart }}</span></td>
         <td><span class="ellipsis">{{ data.destination }}</span></td>
         <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+        <td>
+          <span
+            [class]="data.paid ? 'badge text-bg-success' : 'badge text-bg-danger'"
+            [class.rounded-pill]="true"
+            [class.d-inline]="true"
+          >
+            {{ data.paid ? 'OUI' : 'NON' }}
+          </span>
+        </td>
         <td class="actions-cell">
           <button nz-button nzType="primary" (click)="viewDetails(data.id)">Détails</button>
           <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="default" (click)="shipped(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Expédier</button>
+          <button nz-button nzType="default" (click)="shipped(data.id,data.depart,data.destination)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré' || data.paid == 0">Expédier</button>
           <nz-divider nzType="vertical"></nz-divider>
           <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Annuler</button>
         </td>

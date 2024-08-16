@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataService } from 'src/app/services/data.service';
 
@@ -34,7 +34,9 @@ export class ExpeditionAddComponent implements OnInit {
     private msg: NzMessageService,
     private fb: FormBuilder,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private route: ActivatedRoute,
+
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +59,16 @@ export class ExpeditionAddComponent implements OnInit {
     this.expeditionForm.get('vehicle_license')?.valueChanges.subscribe(value => {
       this.findVehicleId();
     });
+
+        // Récupérer les paramètres de la route
+        this.route.queryParams.subscribe(params => {
+          if (params['origin'] && params['destination']) {
+            this.expeditionForm.patchValue({
+              origin: params['origin'],
+              destination: params['destination']
+            });
+          }
+        });
   }
 
   findVehicleId(): void {

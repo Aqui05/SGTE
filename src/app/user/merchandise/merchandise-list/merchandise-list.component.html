@@ -1,34 +1,60 @@
+<br>
+<button nz-button nzType="primary" (click)="addMerchandise()">Enregistrer une marchandise</button>
+<br>
 
-<br><p></p>
 
-<nz-table #basicTable [nzData]="getFilteredMerchandises()">
-  <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Quantité</th>
-      <th>Poids</th>
-      <th>Volume</th>
-      <th>depart</th>
-      <th>destination</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
+<div class="row mb-4">
+  <div class="col-md-9"></div>
+  <div class="col-md-3">
+    <nz-input-group nzPrefixIcon="search">
+      <input nz-input [(ngModel)]="searchTerm" placeholder="Rechercher..." />
+    </nz-input-group>
+  </div>
+</div>
 
-  <tbody>
-    <tr *ngFor="let data of basicTable.data">
-      <td>{{ data.name }}</td>
-      <td>{{ data.quantity }}</td>
-      <td>{{ data.weight }}</td>
-      <td>{{ data.volume }}</td>
-      <td>{{ data.depart }}</td>
-      <td>{{ data.destination }}</td>
-      <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
-      <td>
-        <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'en transit'">Détails</button>
-        <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit'">Supprimer</button>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+<br>
+
+<div class="table-container">
+  <nz-table #basicTable [nzData]="getFilteredMerchandises()" class="single-line-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Volume</th>
+        <th>Poids</th>
+        <th>Quantité</th>
+        <th>Depart</th>
+        <th>Destination</th>
+        <th>Status</th>
+        <th>Payer</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td><span class="ellipsis">{{ data.name }}</span></td>
+        <td><span class="ellipsis">{{ data.volume }}</span></td>
+        <td><span class="ellipsis">{{ data.weight }}</span></td>
+        <td><span class="ellipsis">{{ data.quantity }}</span></td>
+        <td><span class="ellipsis">{{ data.depart }}</span></td>
+        <td><span class="ellipsis">{{ data.destination }}</span></td>
+        <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+        <td>
+          <span
+            [class]="data.paid ? 'badge text-bg-success' : 'badge text-bg-danger'"
+            [class.rounded-pill]="true"
+            [class.d-inline]="true"
+          >
+            {{ data.paid ? 'OUI' : 'NON' }}
+          </span>
+        </td>
+        <td class="actions-cell">
+          <button nz-button nzType="primary" (click)="viewDetails(data.id)">Détails</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzDanger (click)="modify(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Modifier</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzDanger (click)="cancel(data.id)" [disabled]="data.status === 'en transit' || data.status === 'planification' || data.status === 'delivré'">Annuler</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

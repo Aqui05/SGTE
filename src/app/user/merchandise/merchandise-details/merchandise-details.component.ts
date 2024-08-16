@@ -9,7 +9,7 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./merchandise-details.component.css']
 })
 export class MerchandiseDetailsComponent implements OnInit{
-  Merchandise !: {};
+  Merchandise :any = {};
   merchandiseId !: number;
 
   constructor (

@@ -37,11 +37,11 @@ export class MerchandiseListComponent implements OnInit {
 
   getFilteredMerchandises() {
     return this.merchandises
-      .filter(m => 
-        m.status !== 'delivré' && 
+      .filter(m =>
+        m.status !== 'delivré' &&
         m.status !== 'annulé' &&
-        (m.name.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
-        m.depart.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+        (m.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        m.depart.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
       )
       .sort((a, b) => this.getStatusPriority(a.status) - this.getStatusPriority(b.status));
@@ -79,9 +79,12 @@ export class MerchandiseListComponent implements OnInit {
     this.router.navigate([`admin/merchandise/details/${id}`]);
   }
 
-  shipped(id: number): void {
-    this.router.navigate([`admin/merchandise/send/${id}`]);
+  shipped(id: number, origin: string, destination: string): void {
+    this.router.navigate(['admin/expedition/create'], {
+      queryParams: { origin: origin, destination: destination }
+    });
   }
+
 
   cancel(id: number): void {
     this.dataService.cancelMerchandise(id, this.merchandises).subscribe(

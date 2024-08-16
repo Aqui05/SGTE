@@ -10,11 +10,13 @@ import { DataService } from 'src/app/services/data.service';
 export class MerchandiseListComponent  implements OnInit{
 
 
-  Transport: any[] = [];
-  Reservation : any[] = [];
+  // Transport: any[] = [];
+  // Reservation : any[] = [];
   Merchandise : any[] = [];
-  Expedition : any[] = [];
-  CompletedDelivery : any[] = [];
+  // Expedition : any[] = [];
+  // CompletedDelivery : any[] = [];
+
+  searchTerm: string = '';
 
   constructor(
     private dataService: DataService,
@@ -59,28 +61,57 @@ export class MerchandiseListComponent  implements OnInit{
   }
 
   getFilteredMerchandises() {
-    return this.Merchandise.filter(m => m.status !== 'delivré' && m.status !== 'annulé');
+    return this.Merchandise
+      .filter(m =>
+        m.status !== 'delivré' &&
+        m.status !== 'annulé' &&
+        (m.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        m.depart.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      )
+      .sort((a, b) => this.getStatusPriority(a.status) - this.getStatusPriority(b.status));
+  }
+
+  getStatusPriority(status: string): number {
+    switch (status) {
+      case 'confirmé':
+        return 1;
+      case 'planification':
+        return 2;
+      case 'en transit':
+        return 3;
+      case 'delivré':
+        return 4;
+      case 'annulé':
+        return 5;
+      default:
+        return 6;
+    }
   }
 
   viewDetails(id: number): void {
-    this.router.navigate([`admin/merchandise/details/${id}`]);
+    this.router.navigate([`user/merchandise/details/${id}`]);
   }
 
-  shipped(id: number): void {
-    this.router.navigate([`admin/merchandise/send/${id}`]);
+  modify(id: number): void {
+    this.router.navigate([`user/merchandise/edit/${id}`]);
   }
 
 
 
   cancel(id: number): void {
-    /*this.dataService.deleteVehicle(id).subscribe(
+    this.dataService.deleteMerchandise(id).subscribe(
       (response) => {
-        this.loadMerchandises();
+        this.InfoMerchandise();
       },
       (error) => {
-        console.error('Erreur lors de la suppression du véhicule:', error);
+        console.error('Erreur lors de la suppression de la marchandise:', error);
       }
-    );*/
+    );
+  }
+
+  addMerchandise(): void {
+    this.router.navigate([`/user/merchandise/add`]);
   }
 
 }

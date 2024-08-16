@@ -29,6 +29,7 @@ export class MerchandiseDetailsComponent implements OnInit {
     this.dataService.getMerchandise(this.merchandiseId).subscribe(
       (data) => {
         this.merchandise = data.data;
+        console.log(this.merchandise)
       },
       (error) => {
         console.error('Erreur lors de la récupération de la marchandise:', error);

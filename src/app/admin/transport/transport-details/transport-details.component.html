@@ -1,9 +1,8 @@
 <div class="card">
   <div class="card-header">
-    <h2>Détails du Transport</h2>
+    <h2>Détails du Transport {{ Transport.numero_transport }}</h2>
   </div>
   <div class="card-body">
-    <h5 class="card-title">{{ Transport.numero_transport }}</h5>
     <p class="card-text"><strong>Type :</strong> {{ Transport.type }}</p>
     <p class="card-text"><strong>Lieu de départ :</strong> {{ Transport.departure_location }}</p>
     <p class="card-text"><strong>Destination :</strong> {{ Transport.destination_location }}</p>

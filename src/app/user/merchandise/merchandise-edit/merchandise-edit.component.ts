@@ -50,6 +50,7 @@ export class MerchandiseEditComponent implements OnInit {
     this.dataService.getMerchandise(this.merchandiseId).subscribe(
       (response) => {
         this.Merchandise= response.data;
+        this.merchandiseForm.patchValue(this.Merchandise);
       },
       (error) => {
         console.error('Error loading vehicle:', error);
@@ -80,7 +81,7 @@ export class MerchandiseEditComponent implements OnInit {
   generateTrackingNumber(): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;

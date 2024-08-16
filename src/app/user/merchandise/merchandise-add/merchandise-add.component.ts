@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { PaymentModalComponent } from 'src/app/pages/payment-modal/payment-modal.component';
 
 @Component({
   selector: 'app-merchandise-add',
@@ -11,12 +13,14 @@ import { DataService } from 'src/app/services/data.service';
 export class MerchandiseAddComponent implements OnInit {
   merchandiseForm: FormGroup;
   merchandises: any[] = [];
+  merchandiseId!: number;
 
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modal: NzModalService
   ) {
     this.merchandiseForm = this.fb.group({
       name: ['', Validators.required],
@@ -59,12 +63,27 @@ export class MerchandiseAddComponent implements OnInit {
         this.dataService.addMerchandise(merchandiseData).subscribe(
           response => {
             console.log('Merchandise has been added successfully:', response);
+            this.merchandiseId = response.data.id;
+            console.log(this.merchandiseId)
             this.router.navigate(['/user/merchandise/list']);
+            this.showModal();
           },
           error => {
             console.error('Error adding merchandise:', error);
           }
         );
     }
+  }
+
+  showModal(): void {
+    console.log(this.merchandiseId);
+    this.modal.create({
+      nzTitle: 'Formulaire de payement',
+      nzContent: PaymentModalComponent,
+      nzData: {
+        merchandiseId: this.merchandiseId,
+      },
+      nzFooter: null
+    });
   }
 }

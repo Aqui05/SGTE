@@ -38,10 +38,12 @@ export class ExpeditionEditComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+    this.expeditionId = Number(this.route.snapshot.paramMap.get('id')!);
+  }
 
   ngOnInit(): void {
-    this.expeditionId = Number(this.route.snapshot.paramMap.get('id')!);
+
 
     this.loadExpeditionData();
 
@@ -66,12 +68,14 @@ export class ExpeditionEditComponent implements OnInit {
     });
   }
 
+
   loadExpeditionData ():void {
     if (this.expeditionId) {
       this.loading = true;
       this.dataService.getExpedition(this.expeditionId).subscribe(
         (response: any) => {
           this.expedition = response.data;
+          this.expeditionForm.patchValue(this.expedition);
           this.loading = false;
         },
         (error) => {

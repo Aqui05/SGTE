@@ -1,1 +1,52 @@
-<p>merchandise-details works!</p>
+<nz-card nzTitle="Détails de la Marchandise {{ Merchandise.numero_suivi }}">
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <p><strong>Nom:</strong> {{ Merchandise.name }}</p>
+    </div>
+    <div nz-col nzSpan="12">
+      <p><strong>Description:</strong> {{ Merchandise.description }}</p>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <p><strong>Quantité:</strong> {{ Merchandise.quantity }}</p>
+    </div>
+    <div nz-col nzSpan="12">
+      <p><strong>Catégorie:</strong> {{ Merchandise.category }}</p>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <p><strong>Poids:</strong> {{ Merchandise.weight }} kg</p>
+    </div>
+    <div nz-col nzSpan="12">
+      <p><strong>Volume:</strong> {{ Merchandise.volume }} m³</p>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <p><strong>Numéro de suivi:</strong> {{ Merchandise.numero_suivi }}</p>
+    </div>
+    <div nz-col nzSpan="12">
+      <p><strong>Départ:</strong> {{ Merchandise.depart }}</p>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <p><strong>Destination:</strong> {{ Merchandise.destination }}</p>
+    </div>
+    <div nz-col nzSpan="12">
+      <p><strong>Status:</strong> {{ Merchandise.status }}</p>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <p><strong>Payé:</strong> {{ Merchandise.paid ? 'Oui' : 'Non' }}</p>
+    </div>
+  </div>
+</nz-card>
