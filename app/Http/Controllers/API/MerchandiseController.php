@@ -33,21 +33,15 @@ class MerchandiseController extends Controller
         $this->distanceService = $distanceService;
     }
 
-    public function calculateDistance($origin, $destination)
-    {
-
-        if (!$origin || !$destination) {
-            return response()->json(['error' => 'Origin and destination are required'], 400);
-        }
-
-        $distance = $this->distanceService->getDistanceBetweenCities($origin, $destination);
-
-        if ($distance === null) {
-            return response()->json(['error' => 'Unable to calculate distance'], 404);
-        }
-
-        return $distance;
+public function calculateDistance($origin, $destination)
+{
+    $distance = $this->distanceService->getDistanceBetweenCities($origin, $destination);
+    if ($distance === null) {
+        $error = $this->distanceService->getLastError();
+        return response()->json(['error' => 'Unable to calculate distance', 'details' => $error], 404);
     }
+    return response()->json(['distance' => $distance]);
+}
     public function index()
     {
         $userId = Auth::id();
@@ -65,38 +59,80 @@ class MerchandiseController extends Controller
 
 
     public function store(Request $request)
-    {
-        $userId = Auth::id();
+{
+    $userId = Auth::id();
+    // Valider les données du formulaire
+    $validatedData = $request->validate([
+        'name' => 'required|string',
+        'description' => 'nullable|string',
+        'quantity' => 'nullable|integer|min:1',
+        'weight' => 'nullable|numeric|min:0',
+        'volume' => 'nullable|numeric|min:0',
+        'category' => 'nullable|string',
+        'numero_suivi' => 'nullable|string',
+        'depart' => 'required|string',
+        'destination' => 'required|string',
+    ]);
 
-        // Valider les données du formulaire
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-            'description' => 'nullable|string',
-            'quantity' => 'nullable|integer|min:1',
-            'weight' => 'nullable|numeric|min:0',
-            'volume' => 'nullable|numeric|min:0',
-            'category' => 'nullable|string',
-            'numero_suivi' => 'nullable|string',
-            'depart' => 'required|string',
-            'destination' => 'required|string',
-        ]);
+    // Calculer la distance entre les villes
+    $distanceResponse = $this->calculateDistance($validatedData['depart'], $validatedData['destination']);
 
-        // Calculer la distance entre les villes en utilisant calculateDistance
-        $distance = $this->calculateDistance($validatedData['depart'], $validatedData['destination']);
+    // Initialiser la distance avec la valeur par défaut
+    $distance = 250;
 
-        if (is_a($distance, \Illuminate\Http\JsonResponse::class)) {
-            return $distance; // Retourne l'erreur si distance n'est pas calculée
+    if (!is_a($distanceResponse, \Illuminate\Http\JsonResponse::class)) {
+        // Si la réponse n'est pas une JsonResponse, on suppose que c'est la distance calculée
+        $distance = $distanceResponse;
+    } else {
+        // Si c'est une JsonResponse, on essaie d'extraire la distance
+        $responseData = json_decode($distanceResponse->getContent(), true);
+        if (isset($responseData['distance'])) {
+            $distance = $responseData['distance'];
         }
+        // Si on ne peut pas extraire la distance, on garde la valeur par défaut (250)
+    }
 
-        // Ajouter user_id et distance aux données validées
-        $validatedData['user_id'] = $userId;
-        $validatedData['total_price'] = $distance;
+    // Calculer le prix d'expédition
+    $shippingPrice = $this->calculateShippingPrice(
+        $distance,
+        $validatedData['quantity'] ?? 1,
+        $validatedData['weight'] ?? 0,
+        $validatedData['volume'] ?? 0
+    );
 
-        // Créer une nouvelle marchandise avec les données validées
-        $merchandise = Merchandise::create($validatedData);
+    $shippingPrice = ceil($shippingPrice);
 
-        // Retourner la ressource de la marchandise nouvellement créée
-        return new MerchandiseResource($merchandise);
+    // Ajouter user_id, prix total et distance aux données validées
+    $validatedData['user_id'] = $userId;
+    $validatedData['total_price'] = $shippingPrice;
+    //$validatedData['distance'] = $distance;
+
+    // Créer une nouvelle marchandise avec les données validées
+    $merchandise = Merchandise::create($validatedData);
+
+    // Retourner la ressource de la marchandise nouvellement créée
+    return new MerchandiseResource($merchandise);
+}
+
+    private function calculateShippingPrice($distance, $quantity, $weight, $volume)
+    {
+        // Prix de base pour la distance
+        $basePrice = $distance * 0.1; // Par exemple, 0.1 par km
+
+        // Facteur de quantité
+        $quantityFactor = max(1, log($quantity, 2)); // Utilise une échelle logarithmique pour la quantité
+
+        // Facteur de poids
+        $weightFactor = $weight * 0.5; // Par exemple, 0.5 par kg
+
+        // Facteur de volume
+        $volumeFactor = $volume * 10; // Par exemple, 10 par m³
+
+        // Calcul du prix total
+        $totalPrice = ($basePrice + $weightFactor + $volumeFactor) * $quantityFactor;
+
+        // Arrondir à deux décimales
+        return round($totalPrice, 2);
     }
 
     public function makePayment(Request $request, $id)
