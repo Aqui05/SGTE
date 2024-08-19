@@ -18,7 +18,7 @@ class ReservationResource extends JsonResource
         return [
             'id' => $this->id,
             'transport_id' => $this->transport_id,
-            'reservation_datetime'  => $this->reservation_id,
+            'reservation_datetime'  => $this->reservation_datetime,
             'number_of_seats' => $this->number_of_seats,
             'total_price' => $this->total_price,
             'status' => $this->status,

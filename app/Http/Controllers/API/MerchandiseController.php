@@ -59,60 +59,60 @@ public function calculateDistance($origin, $destination)
 
 
     public function store(Request $request)
-{
-    $userId = Auth::id();
-    // Valider les données du formulaire
-    $validatedData = $request->validate([
-        'name' => 'required|string',
-        'description' => 'nullable|string',
-        'quantity' => 'nullable|integer|min:1',
-        'weight' => 'nullable|numeric|min:0',
-        'volume' => 'nullable|numeric|min:0',
-        'category' => 'nullable|string',
-        'numero_suivi' => 'nullable|string',
-        'depart' => 'required|string',
-        'destination' => 'required|string',
-    ]);
+    {
+        $userId = Auth::id();
+        // Valider les données du formulaire
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'quantity' => 'nullable|integer|min:1',
+            'weight' => 'nullable|numeric|min:0',
+            'volume' => 'nullable|numeric|min:0',
+            'category' => 'nullable|string',
+            'numero_suivi' => 'nullable|string',
+            'depart' => 'required|string',
+            'destination' => 'required|string',
+        ]);
 
-    // Calculer la distance entre les villes
-    $distanceResponse = $this->calculateDistance($validatedData['depart'], $validatedData['destination']);
+        // Calculer la distance entre les villes
+        $distanceResponse = $this->calculateDistance($validatedData['depart'], $validatedData['destination']);
 
-    // Initialiser la distance avec la valeur par défaut
-    $distance = 250;
+        // Initialiser la distance avec la valeur par défaut
+        $distance = 250;
 
-    if (!is_a($distanceResponse, \Illuminate\Http\JsonResponse::class)) {
-        // Si la réponse n'est pas une JsonResponse, on suppose que c'est la distance calculée
-        $distance = $distanceResponse;
-    } else {
-        // Si c'est une JsonResponse, on essaie d'extraire la distance
-        $responseData = json_decode($distanceResponse->getContent(), true);
-        if (isset($responseData['distance'])) {
-            $distance = $responseData['distance'];
+        if (!is_a($distanceResponse, \Illuminate\Http\JsonResponse::class)) {
+            // Si la réponse n'est pas une JsonResponse, on suppose que c'est la distance calculée
+            $distance = $distanceResponse;
+        } else {
+            // Si c'est une JsonResponse, on essaie d'extraire la distance
+            $responseData = json_decode($distanceResponse->getContent(), true);
+            if (isset($responseData['distance'])) {
+                $distance = $responseData['distance'];
+            }
+            // Si on ne peut pas extraire la distance, on garde la valeur par défaut (250)
         }
-        // Si on ne peut pas extraire la distance, on garde la valeur par défaut (250)
+
+        // Calculer le prix d'expédition
+        $shippingPrice = $this->calculateShippingPrice(
+            $distance,
+            $validatedData['quantity'] ?? 1,
+            $validatedData['weight'] ?? 0,
+            $validatedData['volume'] ?? 0
+        );
+
+        $shippingPrice = ceil($shippingPrice);
+
+        // Ajouter user_id, prix total et distance aux données validées
+        $validatedData['user_id'] = $userId;
+        $validatedData['total_price'] = $shippingPrice;
+        //$validatedData['distance'] = $distance;
+
+        // Créer une nouvelle marchandise avec les données validées
+        $merchandise = Merchandise::create($validatedData);
+
+        // Retourner la ressource de la marchandise nouvellement créée
+        return new MerchandiseResource($merchandise);
     }
-
-    // Calculer le prix d'expédition
-    $shippingPrice = $this->calculateShippingPrice(
-        $distance,
-        $validatedData['quantity'] ?? 1,
-        $validatedData['weight'] ?? 0,
-        $validatedData['volume'] ?? 0
-    );
-
-    $shippingPrice = ceil($shippingPrice);
-
-    // Ajouter user_id, prix total et distance aux données validées
-    $validatedData['user_id'] = $userId;
-    $validatedData['total_price'] = $shippingPrice;
-    //$validatedData['distance'] = $distance;
-
-    // Créer une nouvelle marchandise avec les données validées
-    $merchandise = Merchandise::create($validatedData);
-
-    // Retourner la ressource de la marchandise nouvellement créée
-    return new MerchandiseResource($merchandise);
-}
 
     private function calculateShippingPrice($distance, $quantity, $weight, $volume)
     {
