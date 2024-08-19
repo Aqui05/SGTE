@@ -1,20 +1,28 @@
-
-<br><p></p>
-
 <nz-table #basicTable [nzData]="getFilteredExpeditions()" class="single-line-table">
   <thead>
     <tr>
-      <th>Numéro</th>
-      <th>Type</th>
-      <th>depart</th>
-      <th>destination</th>
-      <th>date départ</th>
-      <th>date livraison prévu</th>
-      <th>Status</th>
+      <th
+        [nzSortFn]="sortFnNumber"
+        [nzSortPriority]="1"
+      >Numéro</th>
+      <th
+        [nzFilters]="listOfTypeFilter"
+        [nzFilterFn]="filterFnType"
+      >Type</th>
+      <th>Départ</th>
+      <th>Destination</th>
+      <th
+        [nzSortFn]="sortFnDate"
+        [nzSortPriority]="2"
+      >Date départ</th>
+      <th>Date livraison prévue</th>
+      <th
+        [nzFilters]="listOfStatusFilter"
+        [nzFilterFn]="filterFnStatus"
+      >Status</th>
       <th>Actions</th>
     </tr>
   </thead>
-
   <tbody>
     <tr *ngFor="let data of basicTable.data">
       <td>{{ data.expedition_number }}</td>

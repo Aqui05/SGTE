@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { PaymentModalComponent } from 'src/app/pages/payment-modal/payment-modal.component';
+import { PaymentMerchandiseComponent } from 'src/app/pages/payment-merchandise/payment-merchandise.component';
 
 @Component({
   selector: 'app-merchandise-add',
@@ -79,7 +79,7 @@ export class MerchandiseAddComponent implements OnInit {
     console.log(this.merchandiseId);
     this.modal.create({
       nzTitle: 'Formulaire de payement',
-      nzContent: PaymentModalComponent,
+      nzContent: PaymentMerchandiseComponent,
       nzData: {
         merchandiseId: this.merchandiseId,
       },

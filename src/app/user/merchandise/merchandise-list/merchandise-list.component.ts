@@ -1,34 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+
+interface MerchandiseData {
+  id: number;
+  name: string;
+  volume: number;
+  weight: number;
+  quantity: number;
+  depart: string;
+  destination: string;
+  status: string;
+  paid: boolean;
+}
 
 @Component({
   selector: 'app-merchandise-list',
   templateUrl: './merchandise-list.component.html',
   styleUrls: ['./merchandise-list.component.css']
 })
-export class MerchandiseListComponent  implements OnInit{
-
-
-  // Transport: any[] = [];
-  // Reservation : any[] = [];
-  Merchandise : any[] = [];
-  // Expedition : any[] = [];
-  // CompletedDelivery : any[] = [];
-
+export class MerchandiseListComponent implements OnInit {
+  Merchandise: MerchandiseData[] = [];
   searchTerm: string = '';
 
   constructor(
     private dataService: DataService,
     private router: Router,
-  ) {
+  ) {}
 
-  }
-  ngOnInit() : void{
+  ngOnInit(): void {
     this.InfoMerchandise();
   }
-
-
 
   InfoMerchandise(): void {
     this.dataService.getMerchandises().subscribe(
@@ -39,24 +42,17 @@ export class MerchandiseListComponent  implements OnInit{
       (error) => {
         console.error('Error fetching transports:', error);
       }
-    )
+    );
   }
-
 
   getStatusType(status: string): string {
     switch (status) {
-      case 'confirmé':
-        return 'success';
-      case 'planification':
-        return 'processing';
-      case 'en transit':
-        return 'default';
-      case 'delivré':
-        return 'default';
-      case 'annulé':
-        return 'error';
-      default:
-        return 'default';
+      case 'confirmé': return 'success';
+      case 'planification': return 'yellow';
+      case 'en transit': return 'processing';
+      case 'delivré': return 'purple';
+      case 'annulé': return 'error';
+      default: return 'default';
     }
   }
 
@@ -66,27 +62,9 @@ export class MerchandiseListComponent  implements OnInit{
         m.status !== 'delivré' &&
         m.status !== 'annulé' &&
         (m.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        m.depart.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
-      )
-      .sort((a, b) => this.getStatusPriority(a.status) - this.getStatusPriority(b.status));
-  }
-
-  getStatusPriority(status: string): number {
-    switch (status) {
-      case 'confirmé':
-        return 1;
-      case 'planification':
-        return 2;
-      case 'en transit':
-        return 3;
-      case 'delivré':
-        return 4;
-      case 'annulé':
-        return 5;
-      default:
-        return 6;
-    }
+         m.depart.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+         m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      );
   }
 
   viewDetails(id: number): void {
@@ -96,8 +74,6 @@ export class MerchandiseListComponent  implements OnInit{
   modify(id: number): void {
     this.router.navigate([`user/merchandise/edit/${id}`]);
   }
-
-
 
   cancel(id: number): void {
     this.dataService.deleteMerchandise(id).subscribe(
@@ -114,4 +90,26 @@ export class MerchandiseListComponent  implements OnInit{
     this.router.navigate([`/user/merchandise/add`]);
   }
 
+  // Fonctions de tri
+  sortFnName: NzTableSortFn<MerchandiseData> = (a, b) => a.name.localeCompare(b.name);
+  sortFnVolume: NzTableSortFn<MerchandiseData> = (a, b) => a.volume - b.volume;
+  sortFnWeight: NzTableSortFn<MerchandiseData> = (a, b) => a.weight - b.weight;
+  sortFnQuantity: NzTableSortFn<MerchandiseData> = (a, b) => a.quantity - b.quantity;
+
+  // Fonction de filtrage
+  filterFnStatus: NzTableFilterFn<MerchandiseData> = (list: string[], item: MerchandiseData) => list.includes(item.status);
+  filterFnPaid: NzTableFilterFn<MerchandiseData> =(list: boolean[], item:MerchandiseData) => list.includes(item.paid);
+
+  listOfStatusFilter: NzTableFilterList = [
+    { text: 'Confirmé', value: 'confirmé' },
+    { text: 'Planification', value: 'planification' },
+    { text: 'En transit', value: 'en transit' },
+    { text: 'Délivré', value: 'délivré' },
+    { text: 'Annulé', value: 'annulé' },
+  ];
+
+  listOfPaid : NzTableFilterList= [
+    { text: 'Payé', value:1},
+    { text: 'Non payé', value:0}
+  ];
 }

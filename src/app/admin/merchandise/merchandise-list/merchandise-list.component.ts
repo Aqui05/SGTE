@@ -1,6 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+
+
+interface MerchandiseData {
+  id: number;
+  name: string;
+  volume: number;
+  weight: number;
+  quantity: number;
+  depart: string;
+  destination: string;
+  status: string;
+  paid: boolean;
+}
 
 @Component({
   selector: 'app-merchandise-list',
@@ -9,7 +23,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class MerchandiseListComponent implements OnInit {
 
-  merchandises: any[] = [];
+  merchandises: MerchandiseData[] = [];
   searchTerm: string = '';
 
   constructor(private dataService: DataService, private router: Router) {}
@@ -96,4 +110,28 @@ export class MerchandiseListComponent implements OnInit {
       }
     );
   }
+
+
+  // Fonctions de tri
+  sortFnName: NzTableSortFn<MerchandiseData> = (a, b) => a.name.localeCompare(b.name);
+  sortFnVolume: NzTableSortFn<MerchandiseData> = (a, b) => a.volume - b.volume;
+  sortFnWeight: NzTableSortFn<MerchandiseData> = (a, b) => a.weight - b.weight;
+  sortFnQuantity: NzTableSortFn<MerchandiseData> = (a, b) => a.quantity - b.quantity;
+
+  // Fonction de filtrage
+  filterFnStatus: NzTableFilterFn<MerchandiseData> = (list: string[], item: MerchandiseData) => list.includes(item.status);
+  filterFnPaid: NzTableFilterFn<MerchandiseData> =(list: boolean[], item:MerchandiseData) => list.includes(item.paid);
+
+  listOfStatusFilter: NzTableFilterList = [
+    { text: 'Confirmé', value: 'confirmé' },
+    { text: 'Planification', value: 'planification' },
+    { text: 'En transit', value: 'en transit' },
+    { text: 'Délivré', value: 'délivré' },
+    { text: 'Annulé', value: 'annulé' },
+  ];
+
+  listOfPaid : NzTableFilterList= [
+    { text: 'Payé', value:1},
+    { text: 'Non payé', value:0}
+  ];
 }

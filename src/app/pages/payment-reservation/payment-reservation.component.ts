@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-payment-modal',
-  templateUrl: './payment-modal.component.html',
-  styleUrls: ['./payment-modal.component.css']
+  selector: 'app-payment-reservation',
+  templateUrl: './payment-reservation.component.html',
+  styleUrls: ['./payment-reservation.component.css']
 })
-export class PaymentModalComponent implements OnInit {
+export class PaymentReservationComponent implements OnInit {
 
   paymentForm!: FormGroup;
   paymentMethods = [

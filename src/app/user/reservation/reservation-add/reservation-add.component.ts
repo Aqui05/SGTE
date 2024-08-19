@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { PaymentModalComponent } from 'src/app/pages/payment-modal/payment-modal.component';
+import { PaymentReservationComponent } from 'src/app/pages/payment-reservation/payment-reservation.component';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -111,7 +111,7 @@ export class ReservationAddComponent implements OnInit {
     console.log(this.reservationId);
     this.modal.create({
       nzTitle: 'Formulaire de payement',
-      nzContent: PaymentModalComponent,
+      nzContent: PaymentReservationComponent,
       nzData: {
         reservationId: this.reservationId,
       },

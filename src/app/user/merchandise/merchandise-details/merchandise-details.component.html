@@ -40,13 +40,16 @@
       <p><strong>Destination:</strong> {{ Merchandise.destination }}</p>
     </div>
     <div nz-col nzSpan="12">
-      <p><strong>Status:</strong> {{ Merchandise.status }}</p>
+      <p><strong>Status:</strong><nz-badge [nzStatus]="getStatusType(Merchandise.status)" [nzText]="Merchandise.status"></nz-badge></p>
     </div>
   </div>
 
-  <div nz-row>
-    <div nz-col nzSpan="12">
-      <p><strong>Payé:</strong> {{ Merchandise.paid ? 'Oui' : 'Non' }}</p>
-    </div>
+  <div nz-col nzSpan="12" class="d-flex align-items-center">
+    <p class="mb-0"><strong>Payé:</strong> {{ Merchandise.paid ? 'Oui' : 'Non' }}</p>
+    <button *ngIf="!Merchandise.paid" nz-button nzType="primary" class="ml-2" (click)="proceedToPayment()">
+      Payer
+    </button>
   </div>
+
+
 </nz-card>

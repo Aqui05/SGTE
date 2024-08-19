@@ -1,6 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+
+interface VehicleData {
+  id: number;
+  model: string;
+  brand: string;
+  type: string;
+  license_plate: string;
+  model_3D_link: string;
+  seats: number;
+  available: boolean;
+}
 
 @Component({
   selector: 'app-vehicle-list',
@@ -9,7 +21,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class VehicleListComponent implements OnInit {
 
-  vehicles: any[] = [];
+  vehicles: VehicleData[] = [];
   searchTerm: string = '';
   filteredVehicles: any[] = [];
 
@@ -66,4 +78,26 @@ export class VehicleListComponent implements OnInit {
       this.filteredVehicles = this.vehicles; // Show all if no search term
     }
   }
-}
+
+  // Fonctions de tri
+  sortFnBrand: NzTableSortFn<VehicleData> = (a, b) => a.brand.localeCompare(b.brand);
+  sortFnModel: NzTableSortFn<VehicleData> = (a, b) => a.model.localeCompare(b.model);
+  sortFnLicense: NzTableSortFn<VehicleData> = (a, b) => a.license_plate.localeCompare(b.license_plate);
+  sortFnSeats: NzTableSortFn<VehicleData> = (a, b) => a.seats - b.seats;
+
+  // Fonctions de filtrage
+  filterFnStatus: NzTableFilterFn<VehicleData> = (list: boolean[], item: VehicleData) => list.includes(item.available);
+  filterFnType: NzTableFilterFn<VehicleData> = (list: string[], item: VehicleData) => list.some(type => item.type.indexOf(type) !== -1);
+
+  // Listes de filtres
+  listOfStatusFilter: NzTableFilterList = [
+    { text: 'Disponible', value: 1 },
+    { text: 'Non disponible', value: 0 },
+  ];
+
+  listOfTypeFilter: NzTableFilterList = [
+    { text: 'Maritime', value: 'maritime' },
+    { text: 'Routier', value: 'routier' },
+    { text: 'Aérien', value: 'aérien' },
+    { text: 'Ferroviaire', value: 'ferroviaire' },
+  ];}

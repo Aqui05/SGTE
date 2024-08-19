@@ -69,7 +69,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MapUserComponent } from './user/map-user/map-user.component';
-import { PaymentModalComponent } from './pages/payment-modal/payment-modal.component';
+import { PaymentReservationComponent } from './pages/payment-reservation/payment-reservation.component';
+import { PaymentMerchandiseComponent } from './pages/payment-merchandise/payment-merchandise.component';
 import fr from '@angular/common/locales/fr';
 import { NotificationComponent } from './admin/notification/notification.component';
 import { NotificationUserComponent } from './user/notification/notification.component';
@@ -109,7 +110,10 @@ registerLocaleData(en);
     ProfileComponent,
 
 
-    PaymentModalComponent,
+    PaymentMerchandiseComponent,
+    PaymentReservationComponent,
+
+
     NotificationComponent,
     NotificationUserComponent,
 

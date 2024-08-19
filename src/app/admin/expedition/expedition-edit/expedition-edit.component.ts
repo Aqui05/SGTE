@@ -51,7 +51,7 @@ export class ExpeditionEditComponent implements OnInit {
       type: [null, [Validators.required, Validators.maxLength(255)]], // dropdown
       origin: [null, [Validators.required, Validators.maxLength(255)]],
       destination: [null, [Validators.required, Validators.maxLength(255)]],
-      expedition_number: [null, [Validators.required, Validators.maxLength(5)]],
+      expedition_number: [null, [Validators.required, Validators.maxLength(10)]],
       date_expedition: [null, [Validators.required]],
       date_livraison_prevue: [null, [Validators.required]],
       notes: [null],

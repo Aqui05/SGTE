@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataService } from 'src/app/services/data.service';
-import { PaymentModalComponent } from 'src/app/pages/payment-modal/payment-modal.component';
+import { PaymentReservationComponent } from 'src/app/pages/payment-reservation/payment-reservation.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 @Component({
   selector: 'app-reservation-details',
@@ -61,14 +61,14 @@ export class ReservationDetailsComponent implements OnInit {
       this.msg.warning('You must proceed with the payment first');
     }
   }
-  
+
 
 
   proceedToPayment(): void {
     console.log(this.reservationId);
     this.modal.create({
       nzTitle: 'Formulaire de payement',
-      nzContent: PaymentModalComponent,
+      nzContent: PaymentReservationComponent,
       nzData: {
         reservationId: this.reservationId,
       },

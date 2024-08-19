@@ -13,12 +13,28 @@
 <nz-table #basicTable [nzData]="filteredVehicles">
   <thead>
     <tr>
-      <th>Immatriculation</th>
-      <th>Marque</th>
-      <th>Model</th>
-      <th>Nbre Sièges</th>
-      <th>Type</th>
-      <th>Disponible</th>
+      <th
+      [nzSortFn]="sortFnLicense"
+      [nzSortPriority]="1"
+      >Immatriculation</th>
+      <th
+      [nzSortFn]="sortFnBrand"
+      [nzSortPriority]="2"
+      >Marque</th>
+      <th
+      [nzSortFn]="sortFnModel"
+      [nzSortPriority]="3"
+      >Model</th>
+      <th
+      [nzSortFn]="sortFnSeats"
+      [nzSortPriority]="4"
+      >Nbre Sièges</th>
+      <th
+      [nzFilters]="listOfTypeFilter"
+      [nzFilterFn]="filterFnType">
+      Type</th>
+      <th       [nzFilters]="listOfStatusFilter"
+      [nzFilterFn]="filterFnStatus">Disponible</th>
       <th>Actions</th>
     </tr>
   </thead>

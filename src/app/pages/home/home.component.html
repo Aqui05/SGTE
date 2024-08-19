@@ -1,54 +1,38 @@
-<!-- app.component.html -->
 <div>
-  <nz-header>
-    <div nz-row>
-      <div nz-col nzSpan="12">
-        <h1 style="color: white;">{{title}}</h1>
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="assets/logiTrack.png" alt="Logo" class="logo-img" />
+        <span class="logo-text">ACCUEIL</span>
       </div>
-      <div nz-col nzSpan="12">
-
-        <ul nz-menu nzTheme="dark" nzMode="horizontal" style="line-height: 64px; float: right;">
-          <li nz-menu-item>
-            <button nz-button (click)="showLogin()">
-              <span>Connexion</span>
-            </button>
-          </li>
-          <li nz-menu-item>
-            <button nz-button (click)="showRegister()">
-              <span>Inscription</span>
-            </button>
-          </li>
-
-        </ul>
+      <div class="auth-buttons">
+        <button nz-button nzType="primary" (click)="showRegister()">S'inscrire</button>
+        <button nz-button nzType="default" (click)="showLogin()">Se connecter</button>
       </div>
     </div>
-  </nz-header>
+  </header>
   <nz-content>
-    <div
-        style="
-          background-image: url(assets/img/port.jpg);
-          background-repeat: none;
-          background-size: cover;
-          background-position: center;
-          height: 900px;
-          width: 500;
-        "port.jpg
-      ></div>
+    <nz-carousel [nzAutoPlay]="true" [nzEffect]="'fade'" [nzAutoPlaySpeed]="6000">
+      <div nz-carousel-content *ngFor="let image of images">
+        <div
+          style="
+            background-image: url('{{ image }}');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            height: 92vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <div class="time-display" style="color: white; font-size: 64px;">
+            {{ currentTime }}
+          </div>
+        </div>
+      </div>
+    </nz-carousel>
   </nz-content>
 </div>
-
-
-<ng-template #modalTitle>
-  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-    Sign in to our platform
-  </h3>
-</ng-template>
-
-
-
-<ng-template #loginTitle>
-  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-    INSCRIPTION
-  </h3>
-</ng-template>
-

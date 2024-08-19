@@ -11,15 +11,30 @@
 </div>
 
 <div class="table-container">
-  <nz-table #basicTable [nzData]="filteredTransports">
+  <nz-table #basicTable [nzData]="filteredTransports"  class="single-line-table">
     <thead>
       <tr>
-        <th>ID Transport</th>
-        <th>Type</th>
-        <th>Départ</th>
-        <th>Arrivée</th>
-        <th>Sièges</th>
-        <th>Status</th>
+        <th
+      [nzSortFn]="sortFnNumber"
+      [nzSortPriority]="1"
+    >Numéro Transport</th>
+    <th
+      [nzFilters]="listOfTypeFilter"
+      [nzFilterFn]="filterFnType"
+    >Type</th>
+      <th
+      [nzSortFn]="sortFnDateD"
+      [nzSortPriority]="2"
+      >Heure de Depart</th>
+      <th
+      [nzSortFn]="sortFnDateF"
+      [nzSortPriority]="3"
+      >Heure d'Arrivé</th>
+      <th>Sièges</th>
+      <th
+      [nzFilters]="listOfStatusFilter"
+      [nzFilterFn]="filterFnStatus"
+    >Status</th>
         <th>Actions</th>
       </tr>
     </thead>

@@ -1,8 +1,5 @@
-<br>
 <button nz-button nzType="primary" (click)="addMerchandise()">Enregistrer une marchandise</button>
 <br>
-
-
 <div class="row mb-4">
   <div class="col-md-9"></div>
   <div class="col-md-3">
@@ -11,21 +8,19 @@
     </nz-input-group>
   </div>
 </div>
-
 <br>
-
 <div class="table-container">
   <nz-table #basicTable [nzData]="getFilteredMerchandises()" class="single-line-table">
     <thead>
       <tr>
-        <th>Nom</th>
-        <th>Volume</th>
-        <th>Poids</th>
-        <th>Quantité</th>
+        <th [nzSortFn]="sortFnName" [nzSortPriority]="1">Nom</th>
+        <th [nzSortFn]="sortFnVolume" [nzSortPriority]="2">Volume</th>
+        <th [nzSortFn]="sortFnWeight" [nzSortPriority]="3">Poids</th>
+        <th [nzSortFn]="sortFnQuantity" [nzSortPriority]="4">Quantité</th>
         <th>Depart</th>
         <th>Destination</th>
-        <th>Status</th>
-        <th>Payer</th>
+        <th [nzFilters]="listOfStatusFilter" [nzFilterFn]="filterFnStatus">Status</th>
+        <th [nzFilters]="listOfPaid" [nzFilterFn]="filterFnPaid" >Payer</th>
         <th>Actions</th>
       </tr>
     </thead>

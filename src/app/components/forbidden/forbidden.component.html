@@ -1,5 +1,14 @@
-<div class="error-page">
+<!-- <div class="error-page">
   <h1>403 - Forbidden</h1>
   <p>You do not have permission to access this page.</p>
   <a routerLink="/">Go to Home</a>
+</div> -->
+
+
+<div class="result-container">
+  <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Vous n'aviez pas la permission d'accéder à cette page.">
+    <div nz-result-extra>
+      <button nz-button routerLink="/" nzType="primary">Retourner à l'acceuil</button>
+    </div>
+  </nz-result>
 </div>

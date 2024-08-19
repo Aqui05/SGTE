@@ -12,7 +12,28 @@ export class HomeComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
-  ngOnInit() {}
+
+  currentTime: string = '';
+  images: string[] = [
+    'assets/img/port.jpg',
+    'assets/img/home1.png',
+    'assets/img/home2.png',
+    'assets/img/home3.png',
+    'assets/img/home4.png',
+    'assets/img/home5.png'
+  ];
+
+  ngOnInit() {
+    this.updateTime();
+    setInterval(() => this.updateTime(), 1000);
+  }
+
+  updateTime(): void {
+    const now = new Date();
+    this.currentTime = now.toLocaleTimeString();
+  }
+
+
 
   title = 'Home';
 
@@ -27,3 +48,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/login'], { queryParams: { isSignIn: false } });
   }
 }
+
+
+
+
+
+

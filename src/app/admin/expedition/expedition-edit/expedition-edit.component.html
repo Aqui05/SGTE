@@ -1,17 +1,17 @@
 <div *ngIf="step === 1">
-  <nz-card nzTitle="Information de l'Expédition">
+  <nz-card nzTitle="Modification de l'Expédition">
     <form nz-form [formGroup]="expeditionForm" (ngSubmit)="submitForm()">
 
-      <!-- First Row -->
+      <!-- Première Ligne -->
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
-              <nz-select formControlName="type" nzPlaceHolder="Select a type">
+              <nz-select formControlName="type" nzPlaceHolder="Sélectionnez un type">
                 <nz-option *ngFor="let type of ExpeditionTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
               </nz-select>
               <div *ngIf="expeditionForm.get('type')?.dirty && expeditionForm.get('type')?.errors" class="error">
-                Please select a type
+                Veuillez sélectionner un type
               </div>
             </nz-form-control>
           </nz-form-item>
@@ -20,23 +20,23 @@
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
-              <input nz-input formControlName="origin" placeholder="Enter origin">
+              <input nz-input formControlName="origin" placeholder="Entrez l'origine">
               <div *ngIf="expeditionForm.get('origin')?.dirty && expeditionForm.get('origin')?.errors" class="error">
-                Please enter the origin
+                Veuillez entrer l'origine
               </div>
             </nz-form-control>
           </nz-form-item>
         </nz-col>
       </nz-row>
 
-      <!-- Second Row -->
+      <!-- Deuxième Ligne -->
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
-              <input nz-input formControlName="destination" placeholder="Enter destination">
+              <input nz-input formControlName="destination" placeholder="Entrez la destination">
               <div *ngIf="expeditionForm.get('destination')?.dirty && expeditionForm.get('destination')?.errors" class="error">
-                Please enter the destination
+                Veuillez entrer la destination
               </div>
             </nz-form-control>
           </nz-form-item>
@@ -45,23 +45,23 @@
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
-              <input nz-input formControlName="expedition_number" placeholder="Enter expedition number">
+              <input nz-input formControlName="expedition_number" placeholder="Entrez le numéro d'expédition">
               <div *ngIf="expeditionForm.get('expedition_number')?.dirty && expeditionForm.get('expedition_number')?.errors" class="error">
-                Please enter the expedition number
+                Veuillez entrer le numéro d'expédition
               </div>
             </nz-form-control>
           </nz-form-item>
         </nz-col>
       </nz-row>
 
-      <!-- Third Row -->
+      <!-- Troisième Ligne -->
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
               <input nz-input formControlName="date_expedition" type="datetime-local" placeholder="Heure de départ"/>
               <div *ngIf="expeditionForm.get('date_expedition')?.dirty && expeditionForm.get('date_expedition')?.errors" class="error">
-                Please select the date of expedition
+                Veuillez sélectionner la date de l'expédition
               </div>
             </nz-form-control>
           </nz-form-item>
@@ -72,23 +72,23 @@
             <nz-form-control>
               <input nz-input formControlName="date_livraison_prevue" type="datetime-local" placeholder="Heure d'arrivée"/>
               <div *ngIf="expeditionForm.get('date_livraison_prevue')?.dirty && expeditionForm.get('date_livraison_prevue')?.errors" class="error">
-                Please select the expected delivery date
+                Veuillez sélectionner la date de livraison prévue
               </div>
             </nz-form-control>
           </nz-form-item>
         </nz-col>
       </nz-row>
 
-      <!-- Fourth Row -->
+      <!-- Quatrième Ligne -->
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
-              <nz-select formControlName="vehicle_license" nzPlaceHolder="Select a vehicle license">
+              <nz-select formControlName="vehicle_license" nzPlaceHolder="Sélectionnez une licence de véhicule">
                 <nz-option *ngFor="let license of VehicleLicenses" [nzValue]="license.license" [nzLabel]="license.license"></nz-option>
               </nz-select>
               <div *ngIf="expeditionForm.get('vehicle_license')?.dirty && expeditionForm.get('vehicle_license')?.errors" class="error">
-                Please select a vehicle license
+                Veuillez sélectionner une licence de véhicule
               </div>
             </nz-form-control>
           </nz-form-item>
@@ -97,13 +97,13 @@
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
-              <textarea nz-input formControlName="notes" placeholder="Enter any notes"></textarea>
+              <textarea nz-input formControlName="notes" placeholder="Entrez des notes"></textarea>
             </nz-form-control>
           </nz-form-item>
         </nz-col>
       </nz-row>
 
-      <!-- Submit Button -->
+      <!-- Boutons de Soumission -->
       <nz-row>
         <nz-col [nzSpan]="24" style="text-align: right;">
           <nz-form-item>
@@ -130,11 +130,11 @@
       </div>
       <div class="col-md-6">
         <button nz-button nzType="primary" (click)="toggleSelectAll()">
-          {{ selectAll ? 'Deselect All' : 'Select All' }}
+          {{ selectAll ? 'Tout désélectionner' : 'Tout sélectionner' }}
         </button>
       </div>
     </div>
-    <h3>Select Merchandise</h3>
+    <h3>Sélectionner les marchandises</h3>
     <div nz-row nzGutter="16">
       <div nz-col nzSpan="8" *ngFor="let merchandise of merchandises">
         <div class="card">
@@ -146,17 +146,16 @@
           <hr class="dark horizontal my-0">
           <div class="card-body">
             <p>{{ merchandise.description }}</p>
-            <label nz-checkbox formControlName="merchandise.selected" (ngModelChange)="onMerchandiseSelect(merchandise)">Select</label>
+            <label nz-checkbox [(ngModel)]="merchandise.selected" (ngModelChange)="onMerchandiseSelect(merchandise)">Sélectionner</label>
           </div>
         </div>
       </div>
     </div>
     <div nz-row nzJustify="center" style="margin-top: 16px;">
-      <button nz-button nzType="primary" (click)="submitSelectedMerchandises()">Submit Selected Merchandise</button>
+      <button nz-button nzType="primary" (click)="submitSelectedMerchandises()">Soumettre les marchandises sélectionnées</button>
     </div>
   </div>
 </div>
-
 
 <nz-alert *ngIf="submitError" nzType="error" [nzMessage]="submitErrorMessage" nzShowIcon></nz-alert>
 <nz-alert *ngIf="submitSuccess" nzType="success" [nzMessage]="submitSuccessMessage" nzShowIcon></nz-alert>

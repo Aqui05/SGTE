@@ -4,13 +4,31 @@
 <nz-table #basicTable [nzData]="Transport" class="single-line-table">
   <thead>
     <tr>
-      <th>ID Transport</th>
-      <th>Type</th>
-      <th>Depart</th>
-      <th>Arrivé</th>
+      <th
+      [nzSortFn]="sortFnNumber"
+      [nzSortPriority]="1"
+    >Numéro</th>
+    <th
+      [nzFilters]="listOfTypeFilter"
+      [nzFilterFn]="filterFnType"
+    >Type</th>
+      <th
+      [nzSortFn]="sortFnDateD"
+      [nzSortPriority]="2"
+      >Depart</th>
+      <th
+      [nzSortFn]="sortFnDateF"
+      >Arrivé</th>
       <th>Sièges</th>
-      <th>Status</th>
+      <th
+      [nzFilters]="listOfStatusFilter"
+      [nzFilterFn]="filterFnStatus"
+    >Status</th>
       <th>Actions</th>
+
+
+
+
     </tr>
   </thead>
   <tbody>
