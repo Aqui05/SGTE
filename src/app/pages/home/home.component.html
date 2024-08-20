@@ -11,6 +11,7 @@
       </div>
     </div>
   </header>
+
   <nz-content>
     <nz-carousel [nzAutoPlay]="true" [nzEffect]="'fade'" [nzAutoPlaySpeed]="6000">
       <div nz-carousel-content *ngFor="let image of images">
@@ -26,9 +27,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
           "
         >
-          <div class="time-display" style="color: white; font-size: 64px;">
+          <div style="font-size: 48px; margin-bottom: 20px;">
+            <strong>LogiTrack</strong>
+            <p style="margin: 0;">Gestion des Transports</p>
+          </div>
+          <div class="time-display" style="font-size: 64px;">
             {{ currentTime }}
           </div>
         </div>
