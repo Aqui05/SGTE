@@ -101,7 +101,7 @@ class AuthController extends Controller
 
     public function users ()
     {
-        $users = User::all();
+        $users = User:: where('role','!=', 'admin')->get();
         return UserResource::collection($users);
     }
 
