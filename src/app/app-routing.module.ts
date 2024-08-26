@@ -18,6 +18,7 @@ import { MapUserComponent } from './user/map-user/map-user.component';
 import { MapComponent } from './admin/map/map.component';
 import { NotificationComponent } from './admin/notification/notification.component';
 import { NotificationUserComponent } from './user/notification/notification.component';
+import { UserComponent } from './admin/user/user.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,7 @@ const routes: Routes = [
       { path: 'merchandise', loadChildren: () => import('./admin/merchandise/merchandise.module').then(m => m.MerchandiseModule) },
       { path: 'map/:id', component: MapComponent, data: { title: 'map' }},
       { path: 'notifications', component: NotificationComponent, data: { title: 'Notifications' }},
+      { path: 'users', component: UserComponent, data: { title: 'Utilisateurs' }},
     ]
   },
   {
