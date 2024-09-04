@@ -74,6 +74,7 @@ import { PaymentMerchandiseComponent } from './pages/payment-merchandise/payment
 import fr from '@angular/common/locales/fr';
 import { NotificationComponent } from './admin/notification/notification.component';
 import { NotificationUserComponent } from './user/notification/notification.component';
+import { UserComponent } from './admin/user/user.component';
 
 const icons = [MenuFoldOutline, MenuUnfoldOutline, BellOutline, UserOutline, SettingOutline];
 
@@ -108,6 +109,7 @@ registerLocaleData(en);
     MapUserComponent,
 
     ProfileComponent,
+    UserComponent,
 
 
     PaymentMerchandiseComponent,
