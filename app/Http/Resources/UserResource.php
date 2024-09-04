@@ -25,6 +25,11 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'role' => $this->role,
+
+
+            //Compteur :
+            'merchandises_count' => $this->merchandises_count,
+            'reservations_count' => $this->reservations_count,
         ];
     }
 }

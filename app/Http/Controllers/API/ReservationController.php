@@ -150,7 +150,7 @@ class ReservationController extends Controller
     public function update(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
-        $userId = auth()->id();
+        //$userId = auth()->id();
         $departureTime = $reservation->transport->departure_time;
 
         if ($departureTime > now()->addHours(2)) {

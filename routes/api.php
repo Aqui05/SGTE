@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::group(['middleware' => ['auth:api', 'is_admin']], function () {
     Route::get('users',[AuthController::class,'users'])->name('usersList');
 
+
     Route::post('/expedition',[ExpeditionController::class,'store']);
     Route::get('/expeditions',[ExpeditionController::class,'index']);
     Route::put('/expedition/{id}',[ExpeditionController::class,'update']);

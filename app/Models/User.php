@@ -76,6 +76,11 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class);
     }
 
+    public function merchandises()
+    {
+        return $this->hasMany(Merchandise::class);
+    }
+
     public function transports()
     {
         return $this->hasManyThrough(Transport::class, Reservation::class);

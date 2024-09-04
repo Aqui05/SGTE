@@ -101,7 +101,33 @@ class AuthController extends Controller
 
     public function users ()
     {
-        $users = User:: where('role','!=', 'admin')->get();
+        $users = User::where('role', '!=', 'admin')
+                    ->withCount(['merchandises', 'reservations'])
+                    ->get();
+        return UserResource::collection($users);
+    }
+
+    public function recapUsers()
+    {
+        // Récupérer tous les utilisateurs qui ne sont pas administrateurs, avec le nombre de marchandises et de réservations
+        $users = User::where('role', '!=', 'admin')
+                    ->withCount(['merchandises', 'reservations'])
+                    ->get();
+
+
+        /*            // Préparer le tableau de récapitulatif
+        $recapData = [];
+
+        // Parcourir chaque utilisateur pour formater les données
+        foreach ($users as $user) {
+            $recapData[] = [
+                'user_name' => $user->name,
+                'merchandises_count' => $user->merchandises_count,
+                'reservations_count' => $user->reservations_count
+            ];
+        }
+        */
+
         return UserResource::collection($users);
     }
 
