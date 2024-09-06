@@ -18,27 +18,29 @@ interface UserData {
   avatar: boolean;
   merchandises_count: number;
   reservations_count: number;
+  created_at: Date;
 }
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
-
   users: UserData[] = [];
   searchTerm: string = '';
-  reservationCount: number = 0;
-  merchandiseCount: number = 0;
+  reservationCountsByMonth: number[] = Array(12).fill(0); // 12 mois initialisés à 0
+  merchandiseCountsByMonth: number[] = Array(12).fill(0);
+  userCountsByMonth: number[] = Array(12).fill(0);
   chart: Chart | undefined;
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     this.dataService.getUsers().subscribe(
       (data) => {
         this.users = data.data;
+        this.countUsersByMonth();
         this.createChart(); // Créer le graphique après avoir récupéré les utilisateurs
       },
       (error) => {
@@ -48,8 +50,7 @@ export class UserComponent implements OnInit {
 
     this.dataService.getMerchandisesList().subscribe(
       (data) => {
-        //compter les marchandises par le mois dans merchandise.created_at
-        this.merchandiseCount = data.data.count();
+        this.countMerchandisesByMonth(data.data);
       },
       (error) => {
         console.error(error);
@@ -57,28 +58,67 @@ export class UserComponent implements OnInit {
     );
 
     this.dataService.getReservationsList().subscribe(
-      (data) => {},
+      (data) => {
+        this.countReservationsByMonth(data.data);
+      },
       (error) => {
         console.error(error);
       }
     );
   }
 
+  // Compter les utilisateurs par mois
+  countUsersByMonth(): void {
+    this.users.forEach((user) => {
+      const month = new Date(user.created_at).getMonth(); // Obtenir le mois de création
+      this.userCountsByMonth[month]++;
+    });
+  }
+
+  // Compter les marchandises par mois
+  countMerchandisesByMonth(merchandises: any[]): void {
+    merchandises.forEach((merchandise) => {
+      const month = new Date(merchandise.created_at).getMonth();
+      this.merchandiseCountsByMonth[month]++;
+    });
+  }
+
+  // Compter les réservations par mois
+  countReservationsByMonth(reservations: any[]): void {
+    reservations.forEach((reservation) => {
+      const month = new Date(reservation.created_at).getMonth();
+      this.reservationCountsByMonth[month]++;
+    });
+  }
+
   // Fonctions de tri
   sortFnName: NzTableSortFn<UserData> = (a, b) => a.name.localeCompare(b.name);
-  sortFnReservations_count: NzTableSortFn<UserData> = (a, b) => a.reservations_count - b.reservations_count;
-  sortFnMerchandises_count: NzTableSortFn<UserData> = (a, b) => a.merchandises_count - b.merchandises_count;
+  sortFnReservations_count: NzTableSortFn<UserData> = (a, b) =>
+    a.reservations_count - b.reservations_count;
+  sortFnMerchandises_count: NzTableSortFn<UserData> = (a, b) =>
+    a.merchandises_count - b.merchandises_count;
 
   // Créer un graphique à barres
   createChart(): void {
-    const ctx = (document.getElementById('myChart') as HTMLCanvasElement).getContext('2d');
+    const ctx = (
+      document.getElementById('myChart') as HTMLCanvasElement
+    ).getContext('2d');
     if (!ctx) return;
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // Dummy data - Remplacer par le nombre d'utilisateurs et de réservations réels par mois
-    const userCounts = [5, 7, 3, 8, 10, 6, 12, 9, 4, 11, 13, 2]; // Exemples de données
-    const reservationCounts = [2, 5, 7, 6, 9, 4, 10, 8, 3, 7, 11, 1];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
 
     this.chart = new Chart(ctx, {
       type: 'bar',
@@ -86,28 +126,35 @@ export class UserComponent implements OnInit {
         labels: months,
         datasets: [
           {
-            label: 'Nombre d\'utilisateurs',
-            data: userCounts,
+            label: "Nombre d'utilisateurs",
+            data: this.userCountsByMonth,
             backgroundColor: 'rgba(54, 162, 235, 0.6)',
             borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
+            borderWidth: 1,
           },
           {
             label: 'Nombre de réservations',
-            data: reservationCounts,
+            data: this.reservationCountsByMonth,
             backgroundColor: 'rgba(255, 99, 132, 0.6)',
             borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+          {
+            label: 'Nombre de marchandises',
+            data: this.merchandiseCountsByMonth,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         scales: {
           y: {
-            beginAtZero: true
-          }
-        }
-      }
+            beginAtZero: true,
+          },
+        },
+      },
     });
   }
 }
