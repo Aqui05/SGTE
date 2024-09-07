@@ -23,6 +23,8 @@ class VehicleResource extends JsonResource
             'seats' => $this->seats,
             'model_3d_link' => $this->model_3d_link,
             'available' => $this->available,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

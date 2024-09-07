@@ -68,13 +68,9 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## Command passport
 
 - **php artisan passport:client**
-
-- **php artisan passport:client --public**  
-
+- **php artisan passport:client --public**
 - **php artisan passport:client --password**
-
 - **php artisan passport:client --client**
-
 - **php artisan passport:client --personal**
-
 - **php artisan passport:keys**
+- **php artisan key:generate**

@@ -27,6 +27,8 @@ class ReservationResource extends JsonResource
             'departure_waypoint' => $this->departure_waypoint,
             'paid' => $this->paid ,
             'user' => new UserResource($this->whenLoaded('user')),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

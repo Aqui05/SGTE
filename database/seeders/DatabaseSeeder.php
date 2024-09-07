@@ -32,3 +32,9 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 }
+/*
+*Modifier les mois des enregistrements
+
+
+UPDATE users
+SET created_at = DATE_ADD(created_at, INTERVAL FLOOR(RAND() * 11) MONTH)*/
