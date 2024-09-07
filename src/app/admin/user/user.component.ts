@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { NzTableSortFn } from 'ng-zorro-antd/table';
 import { Chart } from 'chart.js/auto';
+import { forkJoin } from 'rxjs';
 
 interface UserData {
   id: number;
@@ -28,8 +28,10 @@ interface UserData {
 })
 export class UserComponent implements OnInit {
   users: UserData[] = [];
+  merchandises: any[] = [];
+  reservations: any[] = [];
   searchTerm: string = '';
-  reservationCountsByMonth: number[] = Array(12).fill(0); // 12 mois initialisés à 0
+  reservationCountsByMonth: number[] = Array(12).fill(0);
   merchandiseCountsByMonth: number[] = Array(12).fill(0);
   userCountsByMonth: number[] = Array(12).fill(0);
   chart: Chart | undefined;
@@ -37,73 +39,60 @@ export class UserComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.dataService.getUsers().subscribe(
-      (data) => {
-        this.users = data.data;
+    forkJoin({
+      users: this.dataService.getUsers(),
+      merchandises: this.dataService.getMerchandisesList(),
+      reservations: this.dataService.getReservationsList(),
+    }).subscribe(
+      ({ users, merchandises, reservations }) => {
+        this.users = users.data;
+        this.reservations = reservations.data;
+        this.merchandises = merchandises.data;
+        console.log(this.merchandises);
         this.countUsersByMonth();
-        this.createChart(); // Créer le graphique après avoir récupéré les utilisateurs
+        this.countMerchandisesByMonth();
+        this.countReservationsByMonth();
+        this.createChart();
       },
       (error) => {
-        console.log(error);
-      }
-    );
-
-    this.dataService.getMerchandisesList().subscribe(
-      (data) => {
-        this.countMerchandisesByMonth(data.data);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-
-    this.dataService.getReservationsList().subscribe(
-      (data) => {
-        this.countReservationsByMonth(data.data);
-      },
-      (error) => {
-        console.error(error);
+        console.error('Error fetching data:', error);
       }
     );
   }
 
-  // Compter les utilisateurs par mois
   countUsersByMonth(): void {
     this.users.forEach((user) => {
-      const month = new Date(user.created_at).getMonth(); // Obtenir le mois de création
+      const month = new Date(user.created_at).getMonth();
       this.userCountsByMonth[month]++;
     });
   }
 
-  // Compter les marchandises par mois
-  countMerchandisesByMonth(merchandises: any[]): void {
-    merchandises.forEach((merchandise) => {
+  countMerchandisesByMonth(): void {
+    this.merchandises.forEach((merchandise) => {
       const month = new Date(merchandise.created_at).getMonth();
       this.merchandiseCountsByMonth[month]++;
     });
   }
 
-  // Compter les réservations par mois
-  countReservationsByMonth(reservations: any[]): void {
-    reservations.forEach((reservation) => {
+  countReservationsByMonth(): void {
+    this.reservations.forEach((reservation) => {
       const month = new Date(reservation.created_at).getMonth();
       this.reservationCountsByMonth[month]++;
     });
   }
 
-  // Fonctions de tri
   sortFnName: NzTableSortFn<UserData> = (a, b) => a.name.localeCompare(b.name);
   sortFnReservations_count: NzTableSortFn<UserData> = (a, b) =>
     a.reservations_count - b.reservations_count;
   sortFnMerchandises_count: NzTableSortFn<UserData> = (a, b) =>
     a.merchandises_count - b.merchandises_count;
 
-  // Créer un graphique à barres
   createChart(): void {
-    const ctx = (
-      document.getElementById('myChart') as HTMLCanvasElement
-    ).getContext('2d');
-    if (!ctx) return;
+    const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+    if (!ctx) {
+      console.error('Cannot find chart canvas element');
+      return;
+    }
 
     const months = [
       'Jan',
@@ -128,22 +117,22 @@ export class UserComponent implements OnInit {
           {
             label: "Nombre d'utilisateurs",
             data: this.userCountsByMonth,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            backgroundColor: '#2196f3',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1,
           },
           {
             label: 'Nombre de réservations',
             data: this.reservationCountsByMonth,
-            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            backgroundColor: '#f44336',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1,
           },
           {
             label: 'Nombre de marchandises',
             data: this.merchandiseCountsByMonth,
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: '#ff9800',
+            borderColor: '#ff6000',
             borderWidth: 1,
           },
         ],
