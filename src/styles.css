@@ -69,3 +69,7 @@ body {
 }
 
 /* Vous pouvez ajouter d'autres règles de style pour les autres composants */
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
