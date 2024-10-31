@@ -83,3 +83,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## SCHELDULE tasks
 
 -   **php artisan schedule:run**
+
+## Files link
+
+-   **php artisan storage:link**
+
+## IMPORTANT
+
+S'assurer d'avoir l'extension imagick de php pour la gestion des tickets
