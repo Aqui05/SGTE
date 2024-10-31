@@ -7,19 +7,18 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 @Component({
   selector: 'app-reservation-details',
   templateUrl: './reservation-details.component.html',
-  styleUrls: ['./reservation-details.component.css']
+  styleUrls: ['./reservation-details.component.css'],
 })
 export class ReservationDetailsComponent implements OnInit {
   reservation: any = {}; // Ensure reservation is an object with properties
   reservationId!: number;
   isPaymentModalVisible = false;
 
-
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
     private msg: NzMessageService,
-    private modal: NzModalService,
+    private modal: NzModalService
   ) {}
 
   ngOnInit(): void {
@@ -34,35 +33,37 @@ export class ReservationDetailsComponent implements OnInit {
       },
       (error) => {
         console.error(error);
-        this.msg.error('Erreur de chargement de l\'expédition');
+        this.msg.error("Erreur de chargement de l'expédition");
       }
     );
   }
 
   downloadTicket(): void {
     if (this.reservation.paid) {
-      this.dataService.getTicket(this.reservationId, { responseType: 'blob' }).subscribe(
-        (response: Blob) => {
-          const file = new Blob([response], { type: 'application/pdf' });
-          const fileURL = URL.createObjectURL(file);
-          const a = document.createElement('a');
-          a.href = fileURL;
-          a.download = `Ticket_${this.reservationId}.pdf`;  // Sets a name for the downloaded file
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        },
-        (error) => {
-          console.error(error);
-          this.msg.error('Erreur lors de la récupération du ticket');
-        }
-      );
+      this.dataService
+        .getTicket(this.reservationId, { responseType: 'blob' })
+        .subscribe(
+          (response: Blob) => {
+            const file = new Blob([response], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(file);
+            const a = document.createElement('a');
+            a.href = fileURL;
+            a.download = `Ticket_${this.reservationId}.pdf`; // Sets a name for the downloaded file
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          },
+          (error) => {
+            console.error(error);
+            this.msg.error('Erreur lors de la récupération du ticket');
+          }
+        );
     } else {
-      this.msg.warning('You must proceed with the payment first');
+      this.msg.warning(
+        "Vous devriez d'abord réaliser le payement avant de télécharger le ticket"
+      );
     }
   }
-
-
 
   proceedToPayment(): void {
     console.log(this.reservationId);
@@ -72,7 +73,7 @@ export class ReservationDetailsComponent implements OnInit {
       nzData: {
         reservationId: this.reservationId,
       },
-      nzFooter: null
+      nzFooter: null,
     });
   }
 }
