@@ -8,10 +8,9 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 @Component({
   selector: 'app-payment-reservation',
   templateUrl: './payment-reservation.component.html',
-  styleUrls: ['./payment-reservation.component.css']
+  styleUrls: ['./payment-reservation.component.css'],
 })
 export class PaymentReservationComponent implements OnInit {
-
   paymentForm!: FormGroup;
   paymentMethods = [
     { label: 'Carte de Crédit', value: 'creditCard' },
@@ -23,7 +22,7 @@ export class PaymentReservationComponent implements OnInit {
 
   user: any = {};
 
-  price = 0.00;
+  price = 0.0;
 
   constructor(
     private modal: NzModalRef,
@@ -40,7 +39,7 @@ export class PaymentReservationComponent implements OnInit {
     this.loadUser();
     if (this.user && this.user.phone) {
       this.paymentForm.patchValue({
-        phoneNumber: this.user.phone
+        phoneNumber: this.user.phone,
       });
     }
   }
@@ -52,7 +51,7 @@ export class PaymentReservationComponent implements OnInit {
       cardExpiry: [''],
       cardCVC: [''],
       paypalEmail: [''],
-      phoneNumber: [''] // Ajoutez cette ligne si elle n'existe pas déjà
+      phoneNumber: [''], // Ajoutez cette ligne si elle n'existe pas déjà
     });
     this.onPaymentMethodChange();
   }
@@ -67,15 +66,23 @@ export class PaymentReservationComponent implements OnInit {
 
     switch (paymentMethod) {
       case 'creditCard':
-        this.paymentForm.get('cardNumber')?.setValidators([Validators.required]);
-        this.paymentForm.get('cardExpiry')?.setValidators([Validators.required]);
+        this.paymentForm
+          .get('cardNumber')
+          ?.setValidators([Validators.required]);
+        this.paymentForm
+          .get('cardExpiry')
+          ?.setValidators([Validators.required]);
         this.paymentForm.get('cardCVC')?.setValidators([Validators.required]);
         break;
       case 'paypal':
-        this.paymentForm.get('paypalEmail')?.setValidators([Validators.required, Validators.email]);
+        this.paymentForm
+          .get('paypalEmail')
+          ?.setValidators([Validators.required, Validators.email]);
         break;
       case 'phone':
-        this.paymentForm.get('phoneNumber')?.setValidators([Validators.required]);
+        this.paymentForm
+          .get('phoneNumber')
+          ?.setValidators([Validators.required]);
         break;
     }
 
@@ -86,21 +93,25 @@ export class PaymentReservationComponent implements OnInit {
     if (this.paymentForm.valid) {
       const paymentData = {
         method: this.paymentForm.get('paymentMethod')?.value,
-        ...this.paymentForm.value
+        ...this.paymentForm.value,
       };
 
-      this.dataService.makeReservationPayment(this.reservationId, paymentData).subscribe(
-        (response: any) => {
-          this.msg.success('Paiement effectué avec succès');
-          console.log('Paiement:', response.data);
-          this.modal.close(true);
-          this.router.navigate([`/user/reservation/details/${this.reservationId}`]);
-        },
-        (error: any) => {
-          this.msg.error('Erreur lors du paiement');
-          console.error('Erreur lors du paiement:', error);
-        }
-      );
+      this.dataService
+        .makeReservationPayment(this.reservationId, paymentData)
+        .subscribe(
+          (response: any) => {
+            this.msg.success('Paiement effectué avec succès');
+            console.log('Paiement:', response.data);
+            this.modal.close(true);
+            this.router.navigate([
+              `/user/reservation/details/${this.reservationId}`,
+            ]);
+          },
+          (error: any) => {
+            this.msg.error('Erreur lors du paiement');
+            console.error('Erreur lors du paiement:', error);
+          }
+        );
     }
   }
 
@@ -112,7 +123,7 @@ export class PaymentReservationComponent implements OnInit {
         console.log(this.price);
       },
       (error) => {
-        console.error('Erreur de création de l\'expédition:', error);
+        console.error("Erreur de création de l'expédition:", error);
       }
     );
   }
