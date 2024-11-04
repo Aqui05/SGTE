@@ -10,7 +10,7 @@
 <div class="error-page">
   <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Désolé, Vous n'êtes pas autorisé à accéder à cette page.">
     <div nz-result-extra>
-      <button routerLink="/" nz-button nzType="primary">Retourner à l'acceuil</button>
+      <button nz-button nzType="primary" (click)="goBack()">Retourner à la page précédente</button>
     </div>
   </nz-result>
 </div>

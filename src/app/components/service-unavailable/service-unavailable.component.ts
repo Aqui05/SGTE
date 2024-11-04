@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-service-unavailable',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./service-unavailable.component.css']
 })
 export class ServiceUnavailableComponent {
+  constructor(private location: Location) {}
+  goBack(): void {
+    this.location.back();
+  }
 
 }

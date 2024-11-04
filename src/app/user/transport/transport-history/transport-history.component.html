@@ -24,9 +24,10 @@
       [nzFilters]="listOfStatusFilter"
       [nzFilterFn]="filterFnStatus"
     >Status</th>
-      <th>Actions</th>
-
-
+      <!--
+    <th>Actions</th>
+    
+    -->
 
 
     </tr>
@@ -39,10 +40,11 @@
       <td>{{ data.destination_location && data.arrival_time }}</td>
       <td>{{ data.seats }}</td>
       <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
-      <td>
+      <!-- <td>
         <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'cancelled'">Détails</button>
         <nz-divider nzType="vertical"></nz-divider>
       </td>
     </tr>
+  -->
   </tbody>
 </nz-table>

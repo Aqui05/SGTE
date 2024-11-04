@@ -20,7 +20,9 @@
         [nzFilters]="listOfStatusFilter"
         [nzFilterFn]="filterFnStatus"
       >Status</th>
-      <th>Actions</th>
+      <!--
+        <th>Actions</th>
+      -->  
     </tr>
   </thead>
   <tbody>
@@ -32,9 +34,11 @@
       <td>{{ data.date_expedition }}</td>
       <td>{{ data.date_livraison_prevue }}</td>
       <td><nz-badge [nzStatus]="getStatusType(data.status)" [nzText]="data.status"></nz-badge></td>
+  <!--   
       <td>
         <button nz-button nzType="primary" (click)="viewDetails(data.id)" [disabled]="data.status === 'en transit'">Détails</button>
       </td>
     </tr>
+  -->
   </tbody>
 </nz-table>

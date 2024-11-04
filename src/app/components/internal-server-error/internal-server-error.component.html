@@ -1,7 +1,7 @@
 <div class="result-container">
   <nz-result nzStatus="500" nzTitle="500" nzSubTitle="Désolé, IL y a une erreur au niveau du serveur. Vérifier votre connexion internet et rafraîchissez la page.">
     <div nz-result-extra>
-      <button nz-button routerLink="/" nzType="primary">Retourner à l'acceuil</button>
+      <button nz-button nzType="primary" (click)="goBack()">Retourner à la page précédente</button>
     </div>
   </nz-result>
 </div>

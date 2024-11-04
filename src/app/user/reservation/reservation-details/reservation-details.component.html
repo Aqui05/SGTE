@@ -3,48 +3,48 @@
     <ng-container *ngIf="reservation">
       <div nz-row class="reservation-detail">
         <div nz-col nzSpan="12">
-          <p><strong>Transport ID:</strong> {{ reservation.transport_id }}</p>
+          <p><strong>ID de Transport :</strong> {{ reservation.transport_id }}</p>
         </div>
         <div nz-col nzSpan="12">
-          <p><strong>User ID:</strong> {{ reservation.user_id }}</p>
+          <p><strong>ID Utilisateur :</strong> {{ reservation.user_id }}</p>
         </div>
         <div nz-col nzSpan="12">
           <p>
-            <strong>Reservation Date & Time:</strong>
+            <strong>Date et Heure de Réservation :</strong>
             {{ reservation.reservation_datetime }}
           </p>
         </div>
         <div nz-col nzSpan="12">
           <p>
-            <strong>Number of Seats:</strong> {{ reservation.number_of_seats }}
+            <strong>Nombre de Sièges :</strong> {{ reservation.number_of_seats }}
           </p>
         </div>
         <div nz-col nzSpan="12">
-          <p><strong>Total Price:</strong> {{ reservation.total_price }}</p>
+          <p><strong>Prix Total :</strong> {{ reservation.total_price }}</p>
         </div>
         <div nz-col nzSpan="12">
-          <p><strong>Status:</strong> {{ reservation.status }}</p>
+          <p><strong>Statut :</strong> {{ reservation.status }}</p>
         </div>
         <div nz-col nzSpan="12">
           <p>
-            <strong>Destination Waypoint:</strong>
+            <strong>Point de Destination :</strong>
             {{ reservation.destination_waypoint }}
           </p>
         </div>
         <div nz-col nzSpan="12">
           <p>
-            <strong>Additional Info:</strong> {{ reservation.additional_info }}
+            <strong>Informations Supplémentaires :</strong> {{ reservation.additional_info }}
           </p>
         </div>
         <div nz-col nzSpan="12">
           <p>
-            <strong>Departure Waypoint:</strong>
+            <strong>Point de Départ :</strong>
             {{ reservation.departure_waypoint }}
           </p>
         </div>
         <div nz-col nzSpan="12" class="d-flex align-items-center">
           <p class="mb-0">
-            <strong>Paid:</strong> {{ reservation.paid ? "Yes" : "No" }}
+            <strong>Payé :</strong> {{ reservation.paid ? "Oui" : "Non" }}
           </p>
           <button
             *ngIf="!reservation.paid"
@@ -72,7 +72,7 @@
       </div>
     </ng-container>
     <ng-container *ngIf="!reservation">
-      <p>Loading reservation details...</p>
+      <p>Chargement des détails de la réservation...</p>
     </ng-container>
   </nz-card>
 </div>
