@@ -58,36 +58,45 @@ export class PaymentReservationComponent implements OnInit {
 
   onPaymentMethodChange(): void {
     const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
+  
     this.paymentForm.get('cardNumber')?.clearValidators();
     this.paymentForm.get('cardExpiry')?.clearValidators();
     this.paymentForm.get('cardCVC')?.clearValidators();
     this.paymentForm.get('paypalEmail')?.clearValidators();
     this.paymentForm.get('phoneNumber')?.clearValidators();
-
+  
     switch (paymentMethod) {
       case 'creditCard':
-        this.paymentForm
-          .get('cardNumber')
-          ?.setValidators([Validators.required]);
-        this.paymentForm
-          .get('cardExpiry')
-          ?.setValidators([Validators.required]);
+        this.paymentForm.get('cardNumber')?.setValidators([Validators.required]);
+        this.paymentForm.get('cardExpiry')?.setValidators([Validators.required]);
         this.paymentForm.get('cardCVC')?.setValidators([Validators.required]);
+        this.paymentForm.get('cardNumber')?.enable();
+        this.paymentForm.get('cardExpiry')?.enable();
+        this.paymentForm.get('cardCVC')?.enable();
+        this.paymentForm.get('paypalEmail')?.disable();
+        this.paymentForm.get('phoneNumber')?.disable();
         break;
       case 'paypal':
-        this.paymentForm
-          .get('paypalEmail')
-          ?.setValidators([Validators.required, Validators.email]);
+        this.paymentForm.get('paypalEmail')?.setValidators([Validators.required, Validators.email]);
+        this.paymentForm.get('paypalEmail')?.enable();
+        this.paymentForm.get('cardNumber')?.disable();
+        this.paymentForm.get('cardExpiry')?.disable();
+        this.paymentForm.get('cardCVC')?.disable();
+        this.paymentForm.get('phoneNumber')?.disable();
         break;
       case 'phone':
-        this.paymentForm
-          .get('phoneNumber')
-          ?.setValidators([Validators.required]);
+        this.paymentForm.get('phoneNumber')?.setValidators([Validators.required]);
+        this.paymentForm.get('phoneNumber')?.enable();
+        this.paymentForm.get('cardNumber')?.disable();
+        this.paymentForm.get('cardExpiry')?.disable();
+        this.paymentForm.get('cardCVC')?.disable();
+        this.paymentForm.get('paypalEmail')?.disable();
         break;
     }
-
+  
     this.paymentForm.updateValueAndValidity();
   }
+  
 
   onSubmit(): void {
     if (this.paymentForm.valid) {

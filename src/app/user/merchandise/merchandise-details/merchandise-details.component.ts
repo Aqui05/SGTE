@@ -47,6 +47,10 @@ export class MerchandiseDetailsComponent implements OnInit{
         merchandiseId: this.merchandiseId,
       },
       nzFooter: null
+    }).afterClose.subscribe((result) => {
+      if (result === true) { // Si le paiement a réussi
+        this.loadMerchandiseData();
+      }
     });
   }
 

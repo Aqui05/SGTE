@@ -65,8 +65,8 @@ export class ReservationDetailsComponent implements OnInit {
     }
   }
 
+
   proceedToPayment(): void {
-    console.log(this.reservationId);
     this.modal.create({
       nzTitle: 'Formulaire de payement',
       nzContent: PaymentReservationComponent,
@@ -74,6 +74,10 @@ export class ReservationDetailsComponent implements OnInit {
         reservationId: this.reservationId,
       },
       nzFooter: null,
+    }).afterClose.subscribe((result) => {
+      if (result === true) { // Si le paiement a réussi
+        this.loadReservationData(); // Recharge les données de la réservation
+      }
     });
   }
 }
