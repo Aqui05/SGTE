@@ -11,7 +11,7 @@
         }
         .page-wrapper {
             width: 100%;
-            padding: 20px;
+            padding: 5px;
         }
         .ticket-container {
             width: 100%;
@@ -30,31 +30,31 @@
             float: right;
         }
         .ticket-header {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: bold;
             margin-bottom: 15px;
             overflow: hidden;
         }
         .ticket-header img {
-            width: 50px;
+            width: 70px;
             margin-right: 10px;
             float: left;
+            
         }
         .ticket-header span {
             display: block;
             margin-top: 15px;
         }
         .ticket-info {
-            font-size: 14px;
+            font-size: 10px;
             margin-bottom: 8px;
         }
         .section-title {
-            font-size: 16px;
+            font-size: 12px;
             font-weight: bold;
             margin-top: 10px;
         }
         .footer {
-            margin-top: 15px;
             font-size: 12px;
             color: #777;
             text-align: center;
@@ -63,6 +63,7 @@
         }
         .qr-code {
             text-align: center;
+            top: 50%
         }
         /* Séparateur compatible avec dompdf */
         .separator {
@@ -87,10 +88,15 @@
                
                 <!-- Ticket Information -->
                 <div class="section-title">Détails de la Réservation</div>
+                <br>
                 <div class="ticket-info"><strong>Nom & Prénoms:</strong> {{ $user->name }}</div>
+                <br>
                 <div class="ticket-info"><strong>Numéro de ticket:</strong> {{ $ticketNumber }}</div>
-                <div class="ticket-info"><strong>Prix:</strong> {{ $reservation->total_price }} €</div>
+                <br>
+                <div class="ticket-info"><strong>Prix:</strong> {{ $reservation->total_price }} F</div>
+                <br>
                 <div class="ticket-info"><strong>Date de réservation:</strong> {{ $reservation->reservation_datetime }}</div>  
+                <br>
             </div>
 
             <!-- Séparateur -->
@@ -98,17 +104,19 @@
 
             <div class="column2">
                 <!-- QR Code Section -->
-                <div class="section-title">QR Code</div>
                 <div class="qr-code">
                     <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" width="100" height="100">
+                    <br>
+                    <br>
                     <div class="ticket-info"><strong>Transport N°:</strong> {{ $reservation->transport_id }}</div>
                 </div>
             </div>
         </div>
-        <!-- Footer -->
-        <div class="footer">
-            Merci d'avoir choisi LogiTrack pour votre transport!
-        </div>
+        <!-- Footer 
+            <div class="footer">
+                Merci d'avoir choisi LogiTrack pour votre transport!
+            </div>
+        -->
     </div>
 </body>
 </html>
