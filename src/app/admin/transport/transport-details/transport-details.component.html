@@ -8,7 +8,7 @@
     <p class="card-text"><strong>Destination :</strong> {{ Transport.destination_location }}</p>
     <p class="card-text"><strong>Heure de départ :</strong> {{ Transport.departure_time | date:'short' }}</p>
     <p class="card-text"><strong>Heure d'arrivée :</strong> {{ Transport.arrival_time | date:'short' }}</p>
-    <p class="card-text"><strong>Prix :</strong> {{ Transport.price | currency:'EUR' }}</p>
+    <p class="card-text"><strong>Prix :</strong> {{ Transport.price | currency:'CFA' }}</p>
     <p class="card-text"><strong>Places :</strong> {{ Transport.seats }}</p>
     <p class="card-text"><strong>Status :</strong> {{ Transport.status }}</p>
 
@@ -39,7 +39,7 @@
           {{ reservation.user.name }}<br>
           <small>{{ reservation.user.email }}</small>
         </td>
-        <td>{{ reservation.total_price | currency }}</td>
+        <td>{{ reservation.total_price | currency:'CFA' }}</td>
         <td>{{ reservation.departure_waypoint }}</td>
         <td>{{ reservation.destination_waypoint }}</td>
         <td>

@@ -144,7 +144,7 @@ export class ExpeditionAddComponent implements OnInit {
 
 
   onMerchandiseSelect(merchandise: any): void {
-    merchandise.selected = !merchandise.selected;
+    merchandise.selected = merchandise.selected;
     this.updateSelectedMerchandises();
   }
 

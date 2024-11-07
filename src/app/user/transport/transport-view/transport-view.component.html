@@ -75,7 +75,7 @@
             <p class="mb-0">Arrivée: {{ transport.arrival_time | date:'short' }}</p>
           </div>
           <p class="mb-0">Type: {{ transport.type }}</p>
-          <p class="mb-0">Price: {{ transport.price | currency }}</p>
+          <p class="mb-0">Price: {{ transport.price | currency:'CFA' }}</p>
           <p class="mb-0">Seats: {{ transport.seats }}</p>
         </div>
         <hr class="dark horizontal my-0">
