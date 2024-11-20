@@ -1,4 +1,4 @@
-<div class="container" [ngClass]="{ 'active': isSignUp }"  style= "margin: 0 auto;    margin-top: 120px; display: flex; justify-content: center; align-items: center; ">
+<div class="container" [ngClass]="{ 'active': isSignUp }" >
   <div class="form-container sign-up">
     <form class="space-y-2" nz-form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
       <h1>S'inscrire</h1>
@@ -41,6 +41,9 @@
         </nz-form-control>
       </nz-form-item>
       <button [disabled]="!registerForm.valid" style="background-color: #512da8;">INSCRIPTION</button>
+      <div class="block">
+        <a href="javascript:void(0)" (click)="toggleForm()">Se connecter</a>
+      </div>
     </form>
   </div>
 
@@ -72,8 +75,10 @@
           <input type="password" placeholder="Mot de passe" formControlName="password" style="width: 100%; padding: 12px 35px;">
         </nz-form-control>
       </nz-form-item>
-      <a href="#">Mot de passe oublié ?</a>
       <button style="background-color: #512da8;" [disabled]="!loginForm.valid" type="submit">CONNEXION</button>
+      <div class="block">
+        <a href="javascript:void(0)" (click)="toggleForm()">S'inscrire</a>
+      </div>
     </form>
   </div>
 

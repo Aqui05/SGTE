@@ -7,6 +7,7 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+
 body {
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
@@ -21,11 +22,16 @@ body {
     background-color: #fff;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
+    width: 52%;
+    height: 74vh;
     position: relative;
     overflow: hidden;
+
+    margin: 13vh 24vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
 }
 
 .container p {
@@ -128,28 +134,6 @@ body {
     }
 }
 
-/* .social-icons {
-    margin: 5px 0;
-    background-color: white;
-}
-
-.social-icons a {
-    border: 1px solid #ccc;
-    background-color: white;
-    -o-border-radius:;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 3px;
-    width: 5px;
-    height: 5px;
-    -webkit-border-radius:;
-    -moz-border-radius:;
-    -ms-border-radius:;
-    border-radius: 20%;
-} */
-
-
 .social-icons {
   background-color: white;
   display: flex;
@@ -241,3 +225,29 @@ body {
 .container.active .toggle-right {
     transform: translateX(200%);
 }
+
+.block {
+    display: none;
+}
+
+
+
+@media (max-width: 768px) {
+    .toggle-container {
+     display: none;
+    } 
+
+    .container {
+        width: 80%;
+        height: 90vh;
+        margin: 5vh 10vw;
+    }
+
+    .sign-in, .sign-up {
+        width: 100%;
+    }
+
+    .block {
+        display: block;
+    }
+ }
