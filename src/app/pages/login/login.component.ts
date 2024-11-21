@@ -17,7 +17,7 @@ const facebook = 'assets/img/facebook.svg';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-  isSignUp = false;
+  isSignUp: boolean = true;
   title = "login";
   loginForm!: FormGroup;
   registerForm!: FormGroup;
