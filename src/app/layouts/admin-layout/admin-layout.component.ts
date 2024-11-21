@@ -38,6 +38,8 @@ export class AdminLayoutComponent {
 
   isDropdownVisible = false;
 
+  openSubmenu: string | null = null; 
+
 
 
   constructor(
@@ -93,6 +95,12 @@ export class AdminLayoutComponent {
   
   hideDropdown() { 
     this.isDropdownVisible = false; 
+  }
+
+  toggleSubmenu(submenu: string): void { 
+    if (this.openSubmenu === submenu) 
+      { this.openSubmenu = null; } 
+    else { this.openSubmenu = submenu; } 
   }
 
   logout(): void {

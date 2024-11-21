@@ -10,51 +10,54 @@
   </div>
 </div>
 
-<nz-table #basicTable [nzData]="filteredVehicles">
-  <thead>
-    <tr>
-      <th
-      [nzSortFn]="sortFnLicense"
-      [nzSortPriority]="1"
-      >Immatriculation</th>
-      <th
-      [nzSortFn]="sortFnBrand"
-      [nzSortPriority]="2"
-      >Marque</th>
-      <th
-      [nzSortFn]="sortFnModel"
-      [nzSortPriority]="3"
-      >Model</th>
-      <th
-      [nzSortFn]="sortFnSeats"
-      [nzSortPriority]="4"
-      >Nbre Sièges</th>
-      <th
-      [nzFilters]="listOfTypeFilter"
-      [nzFilterFn]="filterFnType">
-      Type</th>
-      <th       [nzFilters]="listOfStatusFilter"
-      [nzFilterFn]="filterFnStatus">Disponible</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of basicTable.data">
-      <td>{{ data.license_plate }}</td>
-      <td>{{ data.brand }}</td>
-      <td>{{ data.model }}</td>
-      <td>{{ data.seats }}</td>
-      <td>{{ data.type }}</td>
-      <td>
-        <nz-badge [nzStatus]="data.available ? 'success' : 'error'" [nzText]="data.available ? 'Oui' : 'Non'"></nz-badge>
-      </td>
-      <td>
-        <button nz-button nzType="primary" (click)="viewDetails(data.id)">Détails</button>
-        <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="default" (click)="editVehicle(data.id)">Modifier</button>
-        <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" nzDanger (click)="deleteVehicle(data.id)"  [disabled]="data.available == false">Supprimer</button>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+<div class="table-container">
+  <nz-table #basicTable [nzData]="filteredVehicles" class="single-line-table">
+    <thead>
+      <tr>
+        <th
+        [nzSortFn]="sortFnLicense"
+        [nzSortPriority]="1"
+        >Immatriculation</th>
+        <th
+        [nzSortFn]="sortFnBrand"
+        [nzSortPriority]="2"
+        >Marque</th>
+        <th
+        [nzSortFn]="sortFnModel"
+        [nzSortPriority]="3"
+        >Model</th>
+        <th
+        [nzSortFn]="sortFnSeats"
+        [nzSortPriority]="4"
+        >Nbre Sièges</th>
+        <th
+        [nzFilters]="listOfTypeFilter"
+        [nzFilterFn]="filterFnType">
+        Type</th>
+        <th       [nzFilters]="listOfStatusFilter"
+        [nzFilterFn]="filterFnStatus">Disponible</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.license_plate }}</td>
+        <td>{{ data.brand }}</td>
+        <td>{{ data.model }}</td>
+        <td>{{ data.seats }}</td>
+        <td>{{ data.type }}</td>
+        <td>
+          <nz-badge [nzStatus]="data.available ? 'success' : 'error'" [nzText]="data.available ? 'Oui' : 'Non'"></nz-badge>
+        </td>
+        <td>
+          <button nz-button nzType="primary" (click)="viewDetails(data.id)">Détails</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="default" (click)="editVehicle(data.id)">Modifier</button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzDanger (click)="deleteVehicle(data.id)"  [disabled]="data.available == false">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  
+</div>

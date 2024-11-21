@@ -20,10 +20,8 @@
 <span>Dashboard</span>
 </li>
 
-<!-- <nz-divider style="background-color: black; margin: 8px 0;"></nz-divider> -->
-
 <!-- Groupe 2 : Actions -->
-<li nz-submenu nzTitle="Vehicle" nzIcon="car">
+<li nz-submenu nzTitle="Vehicle" nzIcon="car" [nzOpen]="openSubmenu === 'vehicle'" (click)="toggleSubmenu('vehicle')" (mouseover)="openSubmenu = 'vehicle'">
 <ul>
   <li nz-menu-item [routerLink]="['/admin/vehicle/create']" routerLinkActive="active">
     <i class="bi bi-plus-circle"></i> Ajouter Vehicle
@@ -34,7 +32,7 @@
 </ul>
 </li>
 
-<li nz-submenu nzTitle="Transport" nzIcon="box-plot">
+<li nz-submenu nzTitle="Transport" nzIcon="box-plot" [nzOpen]="openSubmenu === 'transport'" (click)="toggleSubmenu('transport')" (mouseover)="openSubmenu = 'transport'">
 <ul>
   <li nz-menu-item [routerLink]="['/admin/transport/create']" routerLinkActive="active">
     <i class="bi bi-plus-circle"></i> Ajouter Transport
@@ -45,7 +43,7 @@
 </ul>
 </li>
 
-<li nz-submenu nzTitle="Marchandise" nzIcon="hdd">
+<li nz-submenu nzTitle="Marchandise" nzIcon="hdd" [nzOpen]="openSubmenu === 'marchandise'" (click)="toggleSubmenu('marchandise')" (mouseover)="openSubmenu = 'marchandise'">
 <ul>
   <li nz-menu-item [routerLink]="['/admin/merchandise']" routerLinkActive="active">
     <i class="bi bi-list-ul"></i> Liste des marchandises
@@ -53,7 +51,7 @@
 </ul>
 </li>
 
-<li nz-submenu nzTitle="Expedition" nzIcon="global">
+<li nz-submenu nzTitle="Expedition" nzIcon="global" [nzOpen]="openSubmenu === 'expedition'" (click)="toggleSubmenu('expedition')" (mouseover)="openSubmenu = 'expedition'">
 <ul>
   <li nz-menu-item [routerLink]="['/admin/expedition/create']" routerLinkActive="active">
     <i class="bi bi-plus-circle"></i> Ajouter une Expédition
@@ -64,11 +62,8 @@
 </ul>
 </li>
 
-<!-- <nz-divider style="background-color: black; margin: 8px 0;"></nz-divider> -->
-
-
 <!-- Groupe 3 : Settings et User -->
-<li nz-submenu nzTitle="User" nzIcon="user">
+<li nz-submenu nzTitle="User" nzIcon="user" [nzOpen]="openSubmenu === 'user'" (click)="toggleSubmenu('user')" (mouseover)="openSubmenu = 'user'">
 <ul>
   <li nz-menu-item [routerLink]="['/admin/users']" routerLinkActive="active">
     <i class="bi bi-people"></i> User Page
@@ -76,7 +71,7 @@
 </ul>
 </li>
 
-<li nz-submenu nzTitle="Settings" nzIcon="setting">
+<li nz-submenu nzTitle="Settings" nzIcon="setting" [nzOpen]="openSubmenu === 'settings'" (click)="toggleSubmenu('settings')" (mouseover)="openSubmenu = 'settings'">
 <ul>
   <li nz-menu-item [routerLink]="['/admin']" routerLinkActive="active">
     <i class="bi bi-tools"></i> Setting Admin
@@ -86,6 +81,7 @@
 </ul>
 </div>
 </nz-sider>
+
   <nz-layout>
     <nz-header [ngClass]="{'collapsed-header': isCollapsed, 'expanded-header': !isCollapsed}">
       <div class="app-header navbar navbar-expand-lg bg-body-tertiary border-bottom border-info-subtle" >
