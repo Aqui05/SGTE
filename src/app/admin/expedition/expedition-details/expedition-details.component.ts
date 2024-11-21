@@ -12,6 +12,7 @@ export class ExpeditionDetailsComponent implements OnInit {
   expedition: any = {};
   expeditionId!: number;
   merchandises: any[] = [];
+  showMerchandises = false;
 
   constructor (
     private dataService: DataService,
@@ -22,6 +23,7 @@ export class ExpeditionDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.expeditionId = this.route.snapshot.params['id'];
     this.loadExpeditionData();
+    this.merchandisesList();
   }
 
   loadExpeditionData(): void {
@@ -47,6 +49,12 @@ export class ExpeditionDetailsComponent implements OnInit {
     );
   }
 
+  toggleMerchandises(): void { 
+    this.showMerchandises = !this.showMerchandises; 
+    if (this.showMerchandises && this.merchandises.length === 0) { 
+      this.merchandisesList(); 
+    } 
+  } 
   getStatusType(status: string): string {
     switch (status) {
       case 'confirmé':

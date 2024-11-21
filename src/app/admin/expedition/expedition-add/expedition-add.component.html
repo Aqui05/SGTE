@@ -134,22 +134,36 @@
       </div>
     </div>
     <h3>Sélectionner les marchandises</h3>
-    <div nz-row nzGutter="16">
-      <div nz-col nzSpan="8" *ngFor="let merchandise of merchandises">
-        <div class="card">
-          <div class="card-header p-3 pt-2">
-            <div class="text-end pt-1">
-              <h4 class="mb-0">{{ merchandise.name }}</h4>
-            </div>
+
+
+
+
+
+    <div class="row">
+      <div class="col-xl-4 col-md-6 col-sm-12 mb-4" *ngFor="let merchandise of merchandises">
+          <div class="card merchandise-card">
+              <div class="card-header p-3 pt-2">
+                  <div class="text-end pt-1">
+                      <h4 class="mb-0">{{ merchandise.name }}</h4>
+                      <br>
+                  </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                      <p class="description">{{ merchandise.description }}</p>
+                  </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3 d-flex justify-content-between">
+                  <label nz-checkbox [(ngModel)]="merchandise.selected" (ngModelChange)="onMerchandiseSelect(merchandise)">Sélectionner</label>
+              </div>
           </div>
-          <hr class="dark horizontal my-0">
-          <div class="card-body">
-            <p>{{ merchandise.description }}</p>
-            <label nz-checkbox [(ngModel)]="merchandise.selected" (ngModelChange)="onMerchandiseSelect(merchandise)">Sélectionner</label>
-          </div>
-        </div>
       </div>
-    </div>
+  </div>
+  
+
+
     <div nz-row nzJustify="center" style="margin-top: 16px;">
       <button nz-button nzType="primary" (click)="submitSelectedMerchandises()">Soumettre les marchandises sélectionnées</button>
     </div>
