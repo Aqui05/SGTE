@@ -84,15 +84,19 @@
 
   <nz-layout>
     <nz-header [ngClass]="{'collapsed-header': isCollapsed, 'expanded-header': !isCollapsed}">
-      <div class="app-header navbar navbar-expand-lg bg-body-tertiary border-bottom border-info-subtle" >
+      <div class="app-header navbar navbar-expand-lg bg-body-tertiary border-bottom border-info-subtle" style="display: flex;
+      justify-content: space-between;
+      align-content: center;
+      flex-wrap: nowrap;
+      align-items: center;">
         <div class="header-left">
           <span class="header-trigger"
                 (click)="isCollapsed = !isCollapsed"
                 nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
           </span>
         </div>
-        <div class="header-center">
-        </div>
+
+
         <div class="header-right">
           <span nz-icon nzType="bell" (click)="openNotifications()" class="notification-icon"></span>
           <div nz-dropdown [nzDropdownMenu]="menu" class="user-dropdown" (click)="toggleDropdown()" (mouseover)="showDropdown()" (mouseleave)="hideDropdown()">

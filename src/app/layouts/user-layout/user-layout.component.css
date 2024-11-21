@@ -162,12 +162,6 @@ nz-footer {
   align-items: center;
 }
 
-.header-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .header-right {
   display: flex;
   align-items: center;
@@ -203,6 +197,13 @@ nz-footer {
 
 .user-name {
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  width: 50px;
 }
 
 .theme-icon {
