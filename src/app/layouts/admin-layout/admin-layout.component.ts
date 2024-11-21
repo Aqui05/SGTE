@@ -36,6 +36,8 @@ export class AdminLayoutComponent {
 
   notificationRead !: number;
 
+  isDropdownVisible = false;
+
 
 
   constructor(
@@ -78,6 +80,19 @@ export class AdminLayoutComponent {
 
   darkTheme(): void {
     this.pageTitleService.updateDarkMode();
+  }
+
+  
+  toggleDropdown() { 
+    this.isDropdownVisible = !this.isDropdownVisible; 
+  } 
+  
+  showDropdown() { 
+    this.isDropdownVisible = true; 
+  } 
+  
+  hideDropdown() { 
+    this.isDropdownVisible = false; 
   }
 
   logout(): void {

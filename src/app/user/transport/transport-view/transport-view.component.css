@@ -152,6 +152,12 @@
 
 
 
+@media (max-width: 768px) {
+
+  .row {
+    gap: 10px;
+  }
+}
 
 
 

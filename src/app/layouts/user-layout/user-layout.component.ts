@@ -31,6 +31,8 @@ export class UserLayoutComponent implements OnInit {
 
   notificationRead !: number;
 
+  isDropdownVisible = false;
+
 
   query: string = '';
   results: any = null;
@@ -38,6 +40,8 @@ export class UserLayoutComponent implements OnInit {
   //notifications: any[] = [];
 
   notifications: Notification[] = [];
+
+  openSubmenu: string | null = null; 
 
   constructor(
     private dataService: DataService,
@@ -53,6 +57,24 @@ export class UserLayoutComponent implements OnInit {
     });
     this.UserInfo();
     //this.openNotifications();
+  }
+
+  toggleSubmenu(submenu: string): void { 
+    if (this.openSubmenu === submenu) 
+      { this.openSubmenu = null; } 
+    else { this.openSubmenu = submenu; } 
+  }
+
+  toggleDropdown() { 
+    this.isDropdownVisible = !this.isDropdownVisible; 
+  } 
+  
+  showDropdown() { 
+    this.isDropdownVisible = true; 
+  } 
+  
+  hideDropdown() { 
+    this.isDropdownVisible = false; 
   }
 
   UserInfo(): void {

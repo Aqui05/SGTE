@@ -1,74 +1,83 @@
 <nz-layout class="app-layout">
   <nz-sider class="menu-sidebar"
-            nzCollapsible
-            nzWidth="256px"
-            [nzCollapsedWidth]="80"
-            nzBreakpoint="md"
-            [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a href="" target="_blank">
-        <img src="assets/logiTrack.png" alt="logo">
-        <h1>LogiTrack</h1>
-      </a>
-    </div>
+  nzCollapsible
+  nzWidth="256px"
+  [nzCollapsedWidth]="80"
+  nzBreakpoint="md"
+  [(nzCollapsed)]="isCollapsed"
+  [nzTrigger]="null">
+<div class="sidebar-logo">
+<a href="" target="_blank">
+<img src="assets/logiTrack.png" alt="logo">
+<h1>LogiTrack</h1>
+</a>
+</div>
 
 <div *ngIf="!isAdmin">
-  <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-    <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
-      <span nz-icon nzType="dashboard" nzTheme="outline"></span>
-      <span> Dashboard</span>
-    </li>
-    <li nz-submenu nzTitle="Transport"  nzIcon="box-plot">
-      <ul>
-        <li nz-menu-item [routerLink]="['/user/transport/view']" routerLinkActive="active">
-          <i class="bi bi-view-list"></i>
-          Visualiser des Transports</li>
-        <li nz-menu-item [routerLink]="['/user/transport/history']" routerLinkActive="active">
-          <i class="bi bi-clock-history"></i>
-          Historique des Transports</li>
-      </ul>
-    </li>
-    <li nz-submenu nzTitle="Réservation" nzIcon="idcard">
-      <ul>
-        <li nz-menu-item [routerLink]="['/user/reservation/add']" routerLinkActive="active">
-          <i class="bi bi-patch-plus"></i>
-          Faire une réservation</li>
-        <li nz-menu-item [routerLink]="['/user/reservation/list']" routerLinkActive="active">
-          <i class="bi bi-list-ul"></i>
-          Liste des réservations</li>
-      </ul>
-    </li>
-    <li nz-submenu nzTitle="Marchandise" nzIcon="hdd">
-      <ul>
-        <li nz-menu-item [routerLink]="['/user/merchandise/list']" routerLinkActive="active">
-          <i class="bi bi-list-ul"></i>
-          Liste des marchandises</li>
-        <li nz-menu-item [routerLink]="['/user/merchandise/add']" routerLinkActive="active">
-          <i class="bi bi-save2"></i>
-          Enregistrer une marchandise</li>
-
-      </ul>
-    </li>
-    <li nz-submenu nzTitle="Expedition" nzIcon="global">
-      <ul>
-        <li nz-menu-item [routerLink]="['/user/expedition/history']" routerLinkActive="active">
-          <i class="bi bi-clock-history"></i>
-          Historique des Expéditions</li>
-      </ul>
-    </li>
-
-    <li nz-submenu nzTitle="Settings" nzIcon="setting">
-      <ul>
-        <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
-          <i class="bi bi-tools"></i> Setting Admin
-        </li>
-      </ul>
-    </li>
-  </ul>
+<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+<li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
+<span nz-icon nzType="dashboard" nzTheme="outline"></span>
+<span> Dashboard</span>
+</li>
+<li nz-submenu nzTitle="Transport" nzIcon="box-plot" [nzOpen]="openSubmenu === 'transport'" (click)="toggleSubmenu('transport')" (mouseover)="openSubmenu = 'transport'">
+<ul>
+  <li nz-menu-item [routerLink]="['/user/transport/view']" routerLinkActive="active">
+    <i class="bi bi-view-list"></i>
+    Visualiser des Transports
+  </li>
+  <li nz-menu-item [routerLink]="['/user/transport/history']" routerLinkActive="active">
+    <i class="bi bi-clock-history"></i>
+    Historique des Transports
+  </li>
+</ul>
+</li>
+<li nz-submenu nzTitle="Réservation" nzIcon="idcard" [nzOpen]="openSubmenu === 'reservation'" (click)="toggleSubmenu('reservation')" (mouseover)="openSubmenu = 'reservation'">
+<ul>
+  <li nz-menu-item [routerLink]="['/user/reservation/add']" routerLinkActive="active">
+    <i class="bi bi-patch-plus"></i>
+    Faire une réservation
+  </li>
+  <li nz-menu-item [routerLink]="['/user/reservation/list']" routerLinkActive="active">
+    <i class="bi bi-list-ul"></i>
+    Liste des réservations
+  </li>
+</ul>
+</li>
+<li nz-submenu nzTitle="Marchandise" nzIcon="hdd" [nzOpen]="openSubmenu === 'marchandise'" (click)="toggleSubmenu('marchandise')" (mouseover)="openSubmenu = 'marchandise'">
+<ul>
+  <li nz-menu-item [routerLink]="['/user/merchandise/list']" routerLinkActive="active">
+    <i class="bi bi-list-ul"></i>
+    Liste des marchandises
+  </li>
+  <li nz-menu-item [routerLink]="['/user/merchandise/add']" routerLinkActive="active">
+    <i class="bi bi-save2"></i>
+    Enregistrer une marchandise
+  </li>
+</ul>
+</li>
+<li nz-submenu nzTitle="Expedition" nzIcon="global" [nzOpen]="openSubmenu === 'expedition'" (click)="toggleSubmenu('expedition')" (mouseover)="openSubmenu = 'expedition'">
+<ul>
+  <li nz-menu-item [routerLink]="['/user/expedition/history']" routerLinkActive="active">
+    <i class="bi bi-clock-history"></i>
+    Historique des Expéditions
+  </li>
+</ul>
+</li>
+<li nz-submenu nzTitle="Settings" nzIcon="setting" [nzOpen]="openSubmenu === 'settings'" (click)="toggleSubmenu('settings')" (mouseover)="openSubmenu = 'settings'">
+<ul>
+  <li nz-menu-item [routerLink]="['/user']" routerLinkActive="active">
+    <i class="bi bi-tools"></i>
+    Setting Admin
+  </li>
+</ul>
+</li>
+</ul>
 </div>
-  </nz-sider>
-  <nz-layout>
+</nz-sider>
+
+
+
+<nz-layout>
     <nz-header [ngClass]="{'collapsed-header': isCollapsed, 'expanded-header': !isCollapsed}">
       <div class="app-header navbar navbar-expand-lg bg-body-tertiary border-bottom border-info-subtle" >
         <div class="header-left">
@@ -81,18 +90,18 @@
         </div>
         <div class="header-right">
           <span nz-icon nzType="bell" (click)="openNotifications()" class="notification-icon"></span>
-          <div nz-dropdown [nzDropdownMenu]="menu" class="user-dropdown">
-            <nz-avatar [nzSrc]="user.avatar" class="user-avatar"></nz-avatar>
-            <span class="user-name">{{ user.name }}</span>
+          <div nz-dropdown [nzDropdownMenu]="menu" class="user-dropdown" (click)="toggleDropdown()" (mouseover)="showDropdown()" (mouseleave)="hideDropdown()">
+              <nz-avatar [nzSrc]="user.avatar" class="user-avatar"></nz-avatar>
+              <span class="user-name">{{ user.name }}</span>
           </div>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item (click)="profile()">Profil</li>
-              <li nz-menu-item class="logout" (click)="logout()">Déconnexion</li>
-            </ul>
+          <nz-dropdown-menu #menu="nzDropdownMenu" nzVisible="isDropdownVisible">
+              <ul nz-menu>
+                  <li nz-menu-item (click)="profile()">Profil</li>
+                  <li nz-menu-item class="logout" (click)="logout()">Déconnexion</li>
+              </ul>
           </nz-dropdown-menu>
-
-        </div>
+      </div>
+      
       </div>
     </nz-header>
     <nz-content [ngClass]="{'collapsed-content': isCollapsed, 'expanded-content': !isCollapsed}">
@@ -103,7 +112,7 @@
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-    <nz-footer>LogiTrack ©2020 Implement By AQUILAS</nz-footer>
+    <nz-footer>LogiTrack ©2024 Implement By AQUILAS</nz-footer>
   </nz-layout>
 </nz-layout>
 <div #containerRef></div>
