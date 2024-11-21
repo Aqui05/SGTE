@@ -148,6 +148,12 @@ nz-layout {
   height: 100%;
 }
 
+@media (max-width: 768px) {
+  .inner-content {
+    padding: 0px;
+  }
+}
+
 .app-layout.light {
   background-color: #fff;
 }
