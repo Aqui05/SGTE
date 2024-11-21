@@ -72,6 +72,7 @@ export class VehicleDetailsComponent implements OnInit {
   historyVehicle(id: number) {
     this.dataService.historyVehicle(id).subscribe(
       (response) => {
+        console.log(response.data)
         this.expedition = response.data.expeditions;
         this.transport = response.data.transports;
       },

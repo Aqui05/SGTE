@@ -22,3 +22,19 @@
   background: #fff;
   z-index: 1;
 }
+
+.vehicle-card {
+  padding: 0px;
+  margin-bottom: 16px;
+}
+
+.card-item {
+  padding: 10px 0; /* Ajustez la valeur de padding selon vos besoins */
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.card-item:last-child {
+  border-bottom: none;
+}
+
+
