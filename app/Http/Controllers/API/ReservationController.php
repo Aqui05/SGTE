@@ -107,54 +107,84 @@ class ReservationController extends Controller
         }
     } catch (\Exception $e) {
         Log::error('Payment error: ' . $e->getMessage());
-        return response()->json(['error' => 'An error occurred during payment process'], 500);
+        return response()->json(['error' => 'An error occurred during payment process', 'details' => $e->getMessage()], 500);
     }
+    
 }
 
+public function generateTicket($reservationId)
+{
+    try {
+        // Log de début de génération du ticket
+        Log::info("Starting ticket generation for reservation ID: {$reservationId}");
 
-    public function generateTicket($reservationId)
-    {
+        $reservation = Reservation::findOrFail($reservationId);
+        $user = $reservation->user; // Assurez-vous que la relation 'user' est définie dans le modèle Reservation
+        $transport = $reservation->transport;
+
+        // Log pour vérifier si la réservation est trouvée
+        Log::info("Reservation found for ID: {$reservationId}", ['reservation' => $reservation]);
+
+        // Génération du QR code
+        $qrCodeContent = "Numéro de ticket: TICKET_{$reservation->id}\nNom & Prénoms : {$user->name}\nPrix: {$reservation->total_price}";
         try {
-            $reservation = Reservation::findOrFail($reservationId);
-            $user = $reservation->user; // Assurez-vous que la relation 'user' est définie dans le modèle Reservation
-            $transport = $reservation->transport;
-
-            // Génération du QR code avec les informations nécessaires
-            $qrCodeContent = "Numéro de ticket: TICKET_{$reservation->id}\nNom & Prénoms : {$user->name}\nPrix: {$reservation->total_price}";
             $qrCode = base64_encode(QrCode::format('png')->size(100)->generate($qrCodeContent));
+            Log::info('QR code generated successfully');
+        } catch (\Exception $e) {
+            Log::error('Error generating QR code: ' . $e->getMessage());
+            throw $e; // Relancer l'exception si la génération échoue
+        }
 
-            // Génération d'un numéro de ticket unique
-            $ticketNumber = 'TICKET_' . Str::random(10);
+        // Génération d'un numéro de ticket unique
+        $ticketNumber = 'TICKET_' . Str::random(10);
 
-            
-            // Génération du contenu HTML pour le ticket
-            $html = view('ticket', compact('reservation', 'qrCode', 'user', 'transport', 'ticketNumber'))->render();
+        // Log pour vérifier le numéro de ticket
+        Log::info("Generated ticket number: {$ticketNumber}");
 
-            // Création du PDF à partir du contenu HTML
+        // Génération du contenu HTML pour le ticket
+        $html = view('ticket', compact('reservation', 'qrCode', 'user', 'transport', 'ticketNumber'))->render();
+
+        // Log pour vérifier le contenu HTML
+        Log::info('HTML generated for ticket');
+
+        // Création du PDF à partir du contenu HTML
+        try {
             $pdf = PDF::loadHTML($html);
             $pdf->setPaper('A6', 'landscape'); // Format paysage A6
-
-
-            // Enregistrement du PDF sur le serveur
-            $fileName = $ticketNumber . '.pdf';
-            $filePath = 'tickets/' . $fileName;
-
-            Storage::disk('public')->put($filePath, $pdf->output());
-
-            // Sauvegarde des informations du ticket dans la base de données
-            $ticket = new Ticket();
-            $ticket->reservation_id = $reservationId;
-            $ticket->ticket_number = $ticketNumber;
-            $ticket->issued_at = now();
-            $ticket->ticket_lien = $filePath;
-            $ticket->save();
-
-            return $ticket;
+            Log::info('PDF generated successfully');
         } catch (\Exception $e) {
-            Log::error('Ticket generation error: ' . $e->getMessage());
-            return null;
+            Log::error('Error generating PDF: ' . $e->getMessage());
+            throw $e;
         }
+
+        // Enregistrement du PDF sur le serveur
+        $fileName = $ticketNumber . '.pdf';
+        $filePath = 'tickets/' . $fileName;
+        try {
+            Storage::disk('public')->put($filePath, $pdf->output());
+            Log::info("PDF saved to: {$filePath}");
+        } catch (\Exception $e) {
+            Log::error('Error saving PDF file: ' . $e->getMessage());
+            throw $e;
+        }
+
+        // Sauvegarde des informations du ticket dans la base de données
+        $ticket = new Ticket();
+        $ticket->reservation_id = $reservationId;
+        $ticket->ticket_number = $ticketNumber;
+        $ticket->issued_at = now();
+        $ticket->ticket_lien = $filePath;
+        $ticket->save();
+
+        // Log pour confirmer la création du ticket dans la base de données
+        Log::info('Ticket saved to database', ['ticket' => $ticket]);
+
+        return $ticket;
+    } catch (\Exception $e) {
+        Log::error('Ticket generation error: ' . $e->getMessage());
+        return null;
     }
+}
 
     
     /*public function generateTicket($reservationId)

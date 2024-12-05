@@ -82,7 +82,7 @@
             <div class="column1">
                 <!-- Header Section -->
                 <div class="ticket-header">
-                    <img src="D:\Développement\SGTE\sgte\resources\views\logiTrack.png" alt="Logo LogiTrack">
+                    <img src="D:\Développement\code-sgte\SGTE-BACK\resources\views\logiTrack.png" alt="Logo LogiTrack">
                     <span>LogiTrack Transport</span>
                 </div>
                
