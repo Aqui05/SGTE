@@ -3,17 +3,18 @@
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Le type est requis">
-            <nz-select formControlName="type" nzPlaceHolder="Sélectionnez le type du transport">
-              <nz-option *ngFor="let type of TransportTypes" [nzLabel]="type" [nzValue]="type"></nz-option>
-            </nz-select>
+          <nz-form-control nzErrorTip="Le numéro de transport est requis">
+            <input nz-input formControlName="numero_transport" placeholder="Numéro de transport">
           </nz-form-control>
         </nz-form-item>
       </nz-col>
+
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Le numéro de transport est requis">
-            <input nz-input formControlName="numero_transport" placeholder="Numéro de transport">
+          <nz-form-control nzErrorTip="Le véhicule est requis">
+            <nz-select formControlName="vehicle_license" nzPlaceHolder="Sélectionnez l'immatriculation">
+              <nz-option *ngFor="let vehicle of VehicleLicenses" [nzLabel]="vehicle.license" [nzValue]="vehicle.license" [nzDisabled]="!vehicle.available"></nz-option>
+            </nz-select>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
@@ -47,17 +48,6 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="L'heure d'arrivée doit être après l'heure de départ">
             <input nz-input formControlName="arrival_time" type="datetime-local" placeholder="Heure d'arrivée"/>
-          </nz-form-control>
-        </nz-form-item>
-      </nz-col>
-    </nz-row>
-    <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Le véhicule est requis">
-            <nz-select formControlName="vehicle_license" nzPlaceHolder="Sélectionnez l'immatriculation">
-              <nz-option *ngFor="let vehicle of VehicleLicenses" [nzLabel]="vehicle.license" [nzValue]="vehicle.license" [nzDisabled]="!vehicle.available"></nz-option>
-            </nz-select>
           </nz-form-control>
         </nz-form-item>
       </nz-col>

@@ -22,7 +22,7 @@ export class ExpeditionAddComponent implements OnInit {
   VehicleTypes: any[] = [];
   VehicleLicenses: any[] = [];
 
-  ExpeditionTypes: string[] = ['maritime', 'routier', 'aérien', 'ferroviaire'];
+  //ExpeditionTypes: string[] = ['maritime', 'routier', 'aérien', 'ferroviaire'];
   VehicleId: number[] = [];
 
   merchandises: any[] = [];
@@ -41,7 +41,7 @@ export class ExpeditionAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.expeditionForm = this.fb.group({
-      type: [null, [Validators.required, Validators.maxLength(255)]], // dropdown
+      //type: [null, [Validators.required, Validators.maxLength(255)]], // dropdown
       origin: [null, [Validators.required, Validators.maxLength(255)]],
       destination: [null, [Validators.required, Validators.maxLength(255)]],
       expedition_number: [null, [Validators.required, Validators.maxLength(5)]],
@@ -52,9 +52,7 @@ export class ExpeditionAddComponent implements OnInit {
       vehicle_id: [null],
     });
 
-    this.expeditionForm.get('type')?.valueChanges.subscribe(value => {
       this.sortVehicleType();
-    });
 
     this.expeditionForm.get('vehicle_license')?.valueChanges.subscribe(value => {
       this.findVehicleId();
@@ -135,23 +133,26 @@ afterStartDate(): ValidatorFn {
   }
 
   sortVehicleType(): void {
-    const vehicleType = this.expeditionForm.get('type')?.value;
-    if (vehicleType) {
-      this.dataService.searchVehicle('type', vehicleType).subscribe(
-        (response: any) => {
-          this.VehicleTypes = response.data;
-          this.VehicleLicenses = this.VehicleTypes.map(vehicle => ({
-            license: vehicle.license_plate,
-            available: vehicle.available
-          }));
-          console.log('Liste des véhicules trouvés:', this.VehicleTypes);
-          console.log(this.VehicleLicenses);
-        },
-        (error) => {
-          this.msg.error('Erreur lors de la recherche des véhicules par type.', error);
-        }
-      );
-    }
+    this.dataService.getVehicles().subscribe(
+      (response: any) => {
+        this.VehicleTypes = response.data;
+        
+        // Filtrer et mapper les véhicules
+        this.VehicleLicenses = this.VehicleTypes.map(vehicle => ({
+          license: vehicle.license_plate,
+          available: vehicle.available,
+          disabled: !vehicle.available  // Ajouter une propriété disabled
+        }));
+  
+        // Dans le template HTML, vous pouvez utiliser cette propriété disabled
+        // par exemple pour désactiver l'option de sélection
+        console.log('Liste des véhicules trouvés:', this.VehicleTypes);
+        console.log(this.VehicleLicenses);
+      },
+      (error) => {
+        this.msg.error('Erreur lors de la recherche des véhicules par type.', error);
+      }
+    );
   }
 
   loadMerchandises(): void {
