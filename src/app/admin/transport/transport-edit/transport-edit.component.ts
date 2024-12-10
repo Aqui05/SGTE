@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataService } from 'src/app/services/data.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-transport-edit',
@@ -18,7 +18,7 @@ export class TransportEditComponent implements OnInit {
 
   VehicleTypes: any[] = [];
   VehicleLicenses: any[] = [];
-  TransportTypes: string[] = ['maritime', 'routier', 'aérien', 'ferroviaire'];
+  //TransportTypes: string[] = ['maritime', 'routier', 'aérien', 'ferroviaire'];
   TransportId!: number;
   transport: any = {};
 
@@ -36,9 +36,7 @@ export class TransportEditComponent implements OnInit {
     this.initForm();
     this.loadTransportData();
 
-    this.transportForm.get('type')?.valueChanges.subscribe(() => {
       this.sortVehicleType();
-    });
 
     this.transportForm.get('vehicle_license')?.valueChanges.subscribe(() => {
       this.findVehicleId();
@@ -47,12 +45,11 @@ export class TransportEditComponent implements OnInit {
 
   initForm(): void {
     this.transportForm = this.fb.group({
-      type: [null, [Validators.required, Validators.maxLength(255)]],
       departure_location: [null, [Validators.required, Validators.maxLength(255)]],
       destination_location: [null, [Validators.required, Validators.maxLength(255)]],
-      numero_transport: [null, [Validators.required, Validators.maxLength(5)]],
-      departure_time: [null, [Validators.required]],
-      arrival_time: [null, [Validators.required]],
+      numero_transport: [null, [Validators.required, Validators.maxLength(10)]],
+      departure_time: [null, [Validators.required, this.futureDateValidator()]], // Validation de la date de départ
+      arrival_time: [null, [Validators.required, this.afterStartDate()]],   // Validation de la date d'arrivée
       vehicle_license: [null, [Validators.required]],
       vehicle_id: [null],
     });
@@ -72,6 +69,48 @@ export class TransportEditComponent implements OnInit {
     );
   }
 
+  // Validateur personnalisé pour vérifier que la date est dans le futur
+  futureDateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const currentDate = new Date();
+      const controlDate = new Date(control.value);
+
+      // Vérifie si la date est dans le futur
+      if (controlDate <= currentDate) {
+        return { futureDate: { value: control.value } };
+      }
+      return null;
+    };
+  }
+
+// Validateur personnalisé pour vérifier que la date d'arrivée est après la date de départ
+afterStartDate(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const form = control.parent;
+    
+    if (!form) {
+      return null;
+    }
+    
+    const departureTimeControl = form.get('departure_time');
+    const arrivalTimeControl = control;
+    
+    if (!departureTimeControl || !arrivalTimeControl.value) {
+      return null;
+    }
+    
+    const departureTime = new Date(departureTimeControl.value);
+    const arrivalTime = new Date(arrivalTimeControl.value);
+    
+    // Vérifie si la date d'arrivée est après la date de départ
+    if (arrivalTime <= departureTime) {
+      return { afterStartDate: { value: arrivalTimeControl.value } };
+    }
+    
+    return null;
+  };
+}
+
   findVehicleId(): void {
     const vehicleLicense = this.transportForm.get('vehicle_license')?.value;
     if (vehicleLicense) {
@@ -89,18 +128,26 @@ export class TransportEditComponent implements OnInit {
   }
 
   sortVehicleType(): void {
-    const vehicleType = this.transportForm.get('type')?.value;
-    if (vehicleType) {
-      this.dataService.searchVehicle('type', vehicleType).subscribe(
-        (response: any) => {
-          this.VehicleTypes = response.data;
-          this.VehicleLicenses = this.VehicleTypes.map(vehicle => vehicle.license_plate);
-        },
-        (error) => {
-          this.msg.error('Erreur lors de la recherche des véhicules par type.');
-        }
-      );
-    }
+    this.dataService.getVehicles().subscribe(
+      (response: any) => {
+        this.VehicleTypes = response.data;
+        
+        // Filtrer et mapper les véhicules
+        this.VehicleLicenses = this.VehicleTypes.map(vehicle => ({
+          license: vehicle.license_plate,
+          available: vehicle.available,
+          disabled: !vehicle.available  // Ajouter une propriété disabled
+        }));
+  
+        // Dans le template HTML, vous pouvez utiliser cette propriété disabled
+        // par exemple pour désactiver l'option de sélection
+        console.log('Liste des véhicules trouvés:', this.VehicleTypes);
+        console.log(this.VehicleLicenses);
+      },
+      (error) => {
+        this.msg.error('Erreur lors de la recherche des véhicules par type.', error);
+      }
+    );
   }
 
   submitForm(): void {
@@ -110,7 +157,7 @@ export class TransportEditComponent implements OnInit {
       this.dataService.updateTransport(this.TransportId, formValue).subscribe(
         () => {
           this.msg.success('Transport mis à jour avec succès!');
-          this.router.navigate(['/transports']);
+          this.router.navigate(['/admin/transport']);
           this.loading = false;
         },
         (error) => {

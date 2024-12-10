@@ -9,7 +9,6 @@ interface TransportData {
   vehicle_id: number;
   route_id: number;
   numero_transport: string;
-  type: string;
   destination_location: string;
   departure_location: string;
   departure_time: string;
@@ -71,7 +70,7 @@ export class TransportListComponent {
     if (this.searchTerm) {
       this.filteredTransports = this.transports.filter(transport =>
         transport.numero_transport.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        transport.type.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        //transport.type.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         transport.departure_location.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         transport.destination_location.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
@@ -111,7 +110,7 @@ export class TransportListComponent {
 
   // Fonctions de filtrage
   filterFnStatus: NzTableFilterFn<TransportData> = (list: string[], item: TransportData) => list.some(status => item.status.indexOf(status) !== -1);
-  filterFnType: NzTableFilterFn<TransportData> = (list: string[], item: TransportData) => list.some(type => item.type.indexOf(type) !== -1);
+  //filterFnType: NzTableFilterFn<TransportData> = (list: string[], item: TransportData) => list.some(type => item.type.indexOf(type) !== -1);
 
   // Listes de filtres
   listOfStatusFilter: NzTableFilterList = [
@@ -121,9 +120,11 @@ export class TransportListComponent {
     { text: 'Annulé', value: 'cancelled' },
   ];
 
-  listOfTypeFilter: NzTableFilterList = [
+  /*listOfTypeFilter: NzTableFilterList = [
     { text: 'Maritime', value: 'maritime' },
     { text: 'Routier', value: 'routier' },
     { text: 'Aérien', value: 'aérien' },
     { text: 'Ferroviaire', value: 'ferroviaire' },
-  ];}
+  ];*/
+
+}

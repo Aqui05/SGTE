@@ -40,7 +40,7 @@ export class TransportAddComponent implements OnInit {
       //type: [null, [Validators.required, Validators.maxLength(255)]], //dropdown
       departure_location: [null, [Validators.required, Validators.maxLength(255)]],
       destination_location: [null, [Validators.required, Validators.maxLength(255)]],
-      numero_transport: [null, [Validators.required, Validators.maxLength(5)]],
+      numero_transport: [null, [Validators.required, Validators.maxLength(10)]],
       departure_time: [null, [Validators.required, this.futureDateValidator()]], // Validation de la date de départ
       arrival_time: [null, [Validators.required, this.afterStartDate()]],   // Validation de la date d'arrivée
       vehicle_license: [null, [Validators.required]], //dropdown

@@ -19,10 +19,6 @@
         [nzSortFn]="sortFnNumber"
         [nzSortPriority]="1"
       >Numéro</th>
-      <th
-        [nzFilters]="listOfTypeFilter"
-        [nzFilterFn]="filterFnType"
-      >Type</th>
       <th>Départ</th>
       <th>Destination</th>
       <th
@@ -41,7 +37,6 @@
   <tbody>
     <tr *ngFor="let data of basicTable.data">
       <td>{{ data.expedition_number }}</td>
-      <td>{{ data.type }}</td>
       <td>{{ data.origin }}</td>
       <td>{{ data.destination }}</td>
       <td>{{ data.date_expedition | date: 'shortDate' }}</td>

@@ -6,7 +6,6 @@ import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } f
 interface ExpeditionData {
   id: number;
   expedition_number: string;
-  type: string;
   origin: string;
   destination: string;
   date_expedition: string;
@@ -51,7 +50,7 @@ export class ExpeditionListComponent implements OnInit {
       .filter(m => m.status !== 'delivré' && m.status !== 'annulé')
       .filter(m => this.searchTerm === '' ||
                     m.expedition_number.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                    m.type.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                    //m.type.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
                     m.origin.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
                     m.destination.toLowerCase().includes(this.searchTerm.toLowerCase()))
       .sort((a, b) => this.getStatusPriority(a.status) - this.getStatusPriority(b.status));
@@ -114,7 +113,7 @@ export class ExpeditionListComponent implements OnInit {
 
     // Fonctions de filtrage
     filterFnStatus: NzTableFilterFn<ExpeditionData> = (list: string[], item: ExpeditionData) => list.some(status => item.status.indexOf(status) !== -1);
-    filterFnType: NzTableFilterFn<ExpeditionData> = (list: string[], item: ExpeditionData) => list.some(type => item.type.indexOf(type) !== -1);
+    //filterFnType: NzTableFilterFn<ExpeditionData> = (list: string[], item: ExpeditionData) => list.some(type => item.type.indexOf(type) !== -1);
 
     // Listes de filtres
     listOfStatusFilter: NzTableFilterList = [
@@ -125,10 +124,10 @@ export class ExpeditionListComponent implements OnInit {
       { text: 'Annulé', value: 'annulé' },
     ];
 
-    listOfTypeFilter: NzTableFilterList = [
+    /*listOfTypeFilter: NzTableFilterList = [
       { text: 'Maritime', value: 'maritime' },
       { text: 'Routier', value: 'routier' },
       { text: 'Aérien', value: 'aérien' },
       { text: 'Ferroviaire', value: 'ferroviaire' },
-    ];
+    ];*/
 }

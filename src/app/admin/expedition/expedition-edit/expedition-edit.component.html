@@ -7,19 +7,6 @@
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
-              <nz-select formControlName="type" nzPlaceHolder="Sélectionnez un type">
-                <nz-option *ngFor="let type of ExpeditionTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
-              </nz-select>
-              <div *ngIf="expeditionForm.get('type')?.dirty && expeditionForm.get('type')?.errors" class="error">
-                Veuillez sélectionner un type
-              </div>
-            </nz-form-control>
-          </nz-form-item>
-        </nz-col>
-
-        <nz-col [nzSpan]="12">
-          <nz-form-item>
-            <nz-form-control>
               <input nz-input formControlName="origin" placeholder="Entrez l'origine">
               <div *ngIf="expeditionForm.get('origin')?.dirty && expeditionForm.get('origin')?.errors" class="error">
                 Veuillez entrer l'origine
@@ -27,10 +14,7 @@
             </nz-form-control>
           </nz-form-item>
         </nz-col>
-      </nz-row>
 
-      <!-- Deuxième Ligne -->
-      <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
@@ -41,20 +25,11 @@
             </nz-form-control>
           </nz-form-item>
         </nz-col>
-
-        <nz-col [nzSpan]="12">
-          <nz-form-item>
-            <nz-form-control>
-              <input nz-input formControlName="expedition_number" placeholder="Entrez le numéro d'expédition">
-              <div *ngIf="expeditionForm.get('expedition_number')?.dirty && expeditionForm.get('expedition_number')?.errors" class="error">
-                Veuillez entrer le numéro d'expédition
-              </div>
-            </nz-form-control>
-          </nz-form-item>
-        </nz-col>
       </nz-row>
 
-      <!-- Troisième Ligne -->
+
+
+      <!-- Deuxième Ligne -->
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-form-item>
@@ -85,7 +60,12 @@
           <nz-form-item>
             <nz-form-control>
               <nz-select formControlName="vehicle_license" nzPlaceHolder="Sélectionnez une licence de véhicule">
-                <nz-option *ngFor="let license of VehicleLicenses" [nzValue]="license.license" [nzLabel]="license.license"></nz-option>
+                <nz-option 
+                  *ngFor="let license of VehicleLicenses" 
+                  [nzDisabled]="license.disabled" 
+                  [nzValue]="license.license" 
+                  [nzLabel]="license.license">
+                </nz-option>
               </nz-select>
               <div *ngIf="expeditionForm.get('vehicle_license')?.dirty && expeditionForm.get('vehicle_license')?.errors" class="error">
                 Veuillez sélectionner une licence de véhicule
@@ -94,6 +74,21 @@
           </nz-form-item>
         </nz-col>
 
+        
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input formControlName="expedition_number" placeholder="Entrez le numéro d'expédition">
+              <div *ngIf="expeditionForm.get('expedition_number')?.dirty && expeditionForm.get('expedition_number')?.errors" class="error">
+                Veuillez entrer le numéro d'expédition
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
+
+
+      <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-control>
