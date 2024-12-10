@@ -60,7 +60,7 @@
             <nz-form-control>
               <input nz-input formControlName="date_expedition" type="datetime-local" placeholder="Heure de départ"/>
               <div *ngIf="expeditionForm.get('date_expedition')?.dirty && expeditionForm.get('date_expedition')?.errors" class="error">
-                Veuillez sélectionner la date d'expédition
+                L'heure de départ doit être au futur
               </div>
             </nz-form-control>
           </nz-form-item>
@@ -71,7 +71,7 @@
             <nz-form-control>
               <input nz-input formControlName="date_livraison_prevue" type="datetime-local" placeholder="Heure d'arrivée"/>
               <div *ngIf="expeditionForm.get('date_livraison_prevue')?.dirty && expeditionForm.get('date_livraison_prevue')?.errors" class="error">
-                Veuillez sélectionner la date de livraison prévue
+                L'heure d'arrivée doit être après l'heure de départ
               </div>
             </nz-form-control>
           </nz-form-item>

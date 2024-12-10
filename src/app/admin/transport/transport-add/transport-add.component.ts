@@ -1,8 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzNotificationComponent, NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzNotificationService, NzNotificationComponent } from 'ng-zorro-antd/notification';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -41,8 +41,8 @@ export class TransportAddComponent implements OnInit {
       departure_location: [null, [Validators.required, Validators.maxLength(255)]],
       destination_location: [null, [Validators.required, Validators.maxLength(255)]],
       numero_transport: [null, [Validators.required, Validators.maxLength(5)]],
-      departure_time: [null, [Validators.required]],
-      arrival_time: [null, [Validators.required]],
+      departure_time: [null, [Validators.required, this.futureDateValidator()]], // Validation de la date de départ
+      arrival_time: [null, [Validators.required, this.afterStartDate()]],   // Validation de la date d'arrivée
       vehicle_license: [null, [Validators.required]], //dropdown
       vehicle_id: [null],
     });
@@ -56,6 +56,47 @@ export class TransportAddComponent implements OnInit {
     });
   }
 
+  // Validateur personnalisé pour vérifier que la date est dans le futur
+  futureDateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const currentDate = new Date();
+      const controlDate = new Date(control.value);
+
+      // Vérifie si la date est dans le futur
+      if (controlDate <= currentDate) {
+        return { futureDate: { value: control.value } };
+      }
+      return null;
+    };
+  }
+
+// Validateur personnalisé pour vérifier que la date d'arrivée est après la date de départ
+afterStartDate(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const form = control.parent;
+    
+    if (!form) {
+      return null;
+    }
+    
+    const departureTimeControl = form.get('departure_time');
+    const arrivalTimeControl = control;
+    
+    if (!departureTimeControl || !arrivalTimeControl.value) {
+      return null;
+    }
+    
+    const departureTime = new Date(departureTimeControl.value);
+    const arrivalTime = new Date(arrivalTimeControl.value);
+    
+    // Vérifie si la date d'arrivée est après la date de départ
+    if (arrivalTime <= departureTime) {
+      return { afterStartDate: { value: arrivalTimeControl.value } };
+    }
+    
+    return null;
+  };
+}
   findVehicleId(): void {
     const vehicleLicense = this.transportForm.get('vehicle_license')?.value;
     if (vehicleLicense) {
@@ -94,31 +135,31 @@ export class TransportAddComponent implements OnInit {
   }
 
   submitForm(): void {
-      this.loading = true;
-      if (this.transportForm.valid) {
-        const formData = new FormData();
-        Object.keys(this.transportForm.controls).forEach(key => {
-          formData.append(key, this.transportForm.get(key)?.value);
-        });
+    this.loading = true;
+    if (this.transportForm.valid) {
+      const formData = new FormData();
+      Object.keys(this.transportForm.controls).forEach(key => {
+        formData.append(key, this.transportForm.get(key)?.value);
+      });
 
-        this.dataService.addTransport(formData).subscribe(
-          (response: any) => {
-            console.log(response);
-            this.transportId = response.success.id;
-            console.log(this.transportId);
-            this.openNotification(this.notificationTemplate, this.transportId);
-            this.loading = false;
-            this.resetForm();
-          },
-          (error) => {
-            console.error('Erreur lors de l\'ajout du transport:', error);
-            this.msg.error('Erreur lors de l\'enregistrement du transport.');
-            this.submitError = true;
-            this.submitErrorMessage = error.error.message || 'Erreur inconnue';
-            this.loading = false;
-          }
-        );
-      } else {
+      this.dataService.addTransport(formData).subscribe(
+        (response: any) => {
+          console.log(response);
+          this.transportId = response.success.id;
+          console.log(this.transportId);
+          this.openNotification(this.notificationTemplate, this.transportId);
+          this.loading = false;
+          this.resetForm();
+        },
+        (error) => {
+          console.error('Erreur lors de l\'ajout du transport:', error);
+          this.msg.error('Erreur lors de l\'enregistrement du transport.');
+          this.submitError = true;
+          this.submitErrorMessage = error.error.message || 'Erreur inconnue';
+          this.loading = false;
+        }
+      );
+    } else {
       Object.values(this.transportForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
@@ -138,8 +179,7 @@ export class TransportAddComponent implements OnInit {
 
   associateRoute(): void {
     this.notification.remove();
-
-      this.router.navigate([`/admin/map/${this.transportId}`]);
+    this.router.navigate([`/admin/map/${this.transportId}`]);
   }
 
   resetForm(): void {

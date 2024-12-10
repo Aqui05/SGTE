@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataService } from 'src/app/services/data.service';
@@ -45,8 +45,8 @@ export class ExpeditionAddComponent implements OnInit {
       origin: [null, [Validators.required, Validators.maxLength(255)]],
       destination: [null, [Validators.required, Validators.maxLength(255)]],
       expedition_number: [null, [Validators.required, Validators.maxLength(5)]],
-      date_expedition: [null, [Validators.required]],
-      date_livraison_prevue: [null, [Validators.required]],
+      date_expedition: [null, [Validators.required, this.futureDateValidator()]],
+      date_livraison_prevue: [null, [ this.afterStartDate()]],
       notes: [null],
       vehicle_license: [null, [Validators.required]], // dropdown
       vehicle_id: [null],
@@ -70,6 +70,50 @@ export class ExpeditionAddComponent implements OnInit {
           }
         });
   }
+
+
+
+  // Validateur personnalisé pour vérifier que la date est dans le futur
+  futureDateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const currentDate = new Date();
+      const controlDate = new Date(control.value);
+
+      // Vérifie si la date est dans le futur
+      if (controlDate <= currentDate) {
+        return { futureDate: { value: control.value } };
+      }
+      return null;
+    };
+  }
+
+// Validateur personnalisé pour vérifier que la date d'arrivée est après la date de départ
+afterStartDate(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const form = control.parent;
+    
+    if (!form) {
+      return null;
+    }
+    
+    const departureTimeControl = form.get('date_expedition');
+    const arrivalTimeControl = control;
+    
+    if (!departureTimeControl || !arrivalTimeControl.value) {
+      return null;
+    }
+    
+    const departureTime = new Date(departureTimeControl.value);
+    const arrivalTime = new Date(arrivalTimeControl.value);
+    
+    // Vérifie si la date d'arrivée est après la date de départ
+    if (arrivalTime <= departureTime) {
+      return { afterStartDate: { value: arrivalTimeControl.value } };
+    }
+    
+    return null;
+  };
+}
 
   findVehicleId(): void {
     const vehicleLicense = this.expeditionForm.get('vehicle_license')?.value;

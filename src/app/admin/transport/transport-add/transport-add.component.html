@@ -37,14 +37,15 @@
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control nzErrorTip="L'heure de départ est requise">
+          <nz-form-control nzErrorTip="L'heure de départ doit être au futur">
             <input nz-input formControlName="departure_time" type="datetime-local" placeholder="Heure de départ"/>
           </nz-form-control>
         </nz-form-item>
+       
       </nz-col>
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-control nzErrorTip="L'heure d'arrivée est requise">
+          <nz-form-control nzErrorTip="L'heure d'arrivée doit être après l'heure de départ">
             <input nz-input formControlName="arrival_time" type="datetime-local" placeholder="Heure d'arrivée"/>
           </nz-form-control>
         </nz-form-item>
