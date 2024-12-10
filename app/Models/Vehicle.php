@@ -15,7 +15,7 @@ class Vehicle extends Model
      * @var array
      */
     protected $fillable = [
-        'type',
+        //'type',
         'brand',
         'model',
         'model_3d_link',

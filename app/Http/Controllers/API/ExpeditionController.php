@@ -23,7 +23,7 @@ class ExpeditionController extends Controller
         $validatedData = $request->validate([
             'expedition_number' => 'required|unique:expeditions',
             'origin' => 'required',
-            'type'  => 'required',
+            //'type'  => 'required',
             'destination' => 'required',
             'date_expedition' => 'required|date',
             'date_livraison_prevue' => 'required|date',

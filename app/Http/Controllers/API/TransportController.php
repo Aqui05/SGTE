@@ -28,7 +28,7 @@ class TransportController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'numero_transport' => 'string|max:5',
-            'type' => 'required|string',
+            //'type' => 'required|string',
             'departure_location' => 'required|string',
             'destination_location' => 'required|string',
             'departure_time' => 'required|date',

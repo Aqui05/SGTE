@@ -18,7 +18,7 @@ class Transport extends Model
         'vehicle_id',
         'route_id',
         'numero_transport',
-        'type',
+        //'type',
         'departure_location',
         'destination_location',
         'departure_time',
